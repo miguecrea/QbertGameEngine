@@ -24,6 +24,7 @@ namespace dae
 		WhichDificulty m_dificultyEnum{ WhichDificulty::Dificulty1 };
 
 		CollisionComponent(std::vector<std::shared_ptr<dae::GameObject>> & enemiesandMap,int dificulty,std::vector<std::shared_ptr<dae::GameObject>>& enemies);  //make collider width dimensions
+		void InitializeMap();
 		virtual ~CollisionComponent();
 		CollisionComponent(const CollisionComponent& other) = default;
 		CollisionComponent(CollisionComponent&& other) = default;
@@ -62,6 +63,11 @@ namespace dae
 		bool m_hasCollidedWithEnemies = false;
 		float m_TimerUntilRestarting = 0.0f;
 		bool m_startTimer = false;
+
+		int m_ScoreAdded = 25;
+		int m_ScoreAddedLevel2 = 30;
+		int m_ScoreAddedLevel3 = 40;
+		float MAX_TIME_UNTIL_RESTARTING = 3.f;
 
 
 	};

@@ -40,3 +40,8 @@ void dae::FreeFallComponent::SetUnactive()
 
 }
 
+bool dae::FreeFallComponent::IsFalling()
+{
+	return m_IsActive;
+}
+

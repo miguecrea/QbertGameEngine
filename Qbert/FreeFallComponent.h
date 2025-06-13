@@ -23,6 +23,7 @@ namespace dae
 		void  Render() override;
 		void SetActive(bool value);
 		void SetUnactive();
+		bool IsFalling();
 
 	private:
 

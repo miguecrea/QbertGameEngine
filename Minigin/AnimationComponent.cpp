@@ -104,20 +104,13 @@ void dae::AnimationComponent::Update(float elapsedSec)
 		{
 			m_TotalTimeElapsed -= 1.f / m_FramesPerSecond;
 
-
 			m_CurrentFrame++;
-
 			if (m_CurrentFrame >= m_MaxNumberFrames)
 			{
-
 				m_CurrentFrame = m_copy;
 				m_TotalTimeElapsed = 0;
-
-
 			}
-
 		}
-
 		break;
 
 	case Type::OnlyOnceandEndAtLast:
@@ -137,7 +130,6 @@ void dae::AnimationComponent::Update(float elapsedSec)
 					m_CurrentFrame = 3;
 					m_TotalTimeElapsed = 0;
 					m_IsAnimationPlaying = false;
-
 				}
 			}
 		}

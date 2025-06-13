@@ -58,6 +58,7 @@ namespace dae
         bool m_StartCounter = false;
 
         float m_CollisionTimer = 0.f;
+        
 
 
 

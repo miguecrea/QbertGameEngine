@@ -13,6 +13,7 @@ namespace dae
 	public:
 
 		EnemyJumpComponent(float jumpWaitingTime, float TimeUntilDrawing, TypeOfAi AiType, float JumpDuration = 1.4f);    /// vector  //time to update 
+		void SetSnakeOffsets();
 		virtual ~EnemyJumpComponent() = default;
 		EnemyJumpComponent(const EnemyJumpComponent& other) = default;
 		EnemyJumpComponent(EnemyJumpComponent&& other) = default;

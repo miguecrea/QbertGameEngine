@@ -24,7 +24,7 @@ void dae::CollsionResponse::BeginPlay()
 	std::cout << "Collision Response Component Set up\n";
 
 	m_CollisionWithComponent = this->GetOwner()->GetComponent<CollisionWithComponent>();
-
+	
 	if (m_CollisionWithComponent)
 	{
 		m_CollidedObjectReference = m_CollisionWithComponent->m_CollideObject;
@@ -65,6 +65,8 @@ void dae::CollsionResponse::OnCollision(std::string selftag, std::string Collide
 	if (selftag == INVISIBLE_RECT)
 	{
 		HandleInsibleRectCollision(CollidedObjecTag);
+
+		//insible rect called evey time player collides with cube and then collides again
 	}
 	else if (selftag == BOTTOM_RECT)  
 	{
@@ -85,11 +87,6 @@ void dae::CollsionResponse::HandleInsibleRectCollision(std::string CollidedObjec
 {
 	m_FreFallComponent->SetActive(true);   //activate Object Free Fall
 
-
-
-	//
-	//healthCom
-
 	if (CollidedObjecTag == SNAKE_AI)
 	{
 		auto EnemyJumpComponent = m_CollidedObjectReference->GetComponent<dae::EnemyJumpComponent>();
@@ -100,6 +97,7 @@ void dae::CollsionResponse::HandleInsibleRectCollision(std::string CollidedObjec
 		{
 			dae::SoundSystem& audio{ dae::Audio::Get() };
 			audio.Play(s_QbertCurse, 0.5f, 1);
+			s_Lives--;
 		}
 		m_CollisionComponent->SetFallingVariable(true);  //para qure no pueda collisonar los cubos
 		m_TimeAndInputComponent->setCanUseInput(false);  //para que no pueda usar input 
@@ -121,7 +119,7 @@ void dae::CollsionResponse::HandleBottomRectCollision(std::string CollidedObjecT
 			int ramdom = std::rand() % 3;  // chmager the number in here 
 			EnemyJumpComponent->m_TypeOfAi = static_cast<TypeOfAi>(ramdom);
 
-		//	m_CollidedObjectReference->SetPosition(m_CollidedObjectReference->GetSavedPosition().x, m_CollidedObjectReference->GetSavedPosition().y);
+			m_CollidedObjectReference->SetPosition(m_CollidedObjectReference->GetSavedPosition().x, m_CollidedObjectReference->GetSavedPosition().y);
 			//m_CollidedObjectReference->UpdatePos(m_CollidedObjectReference->GetSavedPosition().x, m_CollidedObjectReference->GetSavedPosition().y);
 			//m_CollidedObjectReference->SetPosition(100.f,100.f);
 		}
