@@ -71,6 +71,8 @@ void dae::EnemyJumpComponent::Update()
 	glm::vec3 newPosition = glm::mix(m_StartPosition, m_EndPosition, t);
 	newPosition.y += std::sin(t * glm::pi<float>()) * m_ArcHeight; // This is the arc height
 	m_pGameObject->SetPosition(newPosition.x, newPosition.y);
+
+
 }
 
 void dae::EnemyJumpComponent::Render()
@@ -91,6 +93,11 @@ void dae::EnemyJumpComponent::ChangeSnakeDirection()
 {
 
 	m_JumpOffset.x = -m_JumpOffset.x;
+}
+
+void dae::EnemyJumpComponent::TestFunction()
+{
+	std::cout << "Getting called from Enemy Jump\n";
 }
 
 void dae::EnemyJumpComponent::SetSnakeOffsets()

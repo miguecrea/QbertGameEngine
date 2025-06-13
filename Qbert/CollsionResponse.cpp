@@ -109,19 +109,28 @@ void dae::CollsionResponse::HandleBottomRectCollision(std::string CollidedObjecT
 {
 	if (m_CollisionWithComponent->IsAi())
 	{
-
 		std::cout << "Collided enemy and bottom rect\n";
 		auto EnemyJumpComponent = m_CollidedObjectReference->GetComponent<dae::EnemyJumpComponent>();
 
 		if (EnemyJumpComponent)
 		{
-
-			int ramdom = std::rand() % 3;  // chmager the number in here 
+		//
+		   int ramdom = std::rand() % 3;  // chmager the number in here 
 			EnemyJumpComponent->m_TypeOfAi = static_cast<TypeOfAi>(ramdom);
-
 			m_CollidedObjectReference->SetPosition(m_CollidedObjectReference->GetSavedPosition().x, m_CollidedObjectReference->GetSavedPosition().y);
-			//m_CollidedObjectReference->UpdatePos(m_CollidedObjectReference->GetSavedPosition().x, m_CollidedObjectReference->GetSavedPosition().y);
-			//m_CollidedObjectReference->SetPosition(100.f,100.f);
+		
+			EnemyJumpComponent->TestFunction();
+
+			std::cout << "World  Pos\n";
+			std::cout<<m_CollidedObjectReference->GetWorldPosition().x <<" " <<m_CollidedObjectReference->GetWorldPosition().y <<"\n";
+
+
+			std::cout << "Saved Pos\n";
+			std::cout<< m_CollidedObjectReference->GetSavedPosition().x <<" , " << m_CollidedObjectReference->GetSavedPosition().y <<"\n";
+
+			return;
+
+
 		}
 
 	}
@@ -131,7 +140,6 @@ void dae::CollsionResponse::HandleBottomRectCollision(std::string CollidedObjecT
 	if (!m_CollisionWithComponent->IsAi())
 	{
 		if (m_FreFallComponent)m_FreFallComponent->SetUnactive();
-
 
 		if (CollidedObjecTag == SNAKE_AI)
 		{
@@ -188,6 +196,7 @@ void dae::CollsionResponse::HandleBottomRectCollision(std::string CollidedObjecT
 			}
 			else
 			{
+				//q bert 
 
 				if (!m_CollisionWithComponent->m_IsTutorial)
 				{

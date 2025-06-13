@@ -25,6 +25,7 @@ namespace dae
 		void SetActive(bool isActive);
 		void Reset();
 		void ChangeSnakeDirection();
+		void TestFunction();
 		float m_posX[5]{ };
 		float m_posY[5]{ };
 	private:
