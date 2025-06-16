@@ -26,6 +26,8 @@ namespace dae
         bool m_Active = false;
         void SwapActive();
         void SetWaitingTime(int waitingTime);
+        float m_Speed = 20.f;
+        void SetSpeed(float newSpeed);
     private:
 
         int m_WaitingTime = 0;

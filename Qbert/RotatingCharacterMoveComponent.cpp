@@ -33,7 +33,7 @@ void dae::RotatingCharacterMoveComponent::Update()
 	}
 
 
-	if (m_CollisionTimer >= 1.5f)
+	if (m_CollisionTimer >= m_WaitingTime)
 	{
 		m_CollideObject->GetComponent<dae::RenderComponent>()->SetVisibility(true);
 		m_RenderComponent->SetVisibility(false);
@@ -51,9 +51,8 @@ void dae::RotatingCharacterMoveComponent::Update()
 	glm::vec3 targetPosition(targetX, targetY, 0.0f); // Assuming z-coordinate is 0
 	glm::vec3 direction = glm::normalize(targetPosition - m_OldPosition);
 
-	float moveSpeed = 20.f;
 
-	glm::vec3 movement = direction * moveSpeed * SceneManager::GetInstance().GetDeltaTime();
+	glm::vec3 movement = direction * m_Speed * SceneManager::GetInstance().GetDeltaTime();
 
 	glm::vec3 newPosition = m_OldPosition + movement;
 
@@ -72,6 +71,11 @@ void dae::RotatingCharacterMoveComponent::SwapActive()
 void dae::RotatingCharacterMoveComponent::SetWaitingTime(int waitingTime)
 {
 	m_WaitingTime = waitingTime;
+}
+
+void dae::RotatingCharacterMoveComponent::SetSpeed(float newSpeed)
+{
+	m_Speed = newSpeed;
 }
 
 void dae::RotatingCharacterMoveComponent::OnTimerStarted(std::shared_ptr<dae::GameObject> gameObect)
