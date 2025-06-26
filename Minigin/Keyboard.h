@@ -19,12 +19,9 @@ namespace dae
 		void ClearCommands();
 
 		void ClearWRSFkeys();
-
-
-		std::vector<SDL_Scancode> m_keysToRemove{ SDL_SCANCODE_W,SDL_SCANCODE_R,SDL_SCANCODE_S,SDL_SCANCODE_F};
-		
-		
-
+		std::vector<SDL_Scancode> m_keysToRemove{ SDL_SCANCODE_W,SDL_SCANCODE_R,SDL_SCANCODE_S,SDL_SCANCODE_F,SDL_SCANCODE_U};
+		std::vector<SDL_Scancode> m_keysToRemove2{ SDL_SCANCODE_W,SDL_SCANCODE_R,SDL_SCANCODE_S,SDL_SCANCODE_F,SDL_SCANCODE_U};
+	
 
 	private:
 		const Uint8 * m_pState;

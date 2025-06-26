@@ -10,7 +10,7 @@
 
 using namespace dae;
 
-SetPositionCommand::SetPositionCommand(GameObject* pGameObject, const glm::vec3& direction, std::shared_ptr<dae::RenderComponent> renderComponent, int Direction)
+SetPositionCommand::SetPositionCommand(GameObject *  pGameObject, const glm::vec3& direction, std::shared_ptr<dae::RenderComponent> renderComponent, int Direction)
 	: Command{}, m_pGameObject(pGameObject), m_OldPosition(pGameObject->GetLocalPosition()), m_Direction(direction), m_renderComponent{ renderComponent }, m_QbertState{ Direction }
 	, m_JumpAnimation{ nullptr }
 {

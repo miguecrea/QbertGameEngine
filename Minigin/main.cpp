@@ -56,12 +56,13 @@ dae::Minigin::Minigin(const std::string& dataPath)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
+	//279 x 319
 	g_window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		448,
-		520,
+		279*2,
+		319*2,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr)
