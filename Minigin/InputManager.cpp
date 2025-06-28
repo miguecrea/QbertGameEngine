@@ -67,3 +67,13 @@ Keyboard* dae::InputManager::GetKeyboard()
 {
 	return &m_Keyboard;
 }
+
+void dae::InputManager::ClearControllCommands()
+{
+	for (const auto & control : m_pControllers)
+	{
+		control->ClearCommands();
+	}
+
+
+}

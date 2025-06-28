@@ -18,6 +18,8 @@ namespace dae
 		Controller * AddController(); 
 		Keyboard * GetKeyboard();  
 
+		void ClearControllCommands();
+
 	private:
 		std::vector<std::unique_ptr<Controller>> m_pControllers{};
 		Keyboard m_Keyboard;

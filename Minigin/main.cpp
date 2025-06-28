@@ -57,12 +57,14 @@ dae::Minigin::Minigin(const std::string& dataPath)
 	}
 
 	//279 x 319
+
+	//16 x 16 
 	g_window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		279*2,
-		319*2,
+		720,          //48 x 15 
+		816,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr)

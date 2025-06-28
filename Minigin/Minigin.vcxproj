@@ -229,6 +229,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="CollisionWithComponent.h" />
     <ClInclude Include="CombinedGraphComponent.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Command1D.h" />
+    <ClInclude Include="Command2D.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DelegateBase.h" />
@@ -257,6 +259,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SaveLevelComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SDL_SoundSystem.h" />
@@ -273,6 +276,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="CombinedGraphComponent.cpp" />
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Command1D.cpp" />
+    <ClCompile Include="Command2D.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DelegateBase.cpp" />
@@ -300,6 +305,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="SaveLevelComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SDL_SoundSystem.cpp" />

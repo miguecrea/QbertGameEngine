@@ -19,13 +19,19 @@ namespace dae
 		TextComponent& operator=(const TextComponent& other) = default;
 		TextComponent& operator=(TextComponent&& other) = default;
 
+		bool m_ShowRectangle = false;
 
 
+
+
+		virtual void Update() override;
+		virtual void Render() override;
 		void SetTextToTexture(const std::string& text);
 		void SetColorRectToTexture(int width, int height);
 
 		void SetFont(std::shared_ptr<Font> font);
-		void SetColor(const SDL_Color& color);
+		void SetColor(const SDL_Color & color);
+
 
 	private:
 		//render component 

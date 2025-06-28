@@ -179,7 +179,13 @@
     <ClInclude Include="DelegateBase.h">
       <Filter>Other Files</Filter>
     </ClInclude>
-    <ClInclude Include="CollsionResponse.h">
+    <ClInclude Include="Command1D.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command2D.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveLevelComponent.h">
       <Filter>Other Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -304,7 +310,13 @@
     <ClCompile Include="DelegateBase.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
-    <ClCompile Include="CollsionResponse.cpp">
+    <ClCompile Include="Command1D.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Command2D.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveLevelComponent.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>

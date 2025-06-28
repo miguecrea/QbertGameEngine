@@ -4,7 +4,8 @@
 #include "Font.h"
 #include "Texture2D.h"
 #include <iostream>
-
+#include"SDL.h"
+#include"GameObject.h"
 class FontError{};
 
 dae::TextComponent::TextComponent(std::shared_ptr<RenderComponent> pRenderComponent, std::shared_ptr<Font> pFont, int priority)
@@ -39,6 +40,25 @@ void dae::TextComponent::SetTextToTexture(const std::string& text)
 	}
 }
 
+void dae::TextComponent::Update()
+{
+
+	
+
+}void dae::TextComponent::Render()
+{
+
+	if (m_ShowRectangle)
+	{
+
+		//this->GetOwner()->GetWorldPosition().x, this->GetOwner()->GetWorldPosition().y, 30.f, 30.f, { 255.f,0,0,255 }
+		Renderer::GetInstance().FillSquare(this->GetOwner()->GetWorldPosition().x - 50.f, this->GetOwner()->GetWorldPosition().y, 30.f, 30.f, { 0,0,255,255 });
+		
+	}
+
+	
+
+}
 void dae::TextComponent::SetColorRectToTexture(int width, int height)
 {
 
@@ -66,7 +86,7 @@ void dae::TextComponent::SetFont(std::shared_ptr<Font> font)
 	m_pFont = font;
 }
 
-void dae::TextComponent::SetColor(const SDL_Color& color)
+void dae::TextComponent::SetColor(const SDL_Color & color)
 {
 	m_Color = color;
 }

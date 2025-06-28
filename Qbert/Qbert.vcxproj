@@ -172,11 +172,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AddInput.cpp" />
+    <ClCompile Include="ChangeModeCommand.cpp" />
     <ClCompile Include="ChangeSelectionCommand.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="CollisionWithComponent.cpp" />
     <ClCompile Include="CollsionResponse.cpp" />
     <ClCompile Include="CurseQbertComponent.cpp" />
+    <ClCompile Include="DebugRenderComponent.cpp" />
     <ClCompile Include="DisplayNameComponent.cpp" />
     <ClCompile Include="EnemyJumpComponent.cpp" />
     <ClCompile Include="FreeFallComponent.cpp" />
@@ -186,7 +188,9 @@
     <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="LockInCommand.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MoveGridCommand.cpp" />
     <ClCompile Include="NextSceneCommand.cpp" />
+    <ClCompile Include="OpenLevelCommand.cpp" />
     <ClCompile Include="RectangleComponent.cpp" />
     <ClCompile Include="RotatingCharacterMoveComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
@@ -198,12 +202,16 @@
     <ClCompile Include="Tags.cpp" />
     <ClCompile Include="TimerAndInputComponent.cpp" />
     <ClCompile Include="UpdatePositionCommand.cpp" />
+    <ClCompile Include="Value1DCommand.cpp" />
+    <ClCompile Include="Value2DCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddInput.h" />
+    <ClInclude Include="ChangeModeCommand.h" />
     <ClInclude Include="ChangeSelectionCommand.h" />
     <ClInclude Include="CollsionResponse.h" />
     <ClInclude Include="CurseQbertComponent.h" />
+    <ClInclude Include="DebugRenderComponent.h" />
     <ClInclude Include="DisplayNameComponent.h" />
     <ClInclude Include="EnemyJumpComponent.h" />
     <ClInclude Include="FreeFallComponent.h" />
@@ -214,7 +222,9 @@
     <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="LockInCommand.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="MoveGridCommand.h" />
     <ClInclude Include="NextSceneCommand.h" />
+    <ClInclude Include="OpenLevelCommand.h" />
     <ClInclude Include="QbertDirection.h" />
     <ClInclude Include="RectangleComponent.h" />
     <ClInclude Include="RotatingCharacterMoveComponent.h" />
@@ -229,6 +239,8 @@
     <ClInclude Include="TimerAndInputComponent.h" />
     <ClInclude Include="TypeOfAi.h" />
     <ClInclude Include="UpdatePositionCommand.h" />
+    <ClInclude Include="Value1DCommand.h" />
+    <ClInclude Include="Value2DCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

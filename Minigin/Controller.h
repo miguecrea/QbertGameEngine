@@ -1,10 +1,12 @@
 #pragma once
 #include <memory>
-#include <unordered_map>
+#include"Command1D.h"
+#include"Command2D.h"
 
 namespace dae
 {
 	class Command;
+
 	enum class ButtonState;
 
 	class Controller final
@@ -32,27 +34,41 @@ namespace dae
 			ButtonY = 0x8000
 		};
 
+		enum class ControllerTriggers
+		{
+			LeftTrigger,
+			RightTrigger
+		};
+
+		enum class ControllerThumbsticks
+		{
+			LeftThumbstick,
+			RightThumbstick
+		};
+
 		void Update();
-		
+
 		bool IsDown(ControllerButtons button) const;
 		bool IsUp(ControllerButtons button) const;
 		bool IsPressed(ControllerButtons button) const;
 
 		void MapCommandToButton(ControllerButtons button, std::unique_ptr<Command>&& pCommand, ButtonState state);
+		void MapCommandToTrigger(ControllerTriggers trigger, std::unique_ptr<Command1D>&& pCommand);
+		void MapCommandToThumbstick(ControllerThumbsticks thumbstick, std::unique_ptr<Command2D>&& pCommand);
+		//void MapCommandToThumbstick(ControllerThumbsticks thumbstick, const std::unique_ptr<Command2D> & pCommand);
 
-		explicit Controller(int controllerIndex);
+		explicit Controller(int controllerIndex, bool invertY = true);
 		~Controller();
 
 		Controller(Controller&&) = default;
 		Controller& operator=(Controller&&) = default;
 
+		void ClearCommands();
+
+			
+
 	private:
 		class ControllerImpl;
-		ControllerImpl* m_pImpl;
-
-		//https://stackoverflow.com/questions/18837857/cant-use-enum-class-as-unordered-map-key
-		std::unordered_map<ControllerButtons, std::unique_ptr<Command>, std::hash<ControllerButtons>> m_pButtonUpCommands;
-		std::unordered_map<ControllerButtons, std::unique_ptr<Command>, std::hash<ControllerButtons>> m_pButtonDownCommands;
-		std::unordered_map<ControllerButtons, std::unique_ptr<Command>, std::hash<ControllerButtons>> m_pButtonPressedCommands;
+		ControllerImpl * m_pImpl;
 	};
 }
