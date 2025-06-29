@@ -65,6 +65,11 @@ namespace dae
 
 		void ClearCommands();
 
+		void DoNothing()
+		{
+
+		}
+
 			
 
 	private:

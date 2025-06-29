@@ -37,6 +37,8 @@ public:
 
 		UpdateButtonCommands();
 		UpdateValueCommands();
+
+		ClearCommands();
 	}
 
 	void UpdateButtonCommands()
@@ -60,7 +62,7 @@ public:
 		}
 
 		//Pressed
-		for (const auto& binding : m_pButtonPressedCommands)
+		for (const auto & binding : m_pButtonPressedCommands)
 		{
 			if (IsPressed(binding.first))
 			{
@@ -72,6 +74,8 @@ public:
 	void UpdateValueCommands()
 	{
 		//Triggers
+
+
 		for (const auto& binding : m_pTriggerCommands)
 		{
 			float value{ GetValue(binding.first) };
@@ -84,6 +88,9 @@ public:
 		}
 
 		//Thumbsticks
+
+		//auto ThubStickCommands = m_pThumbstickCommands;
+
 		for (const auto& binding : m_pThumbstickCommands)
 		{
 			glm::vec2 value{ GetValue(binding.first) };
@@ -207,13 +214,19 @@ public:
 	void ClearCommands()
 	{
 
+		if (!m_ShouldClearCommands) return;
+
 		m_pButtonUpCommands.clear();
 		m_pButtonDownCommands.clear();
 		m_pButtonPressedCommands.clear();
 		m_pThumbstickCommands.clear();
 		m_pTriggerCommands.clear();
+
+		m_ShouldClearCommands = false;
 		
 	}
+
+	bool m_ShouldClearCommands = false;
 private:
 	XINPUT_STATE m_PreviousState{};
 	XINPUT_STATE m_CurrentState{};
@@ -245,7 +258,7 @@ dae::Controller::~Controller()
 
 void dae::Controller::ClearCommands()
 {
-	m_pImpl->ClearCommands();
+	m_pImpl->m_ShouldClearCommands = true;
 }
 
 

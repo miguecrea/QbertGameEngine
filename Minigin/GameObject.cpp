@@ -130,6 +130,7 @@ dae::GameObject::~GameObject() = default;
 		{
 			SceneManager::GetInstance().GetCurrentScene()->Remove(shared_from_this());
 		}
+
 		m_pParent = pNewParent;
 		
 		//Update position
@@ -285,6 +286,7 @@ dae::GameObject::~GameObject() = default;
 
 	glm::vec3 dae::GameObject::GetWorldPosition()
 	{
+
 		if (m_IsTransformDirty)  
 		{
 			m_IsTransformDirty = false;

@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include "InputManager.h"
 #include "imgui_impl_sdl2.h"
+#include"iostream"
 
 using namespace dae;
 
@@ -47,10 +48,27 @@ bool InputManager::ProcessInput()
 
 	m_Keyboard.UpdatePressed();
 
-	for (auto& pController : m_pControllers)
+	for (auto & pController : m_pControllers)
 	{
 		pController->Update();
 	}
+
+	if (m_ShouldClearController)
+	{
+		m_ShouldClearController = false;
+		m_pControllers.clear();
+
+
+		if(m_PostClearCallback)
+		{
+			m_PostClearCallback();
+			m_PostClearCallback = nullptr;
+		}
+
+	}
+
+
+	
 
 	return true;
 }
@@ -68,12 +86,3 @@ Keyboard* dae::InputManager::GetKeyboard()
 	return &m_Keyboard;
 }
 
-void dae::InputManager::ClearControllCommands()
-{
-	for (const auto & control : m_pControllers)
-	{
-		control->ClearCommands();
-	}
-
-
-}

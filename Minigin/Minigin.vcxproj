@@ -266,6 +266,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="staticHeader.h" />
+    <ClInclude Include="TestCommand.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="ToggleMuteCommand.h" />
@@ -311,6 +312,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="SDL_SoundSystem.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="staticHeader.cpp" />
+    <ClCompile Include="TestCommand.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="ToggleMuteCommand.cpp" />

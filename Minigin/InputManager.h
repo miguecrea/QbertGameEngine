@@ -4,6 +4,7 @@
 #include <memory>
 #include "Controller.h"
 #include "Keyboard.h"
+#include<functional>
 
 namespace dae
 {
@@ -18,7 +19,9 @@ namespace dae
 		Controller * AddController(); 
 		Keyboard * GetKeyboard();  
 
-		void ClearControllCommands();
+
+		bool m_ShouldClearController = false;
+		std::function<void()> m_PostClearCallback{};
 
 	private:
 		std::vector<std::unique_ptr<Controller>> m_pControllers{};
