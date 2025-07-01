@@ -7,6 +7,7 @@
 namespace dae
 {
     class GameObject;
+    class PengoComponent;
 
     class BreakMoveTileCommand : public Command
     {
@@ -17,7 +18,7 @@ namespace dae
 
     private:
         std::shared_ptr<dae::GameObject> m_Pengo;
-
+        std::shared_ptr<dae::PengoComponent> m_PengoComponent;
     };
 
 }

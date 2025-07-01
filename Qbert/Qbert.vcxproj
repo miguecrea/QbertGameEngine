@@ -193,6 +193,7 @@
     <ClCompile Include="NextSceneCommand.cpp" />
     <ClCompile Include="OpenLevelCommand.cpp" />
     <ClCompile Include="PengoComponent.cpp" />
+    <ClCompile Include="PengoDirection.cpp" />
     <ClCompile Include="RectangleComponent.cpp" />
     <ClCompile Include="RotatingCharacterMoveComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="NextSceneCommand.h" />
     <ClInclude Include="OpenLevelCommand.h" />
     <ClInclude Include="PengoComponent.h" />
+    <ClInclude Include="PengoDirection.h" />
     <ClInclude Include="QbertDirection.h" />
     <ClInclude Include="RectangleComponent.h" />
     <ClInclude Include="RotatingCharacterMoveComponent.h" />

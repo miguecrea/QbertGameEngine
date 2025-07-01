@@ -191,6 +191,9 @@
     <ClInclude Include="TestCommand.h">
       <Filter>Other Files</Filter>
     </ClInclude>
+    <ClInclude Include="TileStaticHelper.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RenderComponent.cpp">
@@ -323,6 +326,9 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="TestCommand.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileStaticHelper.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>

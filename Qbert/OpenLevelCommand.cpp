@@ -39,7 +39,7 @@ void dae::OpenLevelCommand::Execute()
 		    input.m_PostClearCallback = [=]()
 			{
 				auto controller = InputManager::GetInstance().AddController();
-				controller->MapCommandToThumbstick(dae::Controller::ControllerThumbsticks::LeftThumbstick,std::make_unique<dae::MoveGridCommand>(scene->m_player));
+				controller->MapCommandToThumbstick(dae::Controller::ControllerThumbsticks::LeftThumbstick,std::make_unique<dae::MoveGridCommand>(scene->m_player,scene->m_Map));
 				controller->MapCommandToButton(dae::Controller::ControllerButtons::ButtonA,std::make_unique<dae::BreakMoveTileCommand>(scene->m_player),dae::ButtonState::Up);
 
 			};

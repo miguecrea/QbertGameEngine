@@ -125,6 +125,11 @@ void dae::Scene::AddPlayer2(std::shared_ptr<GameObject> player)
 	m_player2 = player;
 }
 
+void dae::Scene::AddMap(std::shared_ptr<GameObject> map)
+{
+	m_Map = map;
+}
+
 void dae::Scene::AddEnemy(std::shared_ptr<GameObject> player)
 {
 	m_enemy = player;

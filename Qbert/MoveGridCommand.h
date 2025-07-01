@@ -6,12 +6,13 @@ namespace dae
 {
     class GameObject;
     class RenderComponent;
+    class PengoComponent;
+    class MapComponent;
   
     class MoveGridCommand : public Command2D
     {
     public:
-        MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject);
-        MoveGridCommand();
+        MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject, std::shared_ptr<dae::GameObject> map);
        virtual void Execute() override;
 
        void RenderingX();
@@ -21,8 +22,12 @@ namespace dae
     private:
        
         float deadzone = 0.2f;
-        std::shared_ptr<dae::GameObject> m_pGameObject;
+        std::shared_ptr<dae::GameObject> m_Pengo;
+        std::shared_ptr<dae::GameObject> m_Map;
         std::shared_ptr<dae::RenderComponent> m_RenderComponent;
+        std::shared_ptr<dae::PengoComponent> m_PengoComponent;
+
+        std::shared_ptr<dae::MapComponent> m_MapComponent;
         glm::vec3 m_Direction;
         float m_Speed;
         const bool m_UseValue2D = false;

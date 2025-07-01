@@ -2,39 +2,29 @@
 #include"iostream"
 #include"GameObject.h"
 #include"PengoComponent.h"
+#include"TileStaticHelper.h"
 dae::BreakMoveTileCommand::BreakMoveTileCommand(std::shared_ptr<dae::GameObject> pGameObject):
 	m_Pengo{pGameObject}
 {
+	if (m_Pengo)
+	{
+	m_PengoComponent = m_Pengo->GetComponent<dae::PengoComponent>();
+
+	}
+	else
+	{
+		std::cout << "Error Pengo Game Object is null\n";
+	}
 }
 
 void dae::BreakMoveTileCommand::Execute()
 {
-
-
-	auto PengoComponent = m_Pengo->GetComponent<dae::PengoComponent>();
-
-	PengoComponent->m_OnPengoBreakOrMove.Broadcast();
-
-	std::cout << "BreakingTile\n";
-
-
-
-
-	//Send event to game manager that has the player
-	//and check if the 2 tiles are in the same place
-
-
-	//break tile that is in front if there are tiules behind
-
-
-	//move tiles 
-
-
-
-
-
-
-
+	int row  = TileStaticHelper::GetInstance().GetRow(m_Pengo->GetWorldPosition().y);
+	int Column = TileStaticHelper::GetInstance().GetColumn(m_Pengo->GetWorldPosition().x);
+	if (m_PengoComponent)
+	{
+		m_PengoComponent->m_OnPengoBreakOrMove.Broadcast(m_PengoComponent->m_CurrentDirection,row,Column);
+	}
 }
 
 void dae::BreakMoveTileCommand::Undo()

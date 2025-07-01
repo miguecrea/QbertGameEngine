@@ -7,13 +7,18 @@
 #include<vector>
 #include"AnimationComponent.h"
 #include"DelegateBase.h"
+#include"PengoDirection.h"
 
 namespace dae
 {
+		
 
 	class PengoComponent final : public Component
 	{
 	public:
+
+
+		Direction m_CurrentDirection{};
 
 		PengoComponent();
 
@@ -22,7 +27,7 @@ namespace dae
 		PengoComponent& operator=(const PengoComponent& other) = default;
 		PengoComponent& operator=(PengoComponent&& other) = default;
 
-		MulticastDelegate <> m_OnPengoBreakOrMove;
+		MulticastDelegate <Direction,int,int> m_OnPengoBreakOrMove;
 	private:
 
 	};

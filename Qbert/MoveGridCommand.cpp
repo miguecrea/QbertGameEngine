@@ -4,17 +4,18 @@
 #include"SceneManager.h"
 #include"RenderComponent.h"
 #include"GameObject.h"
+#include"PengoComponent.h"
+#include"DebugRenderComponent.h"
 
 
-dae::MoveGridCommand::MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject):
-	m_pGameObject{pGameObject}
+dae::MoveGridCommand::MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject, std::shared_ptr<dae::GameObject> map):
+	m_Pengo{pGameObject},m_Map{map}
 
 {
-	m_RenderComponent = m_pGameObject->GetComponent<dae::RenderComponent>();
-}
+	m_RenderComponent = m_Pengo->GetComponent<dae::RenderComponent>();
+	m_PengoComponent = m_Pengo->GetComponent<dae::PengoComponent>();
 
-dae::MoveGridCommand::MoveGridCommand()
-{
+	//save the map on the scene or in the player 
 }
 
 void dae::MoveGridCommand::Execute()
@@ -22,6 +23,8 @@ void dae::MoveGridCommand::Execute()
 
 
 	// handle movement event 
+
+	//make sure map is not 
 
 
 
@@ -41,18 +44,18 @@ void dae::MoveGridCommand::Execute()
 		HandleRendering();
 	}
 
-	glm::vec3 newPosition = m_pGameObject->GetWorldPosition() + m_Direction * SceneManager::GetInstance().GetDeltaTime() * moveSpeed;
+	glm::vec3 newPosition = m_Pengo->GetWorldPosition() + m_Direction * SceneManager::GetInstance().GetDeltaTime() * moveSpeed;
 
-	int column = static_cast<int>(std::floor(newPosition.x / tileSize));
-	int row = static_cast<int>(std::floor(newPosition.y / tileSize));
+	//int column = static_cast<int>(std::floor(newPosition.x / tileSize));
+	//int row = static_cast<int>(std::floor(newPosition.y / tileSize));
 
 
-	glm::vec3 snappedPosition{ column * tileSize, row * tileSize, 0.f };
+	//glm::vec3 snappedPosition{ column * tileSize, row * tileSize, 0.f };
 
-	std::cout << row << " " << column << "\n";
+	//std::cout << row << " " << column << "\n";
 
 	
-	m_pGameObject->SetPosition(snappedPosition.x, snappedPosition.y);
+	m_Pengo->SetPosition(newPosition.x, newPosition.y);
 
 	
 
@@ -81,9 +84,10 @@ void dae::MoveGridCommand::RenderingX()
 {
 	if (m_Direction.x == 1.f)
 	{
-		if (m_RenderComponent)
+		if (m_RenderComponent && m_PengoComponent)
 		{
 			m_RenderComponent->m_state = 3;
+			m_PengoComponent->m_CurrentDirection = Direction::RIGHT;
 
 		}
 	}
@@ -92,6 +96,8 @@ void dae::MoveGridCommand::RenderingX()
 		if (m_RenderComponent)
 		{
 			m_RenderComponent->m_state = 1;
+			m_PengoComponent->m_CurrentDirection = Direction::LEFT;
+
 		}
 
 	}
@@ -104,6 +110,7 @@ void dae::MoveGridCommand::HandleRendering()
 		if (m_RenderComponent)
 		{
 			m_RenderComponent->m_state = 0;
+			m_PengoComponent->m_CurrentDirection = Direction::DOWN;
 
 		}
 	}
@@ -112,6 +119,8 @@ void dae::MoveGridCommand::HandleRendering()
 		if (m_RenderComponent)
 		{
 			m_RenderComponent->m_state = 2;
+			m_PengoComponent->m_CurrentDirection = Direction::UP;
+
 		}
 
 	}

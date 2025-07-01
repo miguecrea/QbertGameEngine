@@ -8,7 +8,7 @@
 
 namespace dae
 {
-	class InputManager final : public Singleton<InputManager>   //make it  a singletonm    
+	class InputManager final : public Singleton<InputManager>  
 	{
 	public:
 		InputManager();
