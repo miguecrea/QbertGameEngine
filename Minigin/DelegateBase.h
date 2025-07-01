@@ -9,7 +9,7 @@
 #pragma once
 #include <functional>
 #include <vector>
-
+#include<iostream>
 
 namespace dae
 {
@@ -28,10 +28,17 @@ namespace dae
 
         void Broadcast(Args...args) const
         {
-            if (handlers.empty()) return;
+
+            if (handlers.empty())
+            {
+                return;
+            }
 
             for (const auto& handler : handlers)
+            {
                 handler(args...);
+
+            }
         }
 
         void Clear()

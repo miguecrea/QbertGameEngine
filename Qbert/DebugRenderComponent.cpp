@@ -5,8 +5,10 @@
 #include"GameObject.h"
 #include"SceneManager.h"
 #include"Scene.h"
+#include"PengoComponent.h"
 
-dae::MapComponent::MapComponent()
+dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player):
+	m_Pengo{Player}
 {
 
 
@@ -40,14 +42,25 @@ dae::MapComponent::MapComponent()
 }
 void dae::MapComponent::BeginPlay()
 {
+	if (!m_Pengo)
+	{
+		std::cout << "Error\n";
+		return;
+	}
+	auto PengoComponent = m_Pengo->GetComponent<dae::PengoComponent>();
+	if (PengoComponent)
+	{
+		PengoComponent->m_OnPengoBreakOrMove.Add(std::bind(&MapComponent::PengoAttackResponse, this));
+		
 
+	}
 
 }
 
 void dae::MapComponent::Render()
 {
-	Renderer::GetInstance().FillSquare(100.f, 100.f, 100.f, 100.f, SDL_Color{
-		55,0,0,255 });
+	/*Renderer::GetInstance().FillSquare(100.f, 100.f, 100.f, 100.f, SDL_Color{
+		55,0,0,255 });*/
 
 
 	//create inside or outside 
@@ -101,4 +114,27 @@ void dae::MapComponent::parseMapFile(const std::string& filename)
 	//	row++;
 	//}
 
+}
+
+void dae::MapComponent::PengoAttackResponse()
+{
+	// Prameters player row and columns 
+	//and direction 
+
+	//check if the special tiles ,make a variable is special 
+	//ar moved if they are moved 
+	//make event from here 
+
+
+
+	//check if there is a tile behind the ine in the direction
+	//it is looking 
+	//if there is break it if not 
+	// Call Move on the tile
+	//and update thye map 
+
+
+
+
+	std::cout << "Hello From Map Class\n";
 }

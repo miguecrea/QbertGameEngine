@@ -1,11 +1,19 @@
 #include "BreakMoveTileCommand.h"
 #include"iostream"
-dae::BreakMoveTileCommand::BreakMoveTileCommand()
+#include"GameObject.h"
+#include"PengoComponent.h"
+dae::BreakMoveTileCommand::BreakMoveTileCommand(std::shared_ptr<dae::GameObject> pGameObject):
+	m_Pengo{pGameObject}
 {
 }
 
 void dae::BreakMoveTileCommand::Execute()
 {
+
+
+	auto PengoComponent = m_Pengo->GetComponent<dae::PengoComponent>();
+
+	PengoComponent->m_OnPengoBreakOrMove.Broadcast();
 
 	std::cout << "BreakingTile\n";
 
