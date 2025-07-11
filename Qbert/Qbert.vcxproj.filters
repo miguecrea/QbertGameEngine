@@ -245,5 +245,8 @@
     <ClInclude Include="PengoDirection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TileInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

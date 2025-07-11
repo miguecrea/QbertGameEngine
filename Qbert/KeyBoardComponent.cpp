@@ -14,11 +14,11 @@ dae::KeyBoardComponent::~KeyBoardComponent()
 
 void dae::KeyBoardComponent::Render()
 {
-	Renderer::GetInstance().DrawSquare(GetOwner()->GetLocalPosition().x * 2, GetOwner()->GetLocalPosition().y * 2, 40, SDL_Color{ 255,255,255,255 });
+	Renderer::GetInstance().DrawSquare(GetOwner()->GetLocalPosition().x , GetOwner()->GetLocalPosition().y , 40, SDL_Color{ 255,255,255,255 });
 
 	if (m_IsActive)
 	{
-		Renderer::GetInstance().FillSquare(GetOwner()->GetLocalPosition().x * 2, GetOwner()->GetLocalPosition().y * 2, 40, SDL_Color{ 0,0,255,100 });
+		Renderer::GetInstance().FillSquare(GetOwner()->GetLocalPosition().x , GetOwner()->GetLocalPosition().y , 40, SDL_Color{ 0,0,255,100 });
 
 	}
 

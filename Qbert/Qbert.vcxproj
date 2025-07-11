@@ -244,6 +244,7 @@
     <ClInclude Include="TagManager.h" />
     <ClInclude Include="Tags.h" />
     <ClInclude Include="TileComponent.h" />
+    <ClInclude Include="TileInfo.h" />
     <ClInclude Include="TimerAndInputComponent.h" />
     <ClInclude Include="TypeOfAi.h" />
     <ClInclude Include="UpdatePositionCommand.h" />

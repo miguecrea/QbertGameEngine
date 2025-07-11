@@ -15,6 +15,12 @@ dae::MoveGridCommand::MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObje
 	m_RenderComponent = m_Pengo->GetComponent<dae::RenderComponent>();
 	m_PengoComponent = m_Pengo->GetComponent<dae::PengoComponent>();
 
+	if (m_Map)
+	{
+	m_MapComponent = m_Map->GetComponent<dae::MapComponent>();
+
+	}
+
 	//save the map on the scene or in the player 
 }
 
@@ -46,16 +52,26 @@ void dae::MoveGridCommand::Execute()
 
 	glm::vec3 newPosition = m_Pengo->GetWorldPosition() + m_Direction * SceneManager::GetInstance().GetDeltaTime() * moveSpeed;
 
-	//int column = static_cast<int>(std::floor(newPosition.x / tileSize));
-	//int row = static_cast<int>(std::floor(newPosition.y / tileSize));
+	int column = static_cast<int>(std::floor(newPosition.x / tileSize));
+	int row = static_cast<int>(std::floor(newPosition.y / tileSize));
 
 
 	//glm::vec3 snappedPosition{ column * tileSize, row * tileSize, 0.f };
 
 	//std::cout << row << " " << column << "\n";
 
-	
+	//make sure the snapping works 
+
+
+	//new Position mas with de la sprite s menor todvai esta fuera de la positio n
+
+	// si la posicion de la x +width es todavia adentro 
+	if (m_MapComponent->MapArray[row][column] != 9)
+	{
 	m_Pengo->SetPosition(newPosition.x, newPosition.y);
+
+	}
+	
 
 	
 

@@ -65,8 +65,6 @@ void dae::RenderComponent::Draw()
 
 		if (m_useAnimation)
 		{
-
-
 			if (m_Visible)
 			{
 				m_animationVector[m_state]->Draw(position.x, position.y, m_scale);
@@ -80,7 +78,12 @@ void dae::RenderComponent::Draw()
 		}
 		else
 		{
+
+			if (m_Visible)
+			{
 			Renderer::GetInstance().RenderTexture(*m_pTexture, position.x, position.y, float(m_pTexture.get()->GetSize().x) * m_scale, float(m_pTexture.get()->GetSize().y) * m_scale);
+
+			}
 
 			m_ObjectShape.x = int(position.x);
 			m_ObjectShape.y = int(position.y);
