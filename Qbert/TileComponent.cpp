@@ -82,7 +82,7 @@ void dae::TileComponent::Update()
 
 	if (std::abs(y - targetY) <= epsilon  && std::abs(x - targetX) <= epsilon)
 	{
-		std::cout << "Arrived On Target Tile\n";
+	//	std::cout << "Arrived On Target Tile\n";
 		m_StartMoving = false;
 	}
 
@@ -92,8 +92,8 @@ void dae::TileComponent::Update()
 
 	
 
-		std::cout << "Target :" << y << "\n";
-		std::cout << "current "<< targetY << "\n";  //y 
+		//std::cout << "Target :" << y << "\n";
+		//std::cout << "current "<< targetY << "\n";  //y 
 
 		//std::cout << m_DesiredColumn * m_TileSize + (m_TileSize/2) <<"\n";  //x 
 

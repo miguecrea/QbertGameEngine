@@ -56,6 +56,13 @@ void dae::MoveGridCommand::Execute()
 	int row = static_cast<int>(std::floor(newPosition.y / tileSize));
 
 
+
+	// o si la row y la cumun de esa poscion + size esta afuear ta,bien 
+
+
+
+
+
 	//glm::vec3 snappedPosition{ column * tileSize, row * tileSize, 0.f };
 
 	//std::cout << row << " " << column << "\n";
@@ -66,31 +73,12 @@ void dae::MoveGridCommand::Execute()
 	//new Position mas with de la sprite s menor todvai esta fuera de la positio n
 
 	// si la posicion de la x +width es todavia adentro 
-	if (m_MapComponent->MapArray[row][column] != 9)
+	if (m_MapComponent->MapArray[row][column] != 9 && m_MapComponent->MapArray[row][column] != 8)
 	{
 	m_Pengo->SetPosition(newPosition.x, newPosition.y);
 
 	}
 	
-
-	
-
-
-	
-	
-
-	
-	//get needs the map game object as well as parameters 
-
-	//first make  it move left right ,up and down
-	// //save the direction it is looking at 
-	// snap to grid 
-	// make sure it wont hit anything all rhe other blocks 
-	// 
-	//then we 
-
-	//when we hit a block game object broadcast commands //and maps uddates etc 
-	//hit and break block
 
 
 

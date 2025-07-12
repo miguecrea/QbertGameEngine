@@ -47,8 +47,10 @@ void dae::OpenLevelCommand::Execute()
 		}
 
 	}
+	//dae::SoundSystem& audio{ dae::Audio::Get() };
+	//audio.Play(s_GameSoundId, 0.5f, 1);	
 	dae::SoundSystem& audio{ dae::Audio::Get() };
-	audio.Play(s_GameSoundId, 0.5f, 1);
+	audio.Play(s_MenuMusicId, 0.5f,100);
 }
 
 void dae::OpenLevelCommand::Undo()

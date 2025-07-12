@@ -10,6 +10,8 @@
 #include"TileStaticHelper.h"
 #include"GameObject.h"
 #include"RenderComponent.h"
+#include"Audio.h"
+#include"staticHeader.h"
 
 #define BLOCK 9
 #define COLLISION 8
@@ -162,6 +164,8 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 						//delete the object  from array 
 						//update the map 
 						//destroy if cube is also a wall 
+						dae::SoundSystem& audio{ dae::Audio::Get() };
+						audio.Play(s_IceBlockDestroyed, 1.f, 0);
 						object->GetComponent<dae::RenderComponent>()->SwapVisibility();
 						m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
 						MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
@@ -226,13 +230,19 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 
 					TileInFrontTileComponent->SetActive(PengoDirection);
 
-					
+					dae::SoundSystem& audio{ dae::Audio::Get() };
+					audio.Play(s_PushedBlockSound, 1.f, 0);
+
 				}
+
 			}
 			else
 			{
 				if (TileInFrontTileComponent)
 				{
+					dae::SoundSystem& audio{ dae::Audio::Get() };
+					audio.Play(s_PushedBlockSound, 1.f, 0);
+
 					std::cout << NextFoundCollision.row << " " << NextFoundCollision.column << "\n";
 					
 					ReturnDesired(DesiredRow, DesiredColumn, NextFoundCollision);
@@ -253,17 +263,10 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 
 					TileInFrontTileComponent->SetActive(PengoDirection);
 
-
-
-
-
 				}
 
+
 			}
-
-		
-
-			//std::cout << NextFoundCollision.row << " " << NextFoundCollision.column << "\n";
 
 		}
 

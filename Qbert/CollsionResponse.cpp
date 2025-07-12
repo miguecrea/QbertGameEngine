@@ -96,7 +96,7 @@ void dae::CollsionResponse::HandleInsibleRectCollision(std::string CollidedObjec
 		if (!m_CollisionComponent->IsFalling())
 		{
 			dae::SoundSystem& audio{ dae::Audio::Get() };
-			audio.Play(s_QbertCurse, 0.5f, 1);
+			audio.Play(s_IceBlockDestroyed, 0.5f, 1);
 			s_Lives--;
 		}
 		m_CollisionComponent->SetFallingVariable(true);  //para qure no pueda collisonar los cubos
@@ -224,7 +224,7 @@ void dae::CollsionResponse::HandleRotatingCharacterCollision()
 		this->GetOwner()->GetComponent<dae::RenderComponent>()->SetVisibility(true);
 		this->GetOwner()->GetComponent<dae::RectangleComponent>()->SetHeight();
 		dae::SoundSystem& audio{ dae::Audio::Get() };
-		audio.Play(s_PlatformSound, 0.8f, 1);
+		audio.Play(s_PushedBlockSound, 0.8f, 1);
 	}
 	else
 	{

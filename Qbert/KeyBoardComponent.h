@@ -15,7 +15,7 @@ namespace dae
 
 	public:
 
-		KeyBoardComponent(const char & key,std::shared_ptr< TextComponent> textComponent);
+		KeyBoardComponent(const char & key,std::shared_ptr< TextComponent> textComponent,float TileSize);
 		virtual ~KeyBoardComponent();
 		KeyBoardComponent(const KeyBoardComponent& other) = default;
 		KeyBoardComponent(KeyBoardComponent&& other) = default;
@@ -28,6 +28,7 @@ namespace dae
 		int m_index = 0;
 		int m_ActiveIndex = 0;
 		char m_key{};
+		float m_TileSize{};
 
 	private:
 		std::shared_ptr<TextComponent> m_pTextComponent;

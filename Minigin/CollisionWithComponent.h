@@ -13,7 +13,7 @@ namespace dae
 	{
 	public:
 
-		CollisionWithComponent(std::shared_ptr<GameObject>& CollideObject);    /// vector
+		CollisionWithComponent(std::shared_ptr<GameObject> & CollideObject);    /// vector
 		virtual ~CollisionWithComponent() = default;
 		CollisionWithComponent(const CollisionWithComponent& other) = default;
 		CollisionWithComponent(CollisionWithComponent&& other) = default;

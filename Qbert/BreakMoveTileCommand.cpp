@@ -3,6 +3,7 @@
 #include"GameObject.h"
 #include"PengoComponent.h"
 #include"TileStaticHelper.h"
+
 dae::BreakMoveTileCommand::BreakMoveTileCommand(std::shared_ptr<dae::GameObject> pGameObject):
 	m_Pengo{pGameObject}
 {

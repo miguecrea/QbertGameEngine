@@ -126,6 +126,9 @@
     <ClCompile Include="PengoDirection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AiComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CurseQbertComponent.h">
@@ -246,6 +249,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TileInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AiComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

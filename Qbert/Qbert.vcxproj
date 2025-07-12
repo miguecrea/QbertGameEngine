@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AddInput.cpp" />
+    <ClCompile Include="AiComponent.cpp" />
     <ClCompile Include="BreakMoveTileCommand.cpp" />
     <ClCompile Include="ChangeModeCommand.cpp" />
     <ClCompile Include="ChangeSelectionCommand.cpp" />
@@ -211,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddInput.h" />
+    <ClInclude Include="AiComponent.h" />
     <ClInclude Include="BreakMoveTileCommand.h" />
     <ClInclude Include="ChangeModeCommand.h" />
     <ClInclude Include="ChangeSelectionCommand.h" />

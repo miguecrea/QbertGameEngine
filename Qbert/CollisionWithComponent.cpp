@@ -57,6 +57,15 @@ void dae::CollisionWithComponent::Update()
 			if (GameObjectsTag)
 			{
 				m_OnCollisionEvent.Broadcast(GameObjectsTag->GetTag(),tag);
+
+
+
+
+
+
+
+
+
 			}
 			else
 			{
@@ -89,7 +98,7 @@ void dae::CollisionWithComponent::SetTutorial(bool isTutorial)
 	m_IsTutorial = isTutorial;
 }
 
-bool dae::CollisionWithComponent::Collides(const SDL_Rect& self, const SDL_Rect& objects)
+bool dae::CollisionWithComponent::Collides(const SDL_Rect & self, const SDL_Rect& objects)
 {
 	if (self.x + self.w < objects.x || objects.x + objects.w < self.x)
 		return false;

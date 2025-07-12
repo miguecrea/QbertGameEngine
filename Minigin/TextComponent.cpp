@@ -48,11 +48,13 @@ void dae::TextComponent::Update()
 }void dae::TextComponent::Render()
 {
 
+
+	//only used in 
 	if (m_ShowRectangle)
 	{
 
 		//this->GetOwner()->GetWorldPosition().x, this->GetOwner()->GetWorldPosition().y, 30.f, 30.f, { 255.f,0,0,255 }
-		Renderer::GetInstance().FillSquare(this->GetOwner()->GetWorldPosition().x - 50.f, this->GetOwner()->GetWorldPosition().y, 30.f, 30.f, { 0,0,255,255 });
+		Renderer::GetInstance().FillSquare(this->GetOwner()->GetWorldPosition().x - 50, this->GetOwner()->GetWorldPosition().y, 30.f, 30.f, { 0,0,255,255 });
 		
 	}
 

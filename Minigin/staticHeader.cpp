@@ -9,10 +9,10 @@ int m_GhostState = 0;
  int s_MenuMusicId=0; 
  int s_EndMusicId=0;
 
- int s_QbertCurse = 0;
+ int s_IceBlockDestroyed = 0;
  int s_QbertJump= 1;
  int s_KeyBoardkeyMusic= 2;
- int s_PlatformSound = 3;
+ int s_PushedBlockSound = 3;
  int s_QbertDead = 4;
 
  int s_Score = 0;
