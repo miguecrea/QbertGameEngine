@@ -183,7 +183,9 @@
     <ClCompile Include="DebugRenderComponent.cpp" />
     <ClCompile Include="DisplayNameComponent.cpp" />
     <ClCompile Include="EnemyJumpComponent.cpp" />
+    <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="FreeFallComponent.cpp" />
+    <ClCompile Include="GameManagerComponent.cpp" />
     <ClCompile Include="HighScoreComponent.cpp" />
     <ClCompile Include="JumpAnimationComponent.cpp" />
     <ClCompile Include="KeyBoardComponent.cpp" />
@@ -221,7 +223,9 @@
     <ClInclude Include="DebugRenderComponent.h" />
     <ClInclude Include="DisplayNameComponent.h" />
     <ClInclude Include="EnemyJumpComponent.h" />
+    <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="FreeFallComponent.h" />
+    <ClInclude Include="GameManagerComponent.h" />
     <ClInclude Include="GameMode.h" />
     <ClInclude Include="HighScoreComponent.h" />
     <ClInclude Include="JumpAnimationComponent.h" />

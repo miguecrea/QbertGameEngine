@@ -93,7 +93,8 @@ bool dae::AIComponent::isValid(int x, int y)
 		return false;
 	}
 
-	if (m_mapComponent->MapArray[y][x] == 9 || m_mapComponent->MapArray[y][x] == 8)
+	//
+	if (m_mapComponent->MapArray[y][x] == 9 || m_mapComponent->MapArray[y][x] == 8  || m_mapComponent->MapArray[y][x] == 5)
 	{
 		return false;
 	}
@@ -347,16 +348,10 @@ void dae::AIComponent::Update()
 	targetPos.y = int(m_Target->GetLocalPosition().y) / Y_STEP;
 	//row
 
-	/*UpdatePathTimer += m_pSceneManager->GetDeltaTime();
-	if (UpdatePathTimer >= 0.2f)
-	{
-	}*/
 
 	
 	m_usablePath = aStar(currentPos, targetPos);
-	UpdatePathTimer = 0;
-	std::cout << m_usablePath.size() << "\n";
-
+	
 
 	if (m_usablePath.size() > 1)
 	{

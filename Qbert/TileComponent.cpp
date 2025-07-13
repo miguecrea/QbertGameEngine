@@ -78,7 +78,7 @@ void dae::TileComponent::Update()
 	float targetX = m_DesiredColumn * m_TileSize + (m_TileSize / 2);
 	float targetY = m_DesiredRow * m_TileSize + (m_TileSize / 2);
 
-	float epsilon = 0.5f; 
+	float epsilon = 1.f; 
 
 	if (std::abs(y - targetY) <= epsilon  && std::abs(x - targetX) <= epsilon)
 	{

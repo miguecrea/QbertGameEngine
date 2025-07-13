@@ -39,7 +39,7 @@ namespace dae
 		std::shared_ptr<GameObject> m_Target = nullptr;
 		std::shared_ptr<MapComponent> m_mapComponent;
 		dae::GameObject * m_Self = nullptr;
-		float m_Speed = 20.f;
+		float m_Speed = 50.f;
 
 		float distanceBetweenPoints();
 

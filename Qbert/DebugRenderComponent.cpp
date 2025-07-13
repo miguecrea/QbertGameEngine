@@ -15,31 +15,21 @@
 
 #define BLOCK 9
 #define COLLISION 8
+#define SPECIAL_CUBE 5
+#define UNHATCH_EGGS 7
 #define FREE 0
 
 dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 	m_Pengo{ Player }
 {
 
-
-
-	//this also needs the player so it can react to what it does 
-
-
 	//ParseMaps
 
 
-	//0 is where tiles will be cant collide 
 
-	//fix the layout 
-	//array so we dont committ a mistake 
-
-//	std::cout << MapArray[1][14] << "\n"<<"Index at that Pos\n";
-
-
-	for (size_t y = 0; y < m_NumberTilesY; ++y)
+	for (int y = 0; y < m_NumberTilesY; ++y)
 	{
-		for (size_t x = 0; x < m_NumberTilesX; ++x)
+		for (int x = 0; x < m_NumberTilesX; ++x)
 		{
 			if (MapArray[y][x] == BLOCK)
 			{
@@ -50,16 +40,33 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				DiamondBlockRenderer->SetDimension(3.f);
 				DiamondBlockGameObject->AddComponent(DiamondBlockRenderer);
 				DiamondBlockGameObject->AddComponent(TileComponent);
-
 				DiamondBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
-
 				SceneManager::GetInstance().GetCurrentScene()->Add(DiamondBlockGameObject);
 				m_TileObjects[y][x] = DiamondBlockGameObject;
+
+
+			}
+
+			if (MapArray[y][x] == SPECIAL_CUBE)
+			{
+				auto DiamondBlockGameObject = std::make_shared<dae::GameObject>();
+				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
+				auto TileComponent = std::make_shared<dae::TileComponent>();
+				DiamondBlockRenderer->SetTexture("DiamondBlock.png");
+				DiamondBlockRenderer->SetDimension(2.f);
+				DiamondBlockGameObject->AddComponent(DiamondBlockRenderer);
+				DiamondBlockGameObject->AddComponent(TileComponent);
+				DiamondBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
+				SceneManager::GetInstance().GetCurrentScene()->Add(DiamondBlockGameObject);
+				m_TileObjects[y][x] = DiamondBlockGameObject;
+				m_SpeciaTiles.push_back(TileInfo{ y,x });
+
+
 			}
 		}
 	}
 
-	//add to a vector of game obejcts 
+
 
 
 }
@@ -89,9 +96,7 @@ void dae::MapComponent::Render()
 	{
 		for (size_t X = 0; X < m_NumberTilesX; X++)
 		{
-			//Renderer::GetInstance().FillSquare(0.f + m_TileSize * X, 0.f + m_TileSize * Y, m_TileSize, SDL_Color{ 255,255,255,250});
 			Renderer::GetInstance().DrawSquare(0.f + m_TileSize * X, 0.f + m_TileSize * Y, m_TileSize, SDL_Color{ 255,255,255,250 });
-
 		}
 	}
 }
@@ -133,151 +138,350 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 
 	int TilesToChekc{ 1 };
 
+	//can be imprved even more to make return vakue save the tile 
+
 	auto HasBlockInFrontOneCube = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
-	if (!HasBlockInFrontOneCube.m_hasSomething)
+	auto HasBlockInFrontSpecial = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, SPECIAL_CUBE);
+
+	if (HasBlockInFrontOneCube.m_hasSomething || HasBlockInFrontSpecial.m_hasSomething)
 	{
-		std::cout << "No block In front\n";
-	}
-	else
-	{
-		std::cout << "Has Block In front\n";
 		TilesToChekc = 2;
 
+		auto HasNormalBlockInFrontTwoCubes = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
+		auto IsThereWallTwoSpacesAway = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, COLLISION);
+		auto HasSpecialBlock2SpacesAwat = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, SPECIAL_CUBE);
 
-		auto HasBlockInFrontTwoCubes = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
-		auto IsThereWallTwoSpacesAway = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,COLLISION);
-
-		// 
-		if (HasBlockInFrontTwoCubes.m_hasSomething || IsThereWallTwoSpacesAway.m_hasSomething)  // 2 blocks away there is something 
+		if (HasNormalBlockInFrontTwoCubes.m_hasSomething || IsThereWallTwoSpacesAway.m_hasSomething || HasSpecialBlock2SpacesAwat.m_hasSomething)
 		{
 
-			if (m_TileObjects[HasBlockInFrontTwoCubes.row][HasBlockInFrontTwoCubes.column] || IsThereWallTwoSpacesAway.m_hasSomething)
+			//has two cubes and one in front Is special
+
+			if (HasBlockInFrontOneCube.m_hasSomething)
 			{
-				//break one in front 
-				if (m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column])
-				{
-					auto object = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
 
-					if (object)
-					{
-						//Destroy the object 
-						//delete the object  from array 
-						//update the map 
-						//destroy if cube is also a wall 
-						dae::SoundSystem& audio{ dae::Audio::Get() };
-						audio.Play(s_IceBlockDestroyed, 1.f, 0);
-						object->GetComponent<dae::RenderComponent>()->SwapVisibility();
-						m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
-						MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
-						std::cout << MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] << "\n";
-
-					}
-					else
-					{
-
-					}
+				std::cout << "Cube in front Is Normal\n";
+				DestroyCube(HasBlockInFrontOneCube);
 
 
-
-				}
 			}
+			else if (HasBlockInFrontSpecial.m_hasSomething)
+			{
+				std::cout << "Cube in front Is Special\n";
+
+			}
+
 		}
-
-		else  
-		{    // block in front but not behind it 
-
-			
+		else
+		{
 
 			TileInfo NextOccupiedTile{};
 			TileInfo NextFoundCollision{};
+			TileInfo NextFoundSpecialBlock{};
 			do
 			{
 				TilesToChekc++;
-				NextOccupiedTile = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,BLOCK);
-				NextFoundCollision = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,COLLISION);
+				NextOccupiedTile = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
+				NextFoundCollision = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, COLLISION);
+				NextFoundSpecialBlock = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, SPECIAL_CUBE);
 
-			} while (!NextOccupiedTile.m_hasSomething && !NextFoundCollision.m_hasSomething);
+			} while (!NextOccupiedTile.m_hasSomething && !NextFoundCollision.m_hasSomething && !NextFoundSpecialBlock.m_hasSomething);
 
 
+			//means it broke from loop 
 
-			auto TileInFrontTileComponent = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column]->GetComponent<dae::TileComponent>();
-				
+			int MovingTileRow{};
+			int MovingTileColumn{};
+
+
+			//whwre do I check for the block
+
+			if (HasBlockInFrontSpecial.m_hasSomething)
+			{
+				MovingTileRow = HasBlockInFrontSpecial.row;
+				MovingTileColumn = HasBlockInFrontSpecial.column;
+			}
+			else
+			{
+				MovingTileRow = HasBlockInFrontOneCube.row;
+				MovingTileColumn = HasBlockInFrontOneCube.column;
+			}
+
+
+			auto TileInFrontTileComponent = m_TileObjects[MovingTileRow][MovingTileColumn]->GetComponent<dae::TileComponent>();
 
 			int DesiredRow{};
 			int DesiredColumn{};
 
-			if (NextOccupiedTile.m_hasSomething)  //maybe chnage this later 
+
+			if (NextOccupiedTile.m_hasSomething)
 			{
-				if (TileInFrontTileComponent)
-				{
-			       std::cout << NextOccupiedTile.row << " " << NextOccupiedTile.column << "\n";
+				ReturnDesired(DesiredRow, DesiredColumn, NextOccupiedTile);
+			}
+			else if (NextFoundCollision.m_hasSomething)
+			{
+				ReturnDesired(DesiredRow, DesiredColumn, NextFoundCollision);
+			}
+			// setig the next special block to 
+			else if (NextFoundSpecialBlock.m_hasSomething) //
+			{
+				ReturnDesired(DesiredRow, DesiredColumn, NextFoundSpecialBlock);
+			}
+			//std::cout << DesiredRow << "\n"<< DesiredColumn<<"\n";
 
-					ReturnDesired(DesiredRow, DesiredColumn, NextOccupiedTile);
 
-			      std::cout << DesiredRow << " " << DesiredColumn << "\n";
+			//set first ine to this 
+			//freeing should be done first
+			if (HasBlockInFrontOneCube.m_hasSomething)
+			{
+
+				MapArray[MovingTileRow][MovingTileColumn] = FREE;
+				MapArray[DesiredRow][DesiredColumn] = BLOCK;
+			}
+			else if (HasBlockInFrontSpecial.m_hasSomething)
+			{
+
+
+				MapArray[MovingTileRow][MovingTileColumn] = FREE;
+				MapArray[DesiredRow][DesiredColumn] = SPECIAL_CUBE;
+
+				auto it = std::find_if(m_SpeciaTiles.begin(), m_SpeciaTiles.end(), [MovingTileRow, MovingTileColumn](const dae::TileInfo & tile) {
+					return tile.row == MovingTileRow && tile.column == MovingTileColumn;
+					});
+
 				
-					TileInFrontTileComponent->m_DesiredRow = DesiredRow;
-					TileInFrontTileComponent->m_DesiredColumn = DesiredColumn;
-
-
-					MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
-					MapArray[DesiredRow][DesiredColumn] = BLOCK;  //Other it has to be COLLISION
-
-
-					m_TileObjects[DesiredRow][DesiredColumn] = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
-
-					m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
-
-					TileInFrontTileComponent->SetActive(PengoDirection);
-
-					dae::SoundSystem& audio{ dae::Audio::Get() };
-					audio.Play(s_PushedBlockSound, 1.f, 0);
-
-				}
-
-			}
-			else
-			{
-				if (TileInFrontTileComponent)
+				if (it != m_SpeciaTiles.end())
 				{
-					dae::SoundSystem& audio{ dae::Audio::Get() };
-					audio.Play(s_PushedBlockSound, 1.f, 0);
+				    std::cout << "MOVED  Special Tile\n";
+					it->row = DesiredRow;
+					it->column = DesiredColumn;
+				}
 
-					std::cout << NextFoundCollision.row << " " << NextFoundCollision.column << "\n";
-					
-					ReturnDesired(DesiredRow, DesiredColumn, NextFoundCollision);
-					std::cout << DesiredRow << " " << DesiredColumn << "\n";
+				if (HasThreeAlignedTiles(m_SpeciaTiles))
+				{
 
-
-					TileInFrontTileComponent->m_DesiredRow = DesiredRow;
-					TileInFrontTileComponent->m_DesiredColumn = DesiredColumn;
-
-
-					MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
-					MapArray[DesiredRow][DesiredColumn] = BLOCK;  //Other it has to be COLLISION
-
-					m_TileObjects[DesiredRow][DesiredColumn] = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
-
-					m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
-
-
-					TileInFrontTileComponent->SetActive(PengoDirection);
-
+					m_On3TilesMatched.Broadcast();
+					std::cout << "Alignment detected!\n";
+				}
+				else {
+					std::cout << "No alignment.\n";
 				}
 
 
+
+
+
+
+
+
+
+				
 			}
 
+			TileInFrontTileComponent->m_DesiredRow = DesiredRow;
+			TileInFrontTileComponent->m_DesiredColumn = DesiredColumn;
+
+			m_TileObjects[DesiredRow][DesiredColumn] = m_TileObjects[MovingTileRow][MovingTileColumn];
+
+			m_TileObjects[MovingTileRow][MovingTileColumn].reset();
+
+			TileInFrontTileComponent->SetActive(PengoDirection);
+			dae::SoundSystem& audio{ dae::Audio::Get() };
+			audio.Play(s_PushedBlockSound, 1.f, 0);
 		}
 
+
+
+
+
+
+
+
+
+
 	}
+
+
+
+
+	//commet tnis before trying 
+
+
+	/////////////////////////////////////////////////////////
+
+
+	//int TilesToChekc{ 1 };
+
+	//auto HasBlockInFrontOneCube = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
+	//auto HasBlockInFrontSpecial = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, SPECIAL_CUBE);
+
+	//if (!HasBlockInFrontOneCube.m_hasSomething)
+	//{
+	//	std::cout << "No block In front\n";
+	//}
+	//else
+	//{
+	//	std::cout << "Has Block In front\n";
+	//	TilesToChekc = 2;
+
+
+
+
+
+	//	auto HasBlockInFrontTwoCubes = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
+	//	auto IsThereWallTwoSpacesAway = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,COLLISION);
+
+	//	// 
+	//	if (HasBlockInFrontTwoCubes.m_hasSomething || IsThereWallTwoSpacesAway.m_hasSomething)  // 2 blocks away there is something 
+	//	{
+
+	//		if (m_TileObjects[HasBlockInFrontTwoCubes.row][HasBlockInFrontTwoCubes.column] || IsThereWallTwoSpacesAway.m_hasSomething)
+	//		{
+	//			//break one in front 
+	//			if (m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column])
+	//			{
+	//				auto object = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
+
+	//				if (object)
+	//				{
+	//					//Destroy the object 
+	//					//delete the object  from array 
+	//					//update the map 
+	//					//destroy if cube is also a wall 
+	//					dae::SoundSystem& audio{ dae::Audio::Get() };
+	//					audio.Play(s_IceBlockDestroyed, 1.f, 0);
+	//					object->GetComponent<dae::RenderComponent>()->SwapVisibility();
+	//					m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
+	//					MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
+	//					std::cout << MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] << "\n";
+
+	//				}
+	//				else
+	//				{
+
+	//				}
+
+
+
+	//			}
+	//		}
+	//	}
+
+	//	else  
+	//	{    // block in front but not behind it 
+
+	//		
+
+	//		TileInfo NextOccupiedTile{};
+	//		TileInfo NextFoundCollision{};
+	//		do
+	//		{
+	//			TilesToChekc++;
+	//			NextOccupiedTile = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,BLOCK);
+	//			NextFoundCollision = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,COLLISION);
+
+	//		} while (!NextOccupiedTile.m_hasSomething && !NextFoundCollision.m_hasSomething);
+
+
+	//		auto TileInFrontTileComponent = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column]->GetComponent<dae::TileComponent>();
+	//			
+	//		int DesiredRow{};
+	//		int DesiredColumn{};
+
+
+	//		// block 
+
+	//		if (NextOccupiedTile.m_hasSomething)  //maybe chnage this later 
+	//		{
+	//			if (TileInFrontTileComponent)
+	//			{
+	//		       std::cout << NextOccupiedTile.row << " " << NextOccupiedTile.column << "\n";
+
+	//				ReturnDesired(DesiredRow, DesiredColumn, NextOccupiedTile);
+
+	//		      std::cout << DesiredRow << " " << DesiredColumn << "\n";
+	//			
+	//				TileInFrontTileComponent->m_DesiredRow = DesiredRow;
+	//				TileInFrontTileComponent->m_DesiredColumn = DesiredColumn;
+
+
+	//				MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
+	//				MapArray[DesiredRow][DesiredColumn] = BLOCK;  //Other it has to be COLLISION
+
+
+	//				m_TileObjects[DesiredRow][DesiredColumn] = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
+
+	//				m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
+
+	//				TileInFrontTileComponent->SetActive(PengoDirection);
+
+	//				dae::SoundSystem& audio{ dae::Audio::Get() };
+	//				audio.Play(s_PushedBlockSound, 1.f, 0);
+
+	//			}
+
+	//		}
+	//		else
+	//		{
+
+	//			//For collision 
+	//			if (TileInFrontTileComponent)
+	//			{
+	//				dae::SoundSystem& audio{ dae::Audio::Get() };
+	//				audio.Play(s_PushedBlockSound, 1.f, 0);
+
+	//				std::cout << NextFoundCollision.row << " " << NextFoundCollision.column << "\n";
+	//				
+	//				ReturnDesired(DesiredRow, DesiredColumn, NextFoundCollision);
+	//				std::cout << DesiredRow << " " << DesiredColumn << "\n";
+
+
+	//				TileInFrontTileComponent->m_DesiredRow = DesiredRow;
+	//				TileInFrontTileComponent->m_DesiredColumn = DesiredColumn;
+
+
+	//				MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
+	//				MapArray[DesiredRow][DesiredColumn] = BLOCK;  //Other it has to be COLLISION
+
+	//				m_TileObjects[DesiredRow][DesiredColumn] = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
+
+	//				m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
+
+
+	//				TileInFrontTileComponent->SetActive(PengoDirection);
+
+	//			}
+
+
+	//		}
+
+	//	}
+
+	//}
 
 	std::cout << "\n\n\n";
 
 }
 
+void dae::MapComponent::DestroyCube(dae::TileInfo& HasBlockInFrontOneCube)
+{
+	auto object = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
 
-dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int row, int column, int numberTilesToCheck,int TypeOBlock)
+	if (object)
+	{
+
+		dae::SoundSystem& audio{ dae::Audio::Get() };
+		audio.Play(s_IceBlockDestroyed, 1.f, 0);
+		object->GetComponent<dae::RenderComponent>()->SwapVisibility();
+		m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
+		MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
+		std::cout << MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] << "\n";
+
+	}
+}
+
+
+
+dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int row, int column, int numberTilesToCheck, int TypeOBlock)
 {
 
 	TileInfo TileInfo{};
@@ -425,7 +629,7 @@ bool dae::MapComponent::HasBlockIn(int row, int column)
 	return false;
 }
 
-void dae::MapComponent::ReturnDesired(int & row, int & column, const TileInfo & Tile)
+void dae::MapComponent::ReturnDesired(int& row, int& column, const TileInfo& Tile)
 {
 
 	row = Tile.row;
@@ -433,10 +637,10 @@ void dae::MapComponent::ReturnDesired(int & row, int & column, const TileInfo & 
 
 	switch (Tile.direction)
 	{
-	case Direction::UP:             
+	case Direction::UP:
 
 		row += 1;
-		
+
 
 		break;
 	case Direction::DOWN:
@@ -446,7 +650,7 @@ void dae::MapComponent::ReturnDesired(int & row, int & column, const TileInfo & 
 		break;
 	case Direction::LEFT:
 
-	
+
 		column += 1;
 
 
@@ -458,7 +662,62 @@ void dae::MapComponent::ReturnDesired(int & row, int & column, const TileInfo & 
 	default:
 		break;
 	}
+
+}
+
+bool dae::MapComponent::HasThreeAlignedTiles(const std::vector<TileInfo>& tiles)
+{
 	
+	std::unordered_map<int, std::vector<int>> rows;    // row index -> list of columns
+	std::unordered_map<int, std::vector<int>> columns; // column index -> list of rows
+
+	// Group tiles by row and column
+	for (const TileInfo& tile : tiles) {
+		rows[tile.row].push_back(tile.column);
+		columns[tile.column].push_back(tile.row);
+	}
+
+	// Helper lambda to check for 3 or more consecutive values
+	auto hasThreeConsecutive = [](std::vector<int>& values) -> bool {
+		if (values.size() < 3) return false;
+
+		std::sort(values.begin(), values.end());
+		int count = 1;
+
+		for (size_t i = 1; i < values.size(); ++i) {
+			if (values[i] == values[i - 1] + 1) {
+				count++;
+				if (count >= 3) return true;
+			}
+			else if (values[i] != values[i - 1]) {
+				count = 1;
+			}
+		}
+
+		return false;
+		};
+
+
+	for (auto& pair : rows) {
+		int rowIndex = pair.first;
+		auto& columnList = pair.second;
+
+		if (hasThreeConsecutive(columnList))
+			return true;
+	}
+	
+
+
+	// Check each column for 3+ consecutive rows
+	
+	for (auto& pair : columns) {
+		int columnIndex = pair.first;
+		auto& rowList = pair.second;
+
+		if (hasThreeConsecutive(rowList))
+			return true;
+	}
+	return false;
 }
 
 

@@ -27,7 +27,7 @@ namespace dae
 		int m_CurrentRow = 0;
 		int m_CurrentColumn = 0;
 		bool m_StartMoving = false;
-		float m_MovementSpeed = 120.f;
+		float m_MovementSpeed = 240.f;
 		
 		float halfWidth{};
 		float halfHeight{};

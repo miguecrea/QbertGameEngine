@@ -73,7 +73,7 @@ void dae::MoveGridCommand::Execute()
 	//new Position mas with de la sprite s menor todvai esta fuera de la positio n
 
 	// si la posicion de la x +width es todavia adentro 
-	if (m_MapComponent->MapArray[row][column] != 9 && m_MapComponent->MapArray[row][column] != 8)
+	if (m_MapComponent->MapArray[row][column] != 9 && m_MapComponent->MapArray[row][column] != 8 )
 	{
 	m_Pengo->SetPosition(newPosition.x, newPosition.y);
 

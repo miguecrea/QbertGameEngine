@@ -34,7 +34,7 @@ void SetPositionCommand::Execute()
 
 	m_renderComponent->m_state = m_QbertState;
 	dae::SoundSystem& audio{ dae::Audio::Get() };
-	audio.Play(s_QbertJump,m_Volume, 1);
+	audio.Play(S_CubesAligned,m_Volume, 1);
 
 	auto JumpAnimation = m_pGameObject->GetComponent<dae::JumpAnimationComponent>();
 	JumpAnimation->SetDirectionInt(m_QbertState);

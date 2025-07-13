@@ -8,7 +8,7 @@ extern int m_MrsPacmanState;
 extern int s_GameSoundId;   //id of music
 extern int s_MenuMusicId;  //
 extern int s_IceBlockDestroyed;
-extern int s_QbertJump;
+extern int S_CubesAligned;
 extern int s_Score;
 extern int s_Lives;
 extern int s_QbertDead;
