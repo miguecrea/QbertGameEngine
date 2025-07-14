@@ -20,7 +20,7 @@ namespace dae
         static int m_index;
     private:
  
-        const int MAX_NUMBER_SCENES = 6;
+        const int MAX_NUMBER_SCENES = 3;
     };
 }
 

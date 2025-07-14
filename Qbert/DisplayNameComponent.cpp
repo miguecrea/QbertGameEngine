@@ -14,7 +14,8 @@ void dae::DisplayNameComponent::Update()
 		s_HighScore = highScoreData.first;
 		s_HighesScorePlayerName = highScoreData.second;
 
-		if (s_Score > s_HighScore) {
+		if (s_Score > s_HighScore) 
+		{
 			writeMaxScore("max.txt", s_Score, s_PlayerName);
 			s_HighScore = s_Score;
 			s_HighesScorePlayerName = s_PlayerName;

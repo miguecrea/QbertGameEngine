@@ -5,6 +5,7 @@
 #include<string>
 #include <unordered_set>
 #include"DelegateBase.h"
+#include<vector>
 
 namespace dae
 {
@@ -13,7 +14,7 @@ namespace dae
 	{
 	public:
 
-		CollisionWithComponent(std::shared_ptr<GameObject> & CollideObject);    /// vector
+		CollisionWithComponent(std::vector<std::shared_ptr<GameObject>> & CollideObject);    /// vector
 		virtual ~CollisionWithComponent() = default;
 		CollisionWithComponent(const CollisionWithComponent& other) = default;
 		CollisionWithComponent(CollisionWithComponent&& other) = default;
@@ -49,6 +50,9 @@ namespace dae
 
 		std::vector<GameObject*> m_PossibleCollidedObjects;
 		std::unordered_set<GameObject*> m_CollidedObjects;   ///
+
+
+		std::vector<std::shared_ptr<GameObject>> m_CollideObjects;
 
 		bool m_canCollide = true;
 		static bool m_canPlaysound;

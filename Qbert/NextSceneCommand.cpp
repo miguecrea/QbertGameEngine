@@ -29,7 +29,7 @@ void dae::NextSceneCommand::Execute()
 	//if (nameOfScene != SCORE_SCENE && nameOfScene != INPUT_NAME_SCENE)
 	//{
 	//	auto render = scene->m_player->GetComponent<dae::RenderComponent>();
-		//AddControllerKeyboardPlayer1(scene->m_player, render);
+	//	AddControllerKeyboardPlayer1(scene->m_player, render);
 	//}
 	//if (nameOfScene == CO_OP_SCENE)
 	//{
@@ -45,8 +45,7 @@ void dae::NextSceneCommand::Execute()
 	//	s_Lives = 7;
 	//}
 
-	dae::SoundSystem& audio{ dae::Audio::Get() };
-	audio.Play(s_GameSoundId, 0.5f, 1);
+	//
 }
 
 void dae::NextSceneCommand::Undo()

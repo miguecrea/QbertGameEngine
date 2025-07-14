@@ -36,7 +36,7 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				auto DiamondBlockGameObject = std::make_shared<dae::GameObject>();
 				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
 				auto TileComponent = std::make_shared<dae::TileComponent>();
-				DiamondBlockRenderer->SetTexture("DiamondBlock.png");
+				DiamondBlockRenderer->SetTexture("MIGUEL_IceCubeBlock.png");
 				DiamondBlockRenderer->SetDimension(3.f);
 				DiamondBlockGameObject->AddComponent(DiamondBlockRenderer);
 				DiamondBlockGameObject->AddComponent(TileComponent);
@@ -53,7 +53,7 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
 				auto TileComponent = std::make_shared<dae::TileComponent>();
 				DiamondBlockRenderer->SetTexture("DiamondBlock.png");
-				DiamondBlockRenderer->SetDimension(2.f);
+				DiamondBlockRenderer->SetDimension(3.f);
 				DiamondBlockGameObject->AddComponent(DiamondBlockRenderer);
 				DiamondBlockGameObject->AddComponent(TileComponent);
 				DiamondBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
@@ -96,7 +96,7 @@ void dae::MapComponent::Render()
 	{
 		for (size_t X = 0; X < m_NumberTilesX; X++)
 		{
-			Renderer::GetInstance().DrawSquare(0.f + m_TileSize * X, 0.f + m_TileSize * Y, m_TileSize, SDL_Color{ 255,255,255,250 });
+			//Renderer::GetInstance().DrawSquare(0.f + m_TileSize * X, 0.f + m_TileSize * Y, m_TileSize, SDL_Color{ 255,255,255,250 });
 		}
 	}
 }
@@ -266,14 +266,6 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 					std::cout << "No alignment.\n";
 				}
 
-
-
-
-
-
-
-
-
 				
 			}
 
@@ -288,14 +280,6 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 			dae::SoundSystem& audio{ dae::Audio::Get() };
 			audio.Play(s_PushedBlockSound, 1.f, 0);
 		}
-
-
-
-
-
-
-
-
 
 
 	}

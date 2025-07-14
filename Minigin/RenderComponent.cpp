@@ -58,9 +58,7 @@ void dae::RenderComponent::Draw()
 	{
 		glm::vec3 position{ GetOwner()->GetWorldPosition() };
 
-		//position.x *= 2;
-		//position.y *= 2;
-
+	
 		m_LastPosition = position;
 
 		if (m_useAnimation)

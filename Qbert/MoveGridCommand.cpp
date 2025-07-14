@@ -8,8 +8,8 @@
 #include"DebugRenderComponent.h"
 
 
-dae::MoveGridCommand::MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject, std::shared_ptr<dae::GameObject> map):
-	m_Pengo{pGameObject},m_Map{map}
+dae::MoveGridCommand::MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject, std::shared_ptr<dae::GameObject> map, Direction Pengodirec,bool usekeybaord):
+	m_Pengo{pGameObject},m_Map{map},m_PengoDirection{ Pengodirec},m_usekeyboard{usekeybaord}
 
 {
 	m_RenderComponent = m_Pengo->GetComponent<dae::RenderComponent>();
@@ -21,59 +21,75 @@ dae::MoveGridCommand::MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObje
 
 	}
 
-	//save the map on the scene or in the player 
 }
+
 
 void dae::MoveGridCommand::Execute()
 {
 
 
-	// handle movement event 
 
-	//make sure map is not 
-
-
-
-	if (glm::length(m_Value) < deadzone) return;
-
-	if (abs(m_Value.x) > abs(m_Value.y))  // Prioritize horizontal
+	if (m_usekeyboard)
 	{
-		m_Direction = { (m_Value.x > 0.f ? 1.f : -1.f), 0.f,0.f};
+		switch (m_PengoDirection)
+		{
+		case Direction::UP:
 
-		RenderingX();
+			m_Direction = glm::vec3(0.f, -1.f,0);
+			m_RenderComponent->m_state = 2;
+			m_PengoComponent->m_CurrentDirection = Direction::UP;
+			break;
+		case Direction::DOWN:
+			m_Direction = glm::vec3(0.f, 1.f,0);
+			m_RenderComponent->m_state = 0;
+			m_PengoComponent->m_CurrentDirection = Direction::DOWN;
+
+			break;
+		case Direction::LEFT:
+			m_Direction = glm::vec3(-1.f, 0.f,0);
+			m_RenderComponent->m_state = 1;
+			m_PengoComponent->m_CurrentDirection = Direction::LEFT;
+
+
+			break;
+		case Direction::RIGHT:
+			m_Direction = glm::vec3(1.f, 0.f,0);
+			m_RenderComponent->m_state = 3;
+			m_PengoComponent->m_CurrentDirection = Direction::RIGHT;
+
+
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		if (glm::length(m_Value) < deadzone) return;
+
+		if (abs(m_Value.x) > abs(m_Value.y))  // Prioritize horizontal
+		{
+			m_Direction = { (m_Value.x > 0.f ? 1.f : -1.f), 0.f,0.f };
+
+			RenderingX();
+
+		}
+		else
+		{
+			m_Direction = { 0.f, (m_Value.y > 0.f ? 1.f : -1.f),0.0f };
+
+			HandleRendering();
+		}
 
 	}
-	else 
-	{
-		m_Direction = { 0.f, (m_Value.y > 0.f ? 1.f : -1.f),0.0f};
 
-		HandleRendering();
-	}
 
 	glm::vec3 newPosition = m_Pengo->GetWorldPosition() + m_Direction * SceneManager::GetInstance().GetDeltaTime() * moveSpeed;
 
 	int column = static_cast<int>(std::floor(newPosition.x / tileSize));
-	int row = static_cast<int>(std::floor(newPosition.y / tileSize));
+	int row = static_cast<int>(std::floor(newPosition.y/ tileSize));
 
-
-
-	// o si la row y la cumun de esa poscion + size esta afuear ta,bien 
-
-
-
-
-
-	//glm::vec3 snappedPosition{ column * tileSize, row * tileSize, 0.f };
-
-	//std::cout << row << " " << column << "\n";
-
-	//make sure the snapping works 
-
-
-	//new Position mas with de la sprite s menor todvai esta fuera de la positio n
-
-	// si la posicion de la x +width es todavia adentro 
-	if (m_MapComponent->MapArray[row][column] != 9 && m_MapComponent->MapArray[row][column] != 8 )
+	if (m_MapComponent->MapArray[row][column] != 9 && m_MapComponent->MapArray[row][column] != 8 && m_MapComponent->MapArray[row][column] != 5)
 	{
 	m_Pengo->SetPosition(newPosition.x, newPosition.y);
 

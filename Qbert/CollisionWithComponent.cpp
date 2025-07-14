@@ -19,8 +19,8 @@
 #include"EnemyJumpComponent.h"
 
 
-dae::CollisionWithComponent::CollisionWithComponent(std::shared_ptr<GameObject> & CollideObject) :
-	m_CollideObject{ CollideObject }
+dae::CollisionWithComponent::CollisionWithComponent(std::vector<std::shared_ptr<GameObject>>& CollideObject) :
+	m_CollideObjects{ CollideObject }
 {
 }
 
@@ -40,43 +40,44 @@ void dae::CollisionWithComponent::Update()
 
 	SDL_Rect selfRect = this->GetOwner()->GetComponent<dae::RectangleComponent>()->GetRect();
 
-	if (Collides(selfRect, m_CollideObject->GetComponent<dae::RectangleComponent>()->GetRect()))
+	///  if it collides it send an event to itself to that one collided 
+    //with the tag 
+
+
+	for (size_t i = 0; i < m_CollidedObjects.size(); i++)
 	{
-		if (m_CanBroadCastEvent)
+		if (Collides(selfRect, m_CollideObjects[i]->GetComponent<dae::RectangleComponent>()->GetRect()))
 		{
-			m_CanBroadCastEvent = false;
-			auto GameObjectsTag = this->GetOwner()->GetComponent<dae::TagComponent>();
-			auto CollidingObjectTag = m_CollideObject->GetComponent<dae::TagComponent>();     
-
-			std::string tag{};
-			if (CollidingObjectTag)
+			if (m_CanBroadCastEvent)
 			{
-				tag = CollidingObjectTag->GetTag();
+				m_CanBroadCastEvent = false;
+				auto GameObjectsTag = this->GetOwner()->GetComponent<dae::TagComponent>();
+				auto CollidingObjectTag = m_CollideObject->GetComponent<dae::TagComponent>();
+
+				std::string tag{};
+				if (CollidingObjectTag)
+				{
+					tag = CollidingObjectTag->GetTag();
+				}
+
+				if (GameObjectsTag)
+				{
+					m_OnCollisionEvent.Broadcast(GameObjectsTag->GetTag(), tag);
+					// with send to itself 
+
+
+				}
+				else
+				{
+					std::cout << "Error\n";
+				}
+
 			}
-
-			if (GameObjectsTag)
-			{
-				m_OnCollisionEvent.Broadcast(GameObjectsTag->GetTag(),tag);
-
-
-
-
-
-
-
-
-
-			}
-			else
-			{
-				std::cout << "Error\n";
-			}
-
 		}
-	}
-	else
-	{
-		m_CanBroadCastEvent = true;
+		else
+		{
+			m_CanBroadCastEvent = true;
+		}
 	}
 
 }

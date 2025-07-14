@@ -23,7 +23,7 @@ namespace dae
 {
 	class SceneManager;
 	class MapComponent;
-
+	class RenderComponent;
 
 	class AIComponent :public Component
 	{
@@ -38,6 +38,7 @@ namespace dae
 		std::shared_ptr<GameObject> m_Map = nullptr;
 		std::shared_ptr<GameObject> m_Target = nullptr;
 		std::shared_ptr<MapComponent> m_mapComponent;
+		std::shared_ptr<RenderComponent> m_renderComponent;
 		dae::GameObject * m_Self = nullptr;
 		float m_Speed = 50.f;
 
@@ -62,6 +63,13 @@ namespace dae
 		bool m_CanUpdateFirstNode = true;
 
 		glm::vec2 m_targetNode{};
+
+		bool m_StopAi = false;
+		bool m_startTimer = false;
+		float m_TotalTimeElasped = 0;
+		float m_TimerUntilMovingAgain = 4.f;
+
+		void StunEnemy();
 
 
 

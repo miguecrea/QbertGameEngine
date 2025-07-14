@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include"Command2D.h"
 #include<memory>
+#include"PengoDirection.h"
 namespace dae
 {
     class GameObject;
@@ -12,7 +13,7 @@ namespace dae
     class MoveGridCommand : public Command2D
     {
     public:
-        MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject, std::shared_ptr<dae::GameObject> map);
+        MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject, std::shared_ptr<dae::GameObject> map,Direction Pengodirec = Direction::DOWN,bool usekeybaord = false);
        virtual void Execute() override;
 
        void RenderingX();
@@ -26,6 +27,8 @@ namespace dae
         std::shared_ptr<dae::GameObject> m_Map;
         std::shared_ptr<dae::RenderComponent> m_RenderComponent;
         std::shared_ptr<dae::PengoComponent> m_PengoComponent;
+        Direction m_PengoDirection;
+        bool m_usekeyboard = false;
 
         std::shared_ptr<dae::MapComponent> m_MapComponent;
         glm::vec3 m_Direction;

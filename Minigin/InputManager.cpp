@@ -23,7 +23,7 @@ void dae::InputManager::ClearSpecificControllerAndKeyboard()
 
 	m_Keyboard.ClearWRSFkeys();
 
-	m_pControllers.clear();  
+	//m_pControllers.clear();  
 
 
 }

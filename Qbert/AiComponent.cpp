@@ -11,6 +11,7 @@
 #include <stack>
 #include <array>
 #include"staticHeader.h"
+#include"RenderComponent.h"
 
 
 
@@ -43,7 +44,13 @@ void dae::AIComponent::BeginPlay()
 
 	m_Self = this->GetOwner();
 
+
+	
 	m_mapComponent = m_Map->GetComponent<dae::MapComponent>();
+	m_mapComponent->m_On3TilesMatched.Add(std::bind(&AIComponent::StunEnemy, this));
+
+
+	m_renderComponent = this->GetOwner()->GetComponent<dae::RenderComponent>();
 
 
 	if (!m_Self)
@@ -257,6 +264,13 @@ std::vector<Node> dae::AIComponent::aStar(Node agent, Node dest)
 	return empty;
 }
 
+void dae::AIComponent::StunEnemy()
+{
+	m_StopAi = true;
+	m_startTimer = true;
+	m_renderComponent->m_state = 1;
+}
+
 
 std::vector<Node> dae::AIComponent::makePath(std::vector<std::vector<Node>> map, Node dest) {
 	try {
@@ -332,6 +346,23 @@ void dae::AIComponent::Render()
 void dae::AIComponent::Update()
 {
 
+	if (m_startTimer)
+	{
+		m_TotalTimeElasped += m_pSceneManager->GetDeltaTime();
+
+		if (m_TotalTimeElasped >= m_TimerUntilMovingAgain)
+		{
+			m_TotalTimeElasped = 0;
+			m_startTimer = false;
+			m_StopAi = false;
+			m_renderComponent->m_state = 0;
+
+		}
+
+	}
+
+
+	if (m_StopAi) return;
 
 	Node currentPos;
 	//  //column 1

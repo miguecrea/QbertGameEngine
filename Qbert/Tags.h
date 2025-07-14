@@ -3,6 +3,7 @@
 
 
 extern std::string INVISIBLE_RECT;
+extern std::string MENU_SCENE;
 extern std::string SNAKE_AI;
 extern std::string BOTTOM_RECT;
 extern std::string SNAKE_PLAYER;

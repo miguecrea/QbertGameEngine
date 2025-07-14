@@ -34,12 +34,17 @@ void dae::SkipLevelsCommand::Execute()
 
 void dae::SkipLevelsCommand::ClearInputBindings(dae::InputManager& input)
 {
-	auto newScene = SceneManager::GetInstance().GetCurrentScene();
-	input.ClearSpecificControllerAndKeyboard();
-	auto render = newScene->m_player->GetComponent<dae::RenderComponent>();
-	AddControllerKeyboardPlayer1(newScene->m_player, render);
-	dae::SoundSystem& audio{ dae::Audio::Get() };
-	audio.Play(s_GameSoundId, 0.5f, 1);
+	//auto newScene = SceneManager::GetInstance().GetCurrentScene();
+	//input.ClearSpecificControllerAndKeyboard();
+	//auto render = newScene->m_player->GetComponent<dae::RenderComponent>();
+	//AddControllerKeyboardPlayer1(newScene->m_player, render);
+	//dae::SoundSystem& audio{ dae::Audio::Get() };
+	//audio.Play(s_GameSoundId, 0.5f, 1);
+
+	////add keybard ad mouse 
+
+
+
 }
 
 void dae::SkipLevelsCommand::ChooseScene()
@@ -48,36 +53,16 @@ void dae::SkipLevelsCommand::ChooseScene()
 	{
 	case 1:
 
-		SceneManager::GetInstance().SetCurrentScene(LEVEL_1_TUTORIAL);
-
-		break;
-
-	case 2:
 		SceneManager::GetInstance().SetCurrentScene(SINGLE_PLAYER_SCENE);
-
+		break;
+	case 2:
+		SceneManager::GetInstance().SetCurrentScene(LEVEL_2);
 		break;
 
 	case 3:
-		SceneManager::GetInstance().SetCurrentScene(LEVEL_2_TUTORIAL);
-
-		break;
-
-	case 4:
-
-		SceneManager::GetInstance().SetCurrentScene(LEVEL_2);
-
-		break;
-
-	case 5:
-		SceneManager::GetInstance().SetCurrentScene(LEVEL_3_TUTORIAL);
-
-		break;
-
-	case 6:
 		SceneManager::GetInstance().SetCurrentScene(LEVEL_3);
 
 		break;
-
 	default:
 		SceneManager::GetInstance().SetCurrentScene(LEVEL_3);
 		break;

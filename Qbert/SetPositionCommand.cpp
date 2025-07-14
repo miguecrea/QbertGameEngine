@@ -20,25 +20,7 @@ SetPositionCommand::SetPositionCommand(GameObject *  pGameObject, const glm::vec
 void SetPositionCommand::Execute()
 {
 
-	if (!m_pGameObject) return;
-	if (!s_CanUseInput) return;
 
-	auto InputAndTimer = m_pGameObject->GetComponent<dae::TimerAndInputComponent>();
-	auto CollisionComponent = m_pGameObject->GetComponent<dae::CollisionComponent>();
-
-	if (CollisionComponent->IsFalling()) return;
-
-	if (InputAndTimer->GetCanUseInput() == false) return;
-
-	InputAndTimer->StartTimer();
-
-	m_renderComponent->m_state = m_QbertState;
-	dae::SoundSystem& audio{ dae::Audio::Get() };
-	audio.Play(S_CubesAligned,m_Volume, 1);
-
-	auto JumpAnimation = m_pGameObject->GetComponent<dae::JumpAnimationComponent>();
-	JumpAnimation->SetDirectionInt(m_QbertState);
-	JumpAnimation->SetAcive(true);
 
 }
 
