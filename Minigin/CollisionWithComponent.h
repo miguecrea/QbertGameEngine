@@ -32,7 +32,7 @@ namespace dae
 
 	
 
-		MulticastDelegate <std::string, std::string> m_OnCollisionEvent;
+		MulticastDelegate <std::shared_ptr<GameObject>> m_OnCollisionEvent;
 		std::unordered_set<size_t> m_CurrentlyCollidingTiles;
 		std::shared_ptr<GameObject> m_CollideObject;
 		bool m_IsTutorial = false;

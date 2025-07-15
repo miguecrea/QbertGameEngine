@@ -14,7 +14,7 @@ namespace dae
 	public:
 
 
-		LivesComponent(std::shared_ptr<TextComponent> pTextComponent = nullptr, int priority = 0);
+		LivesComponent();
 		virtual ~LivesComponent();
 		LivesComponent(const LivesComponent& other) = default;
 		LivesComponent(LivesComponent&& other) = default;
@@ -25,13 +25,12 @@ namespace dae
 		virtual void Render();
 		virtual void Update() override;
 
-		int m_lives{};
-		int GetLives() const;
+		void DecreaseLive();
+		bool m_PlayBackGroundMusic = false;
+		float m_Timer = 0.f;
+		bool m_StartTimer = false;
 
 	private:
-
-
-		std::shared_ptr<TextComponent> m_pTextComponent;
 	};
 }
 

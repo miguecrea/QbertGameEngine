@@ -63,7 +63,7 @@ void dae::OpenLevelCommand::Execute()
 				};
 
 			dae::SoundSystem& audio{ dae::Audio::Get() };
-			audio.Play(s_MenuMusicId, 0.5f, 100);
+			audio.Play(s_MenuMusicId, 0.2f, 100);
 
 
 		}
@@ -87,36 +87,7 @@ void dae::OpenLevelCommand::Execute()
 			//needs to be scene.addEndmy 
 
 		}
-		else if (SaveLevelComppnent->GetLevelName() == INPUT_NAME_SCENE)
-		{
-
-
-			input.m_PostClearCallback = [=]()
-				{
-					auto controller = InputManager::GetInstance().AddController();
-					//controller->MapCommandToThumbstick(dae::Controller::ControllerThumbsticks::LeftThumbstick, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map));
-					controller->MapCommandToButton(dae::Controller::ControllerButtons::ButtonA, std::make_unique<dae::LockInCommand>(scene->m_Obejects), dae::ButtonState::Up);
-
-					controller->MapCommandToButton(dae::Controller::ControllerButtons::DPadUp, std::make_unique<dae::ChangeSelectionCommand>(scene->m_Obejects, 0, Direction::UP),dae::ButtonState::Up);
-					controller->MapCommandToButton(dae::Controller::ControllerButtons::DPadLeft, std::make_unique<dae::ChangeSelectionCommand>(scene->m_Obejects, 0, Direction::LEFT),dae::ButtonState::Up);
-					controller->MapCommandToButton(dae::Controller::ControllerButtons::DPadRight, std::make_unique<dae::ChangeSelectionCommand>(scene->m_Obejects, 0, Direction::RIGHT),dae::ButtonState::Up);
-					controller->MapCommandToButton(dae::Controller::ControllerButtons::DPadDown, std::make_unique<dae::ChangeSelectionCommand>(scene->m_Obejects, 0,Direction::DOWN),dae::ButtonState::Up);
-
-
-
-
-
-
-				};
-
-			dae::SoundSystem& audio{ dae::Audio::Get() };
-			audio.Play(s_QbertDead, 0.5f, 0);
-
-
-
-
-		}
-
+	
 	}
 }
 

@@ -58,11 +58,27 @@ void dae::CollisionWithComponent::Update()
 			{
 			    m_CurrentlyCollidingTiles.insert(i);
 
-				std::cout << "Collided with tile index: " << '\n';
+
+				m_OnCollisionEvent.Broadcast(m_CollideObjects[i]);
+
+
+			//	auto TagComponent = m_CollideObjects[i]->GetComponent<dae::TagComponent>();
+
+				//if (TagComponent)
+				//{
+
+				//	//enemy and player 
+
+				//}
+
+				//even if it colliders with player 
+				//if(tag->player)
 
 
 
-				//m_OnCollisionEvent.Broadcast(GameObjectsTag->GetTag(), CollidingObjectTag->GetTag());
+
+
+
 
 
 			}

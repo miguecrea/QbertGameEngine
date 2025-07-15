@@ -19,3 +19,5 @@ extern std::string SINGLE_PLAYER_SCENE ;
 extern std::string LEVEL_2_TUTORIAL ;
 extern std::string LEVEL_2 ;
 extern std::string LEVEL_3;
+extern std::string PENGO;
+extern std::string CUBE;

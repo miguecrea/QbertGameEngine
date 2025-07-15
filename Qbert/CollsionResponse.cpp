@@ -15,6 +15,8 @@
 #include"RectangleComponent.h"
 #include"SceneManager.h"
 #include"Tags.h"
+#include"LivesComponent.h"
+
 dae::CollsionResponse::CollsionResponse()
 {
 }
@@ -27,16 +29,12 @@ void dae::CollsionResponse::BeginPlay()
 	
 	if (m_CollisionWithComponent)
 	{
-		/*m_CollidedObjectReference = m_CollisionWithComponent->m_CollideObject;
-
-		if (m_CollidedObjectReference)
-		{
-			GetComponents();
-		}
-		m_CollisionWithComponent->m_OnCollisionEvent.Add([this](std::string tag, std::string CollidedObjectTag) {
-			OnCollision(tag, CollidedObjectTag);
+		
+		m_CollisionWithComponent->m_OnCollisionEvent.Add([this](std::shared_ptr<dae::GameObject> CollidedObject) 
+			{
+			OnCollision(CollidedObject);
 			}
-		);*/
+		);
 
 	}
 }
@@ -60,21 +58,40 @@ void dae::CollsionResponse::Update()
 {
 }
 
-void dae::CollsionResponse::OnCollision(std::string selftag, std::string CollidedObjecTag)
+void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> CollidedObject)
 {
+	//in a real scale game I can just cast to an interface and executed csutom function for each
+
+
+	if (auto tagComponent = CollidedObject->GetComponent<TagComponent>())
+	{
+		if (tagComponent->GetTag() == CUBE)
+		{
+
+		   std::cout << " Enemy cOLLIDED  tile \n";
+
+			
+		}
+		else if (tagComponent->GetTag() == PENGO)
+		{
+			auto liveComponent = CollidedObject->GetComponent<dae::LivesComponent>();
+			if (liveComponent)
+			{
+				liveComponent->DecreaseLive();
+			}
+		std::cout << " Enemy cOLLIDED  Pengo \n";
+		}
+
+	}
+
+
+	if (CollidedObject)
+	{
+	}
+
+	//std::cout << " Enemy Died\n";
 	// for player -- Live if live is <= 0 , set scene input names with all the commans controller , i 
-
-
-
 	//enemies should die if collides with cube 
-
-
-
-
-
-
-
-
 
 
 	

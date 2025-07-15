@@ -14,6 +14,13 @@ void dae::GameManagerComponent::BeginPlay()
 	auto MapComponent = m_Map->GetComponent<dae::MapComponent>();
 
 	MapComponent->m_On3TilesMatched.Add(std::bind(&GameManagerComponent::TilesMatchedResponse, this));
+
+
+
+
+
+
+
 }
 
 void dae::GameManagerComponent::Render()
@@ -28,7 +35,7 @@ void dae::GameManagerComponent::TilesMatchedResponse()
 {
 
 	dae::SoundSystem& audio{ dae::Audio::Get() };
-	audio.Play(S_CubesAligned, 1.f, 3);
+	audio.Play(S_CubesAligned, 0.2f,1);
 
 
 

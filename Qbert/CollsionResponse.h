@@ -28,7 +28,7 @@ namespace dae
         void  Update() override;
         
 
-        void OnCollision(std::string selftag, std::string CollidedObjecTag);
+        void OnCollision(std::shared_ptr<dae::GameObject> CollidedObject);
 
         std::shared_ptr<dae::GameObject> m_CollidedObjectReference;
  

@@ -13,6 +13,8 @@
 #include"Audio.h"
 #include"staticHeader.h"
 #include"RectangleComponent.h"
+#include"TagComponent.h"
+#include"Tags.h"
 
 #define BLOCK 9
 #define COLLISION 8
@@ -26,8 +28,6 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 
 	//ParseMaps
 
-
-
 	for (int y = 0; y < m_NumberTilesY; ++y)
 	{
 		for (int x = 0; x < m_NumberTilesX; ++x)
@@ -38,11 +38,14 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
 				auto TileComponent = std::make_shared<dae::TileComponent>();
 				auto RectComponent = std::make_shared<dae::RectangleComponent>(48,48);
+				auto TagComponent = std::make_shared<dae::TagComponent>(CUBE);
+
 				DiamondBlockRenderer->SetTexture("MIGUEL_IceCubeBlock.png");
 				DiamondBlockRenderer->SetDimension(3.f);
 				IceBlockGameObject->AddComponent(DiamondBlockRenderer);
 				IceBlockGameObject->AddComponent(RectComponent);
 				IceBlockGameObject->AddComponent(TileComponent);
+				IceBlockGameObject->AddComponent(TagComponent);
 				IceBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
 				SceneManager::GetInstance().GetCurrentScene()->Add(IceBlockGameObject);
 				m_TileObjects[y][x] = IceBlockGameObject;
@@ -59,12 +62,14 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
 				auto TileComponent = std::make_shared<dae::TileComponent>();
 				auto RectComponent = std::make_shared<dae::RectangleComponent>(48, 48);
+				auto TagComponent = std::make_shared<dae::TagComponent>(CUBE);
 
 				DiamondBlockRenderer->SetTexture("DiamondBlock.png");
 				DiamondBlockRenderer->SetDimension(3.f);
 				DiamondBlockGameObject->AddComponent(DiamondBlockRenderer);
 				DiamondBlockGameObject->AddComponent(TileComponent);
 				DiamondBlockGameObject->AddComponent(RectComponent);
+				DiamondBlockGameObject->AddComponent(TagComponent);
 				DiamondBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
 				SceneManager::GetInstance().GetCurrentScene()->Add(DiamondBlockGameObject);
 				m_TileObjects[y][x] = DiamondBlockGameObject;
@@ -153,11 +158,7 @@ void dae::MapComponent::parseMapFile(const std::string& filename)
 void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int currenRow, int currentColumn)
 {
 
-	//std::cout << currenRow << " " << currentColumn << "\n";
-
 	int TilesToChekc{ 1 };
-
-	//can be imprved even more to make return vakue save the tile 
 
 	auto HasBlockInFrontOneCube = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
 	auto HasBlockInFrontSpecial = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, SPECIAL_CUBE);
@@ -173,23 +174,16 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 		if (HasNormalBlockInFrontTwoCubes.m_hasSomething || IsThereWallTwoSpacesAway.m_hasSomething || HasSpecialBlock2SpacesAwat.m_hasSomething)
 		{
 
-			//has two cubes and one in front Is special
-
 			if (HasBlockInFrontOneCube.m_hasSomething)
 			{
-
 				std::cout << "Cube in front Is Normal\n";
 				m_IncreaseScoreDelegate.Broadcast();
 				DestroyCube(HasBlockInFrontOneCube);
-
-				//Increascore SCORE
-
 
 			}
 			else if (HasBlockInFrontSpecial.m_hasSomething)
 			{
 				std::cout << "Cube in front Is Special\n";
-
 			}
 
 		}
@@ -208,14 +202,8 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 
 			} while (!NextOccupiedTile.m_hasSomething && !NextFoundCollision.m_hasSomething && !NextFoundSpecialBlock.m_hasSomething);
 
-
-			//means it broke from loop 
-
 			int MovingTileRow{};
 			int MovingTileColumn{};
-
-
-			//whwre do I check for the block
 
 			if (HasBlockInFrontSpecial.m_hasSomething)
 			{
@@ -244,12 +232,10 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 			{
 				ReturnDesired(DesiredRow, DesiredColumn, NextFoundCollision);
 			}
-			// setig the next special block to 
-			else if (NextFoundSpecialBlock.m_hasSomething) //
+			else if (NextFoundSpecialBlock.m_hasSomething) 
 			{
 				ReturnDesired(DesiredRow, DesiredColumn, NextFoundSpecialBlock);
 			}
-			//std::cout << DesiredRow << "\n"<< DesiredColumn<<"\n";
 
 			if (HasBlockInFrontOneCube.m_hasSomething)
 			{
@@ -285,7 +271,6 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 				else {
 					std::cout << "No alignment.\n";
 				}
-
 				
 			}
 
@@ -293,10 +278,8 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 			TileInFrontTileComponent->m_DesiredColumn = DesiredColumn;
 
 			m_TileObjects[DesiredRow][DesiredColumn] = m_TileObjects[MovingTileRow][MovingTileColumn];
-
 			m_TileObjects[MovingTileRow][MovingTileColumn].reset();
 
-		
 			TileInFrontTileComponent->SetActive(PengoDirection);
 			RectComponent->m_Active = true;
 			dae::SoundSystem& audio{ dae::Audio::Get() };
@@ -350,7 +333,6 @@ dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int 
 			TileInfo.m_hasSomething = true;
 		}
 
-
 		//std::cout << "up\n";
 		return TileInfo;
 
@@ -368,10 +350,8 @@ dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int 
 			TileInfo.m_hasSomething = true;
 		}
 
-
 		//std::cout << "down\n";
 		return TileInfo;
-
 
 		break;
 	case Direction::LEFT:
@@ -497,9 +477,7 @@ void dae::MapComponent::ReturnDesired(int& row, int& column, const TileInfo& Til
 		break;
 	case Direction::LEFT:
 
-
 		column += 1;
-
 
 		break;
 	case Direction::RIGHT:

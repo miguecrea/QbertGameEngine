@@ -99,7 +99,7 @@ void dae::CollisionComponent::Update()
 				s_Lives--;
 				m_startTimer = true;
 				dae::SoundSystem& audio{ dae::Audio::Get() };
-				audio.Play(s_QbertDead, 0.5f, 1);
+				audio.Play(S_PengoDeath, 0.5f, 1);
 
 			}
 
@@ -332,7 +332,7 @@ void  dae::CollisionComponent::OpenScene(const std::string& scenename)
 
 	auto newScene = SceneManager::GetInstance().GetCurrentScene();
 	dae::SoundSystem& audio{ dae::Audio::Get() };
-	audio.Play(s_GameSoundId, 0.5f, 1);
+	audio.Play(S_EnemyDead, 0.5f, 1);
 
 	if (newScene->GetName() == INPUT_NAME_SCENE)  return;
 

@@ -22,3 +22,5 @@ std::string SINGLE_PLAYER_SCENE = "SinglePlayerScene";
 std::string LEVEL_2_TUTORIAL = "level2tutorial";
 std::string LEVEL_2 = "Level2";
 std::string LEVEL_3 = "Level3";
+ std::string PENGO = "PENGO";
+ std::string CUBE = "CUBE";
