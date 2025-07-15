@@ -21,6 +21,8 @@ namespace dae
 		Direction m_CurrentDirection{};
 
 		PengoComponent();
+		virtual void BeginPlay() override;
+		virtual void Render() override;
 
 		PengoComponent(const PengoComponent& other) = default;
 		PengoComponent(PengoComponent&& other) = default;

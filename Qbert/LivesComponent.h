@@ -19,6 +19,8 @@ namespace dae
 		LivesComponent& operator=(const LivesComponent& other) = default;
 		LivesComponent& operator=(LivesComponent&& other) = default;
 
+		virtual void BeginPlay();
+		virtual void Render();
 		virtual void Update() override;
 		
 		int m_lives{};
@@ -28,4 +30,5 @@ namespace dae
 		std::shared_ptr<TextComponent> m_pTextComponent;
 	};
 }
+
 

@@ -329,7 +329,7 @@ void dae::AIComponent::Render()
 		}
 
 	
-	 Renderer::GetInstance().FillSquare(m_usablePath[i].x * m_TileSize, m_usablePath[i].y * m_TileSize, m_TileSize,color);
+	// Renderer::GetInstance().FillSquare(m_usablePath[i].x * m_TileSize, m_usablePath[i].y * m_TileSize, m_TileSize,color);
 	}
 
 	for (const auto & path : m_usablePath)

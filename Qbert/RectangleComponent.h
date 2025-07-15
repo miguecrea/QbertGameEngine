@@ -40,6 +40,7 @@ namespace dae
 		void SetWidth();
 		void SetHeight();
 		bool m_CanAddScore = true;
+		bool m_Active = false;
 
 	private:
 

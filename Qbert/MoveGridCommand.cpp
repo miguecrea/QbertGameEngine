@@ -83,21 +83,39 @@ void dae::MoveGridCommand::Execute()
 
 	}
 
+	CollisionWithTiles();
+	
+}
 
+void dae::MoveGridCommand::CollisionWithTiles()
+{
 	glm::vec3 newPosition = m_Pengo->GetWorldPosition() + m_Direction * SceneManager::GetInstance().GetDeltaTime() * moveSpeed;
 
+	glm::vec3 Pos2{ m_Pengo->GetWorldPosition().x + m_CharacterWidth,m_Pengo->GetWorldPosition().y,0 };
+	glm::vec3 Pos3{ m_Pengo->GetWorldPosition().x,m_Pengo->GetWorldPosition().y + m_CharacterWidth,0 };
+	glm::vec3 Pos4{ m_Pengo->GetWorldPosition().x + m_CharacterWidth,m_Pengo->GetWorldPosition().y + m_CharacterWidth,0 };
+
+
+	glm::vec3 newPosition2 = Pos2 + m_Direction * SceneManager::GetInstance().GetDeltaTime() * moveSpeed;
+	glm::vec3 newPosition3 = Pos3 + m_Direction * SceneManager::GetInstance().GetDeltaTime() * moveSpeed;
+	glm::vec3 newPosition4 = Pos4 + m_Direction * SceneManager::GetInstance().GetDeltaTime() * moveSpeed;
+
 	int column = static_cast<int>(std::floor(newPosition.x / tileSize));
-	int row = static_cast<int>(std::floor(newPosition.y/ tileSize));
+	int row = static_cast<int>(std::floor(newPosition.y / tileSize));
 
-	if (m_MapComponent->MapArray[row][column] != 9 && m_MapComponent->MapArray[row][column] != 8 && m_MapComponent->MapArray[row][column] != 5)
+	int columnTopRight = static_cast<int>(std::floor(newPosition2.x / tileSize));
+	int rowTopRight = static_cast<int>(std::floor(newPosition2.y / tileSize));
+
+	int columnBottomLeft = static_cast<int>(std::floor(newPosition3.x / tileSize));
+	int rowBottomLeft = static_cast<int>(std::floor(newPosition3.y / tileSize));
+
+	int columnBottomRight = static_cast<int>(std::floor(newPosition4.x / tileSize));
+	int rowBottomRight = static_cast<int>(std::floor(newPosition4.y / tileSize));
+
+	if (!Collides(row, column) && !Collides(rowTopRight, columnTopRight) && !Collides(rowBottomRight, columnBottomLeft) && !Collides(rowBottomLeft, columnBottomRight))
 	{
-	m_Pengo->SetPosition(newPosition.x, newPosition.y);
-
+		m_Pengo->SetPosition(newPosition.x, newPosition.y);
 	}
-	
-
-
-
 }
 
 void dae::MoveGridCommand::RenderingX()
@@ -144,4 +162,15 @@ void dae::MoveGridCommand::HandleRendering()
 		}
 
 	}
+}
+
+bool dae::MoveGridCommand::Collides(int row, int columns)
+{
+	
+	if (m_MapComponent->MapArray[row][columns] != 9 && m_MapComponent->MapArray[row][columns] != 8 && m_MapComponent->MapArray[row][columns] != 5)
+	{
+		return false;
+	}
+
+	return true;
 }

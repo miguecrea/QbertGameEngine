@@ -16,6 +16,8 @@ namespace dae
         MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObject, std::shared_ptr<dae::GameObject> map,Direction Pengodirec = Direction::DOWN,bool usekeybaord = false);
        virtual void Execute() override;
 
+       void CollisionWithTiles();
+
        void RenderingX();
 
        void HandleRendering();
@@ -41,6 +43,9 @@ namespace dae
         int m_PreviousRow = -1;
         int m_PreviousCol = -1;
         float Timer = 0.f;
+        float m_CharacterWidth{ 36.f };
+
+        bool Collides(int row, int columns);
 
     };
 }

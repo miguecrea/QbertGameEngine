@@ -36,47 +36,38 @@ void dae::CollisionWithComponent::BeginPlay()
 
 void dae::CollisionWithComponent::Update()
 {
-	if (!m_canCollide) return;
+	if (!m_canCollide) return;   //remember this 
+
+
+
 
 	SDL_Rect selfRect = this->GetOwner()->GetComponent<dae::RectangleComponent>()->GetRect();
 
-	///  if it collides it send an event to itself to that one collided 
-    //with the tag 
-
-
-	for (size_t i = 0; i < m_CollidedObjects.size(); i++)
+	for (size_t i = 0; i < m_CollideObjects.size(); ++i)
 	{
-		if (Collides(selfRect, m_CollideObjects[i]->GetComponent<dae::RectangleComponent>()->GetRect()))
+		auto RectComponent = m_CollideObjects[i]->GetComponent<dae::RectangleComponent>();
+		SDL_Rect tileRect = m_CollideObjects[i]->GetComponent<dae::RectangleComponent>()->GetRect();
+		auto GameObjectsTag = this->GetOwner()->GetComponent<dae::TagComponent>();
+		auto CollidingObjectTag = m_CollideObjects[i]->GetComponent<dae::TagComponent>();
+
+		if (!RectComponent->m_Active) continue;
+
+		if (Collides(selfRect, tileRect))
 		{
-			if (m_CanBroadCastEvent)
+			if (m_CurrentlyCollidingTiles.find(i) == m_CurrentlyCollidingTiles.end())
 			{
-				m_CanBroadCastEvent = false;
-				auto GameObjectsTag = this->GetOwner()->GetComponent<dae::TagComponent>();
-				auto CollidingObjectTag = m_CollideObject->GetComponent<dae::TagComponent>();
+				//m_CurrentlyCollidingTiles.insert(i); // Mark this tile as "in collision"
 
-				std::string tag{};
-				if (CollidingObjectTag)
-				{
-					tag = CollidingObjectTag->GetTag();
-				}
+				//m_OnCollisionEvent.Broadcast(GameObjectsTag->GetTag(), CollidingObjectTag->GetTag());
+				//std::cout << "Collided with tile index: " << i << '\n';
 
-				if (GameObjectsTag)
-				{
-					m_OnCollisionEvent.Broadcast(GameObjectsTag->GetTag(), tag);
-					// with send to itself 
-
-
-				}
-				else
-				{
-					std::cout << "Error\n";
-				}
 
 			}
+
 		}
 		else
 		{
-			m_CanBroadCastEvent = true;
+			m_CurrentlyCollidingTiles.erase(i);
 		}
 	}
 
@@ -99,7 +90,7 @@ void dae::CollisionWithComponent::SetTutorial(bool isTutorial)
 	m_IsTutorial = isTutorial;
 }
 
-bool dae::CollisionWithComponent::Collides(const SDL_Rect & self, const SDL_Rect& objects)
+bool dae::CollisionWithComponent::Collides(const SDL_Rect& self, const SDL_Rect& objects)
 {
 	if (self.x + self.w < objects.x || objects.x + objects.w < self.x)
 		return false;

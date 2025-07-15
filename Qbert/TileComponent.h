@@ -9,6 +9,7 @@ namespace dae
 
 	class RenderComponent;
 	class GameObject;
+	class RectangleComponent;
 	class TileComponent : public Component
 	{
 
@@ -34,6 +35,7 @@ namespace dae
 		float m_TileSize = 48.f;
 
 		std::shared_ptr<dae::RenderComponent> m_renderComponent;
+		std::shared_ptr<dae::RectangleComponent> m_RectangleComponent;
 
 
 	};

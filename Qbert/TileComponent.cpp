@@ -4,6 +4,8 @@
 #include"iostream"
 #include"SceneManager.h"
 #include"RenderComponent.h"
+#include"RectangleComponent.h"
+
 dae::TileComponent::TileComponent()
 {
 }
@@ -20,11 +22,8 @@ void dae::TileComponent::BeginPlay()
 
 
 	m_renderComponent = GetOwner()->GetComponent<dae::RenderComponent>();
+	m_RectangleComponent = GetOwner()->GetComponent<dae::RectangleComponent>();
 
-	if (m_renderComponent)
-	{
-		
-	}
 
 	//get render component and add hakf width and height to it 
 
@@ -39,39 +38,6 @@ void dae::TileComponent::Render()
 
 void dae::TileComponent::Update()
 {
-
-
-	//get hald with and hald height 
-	/*int row = TileStaticHelper::GetInstance().GetRow(this->GetOwner()->GetWorldPosition().y);
-	int Column = TileStaticHelper::GetInstance().GetColumn(this->GetOwner()->GetWorldPosition().x);
-
-	
-	if (row == m_DesiredRow && Column == m_DesiredColumn)
-	{
-		m_StartMoving = false;
-	}*/
-
-
-	//if current is equal to desired stop 
-
-
-	
-		//float x = this->GetOwner()->GetWorldPosition().x + m_TileSize/2;
-		//float y = this->GetOwner()->GetWorldPosition().y + m_TileSize/2;
-
-
-		//if (y == m_DesiredRow * m_TileSize + (m_TileSize / 2)  && x == m_DesiredColumn * m_TileSize + (m_TileSize / 2))
-		//{
-		//	std::cout << "Arived On Y\n";
-		//	m_StartMoving = false;
-		//}
-		//
-
-
-
-
-
-	
 	float x = this->GetOwner()->GetWorldPosition().x + m_TileSize / 2;
 	float y = this->GetOwner()->GetWorldPosition().y + m_TileSize / 2;
 
@@ -82,28 +48,22 @@ void dae::TileComponent::Update()
 
 	if (std::abs(y - targetY) <= epsilon  && std::abs(x - targetX) <= epsilon)
 	{
-	//	std::cout << "Arrived On Target Tile\n";
 		m_StartMoving = false;
+		
+		if (m_RectangleComponent)
+		{
+		m_RectangleComponent->m_Active = false;
+
+		}
+
 	}
-
-	if (m_StartMoving)  //move to desired 
+	if (m_StartMoving)
 	{
-
-
-	
-
-		//std::cout << "Target :" << y << "\n";
-		//std::cout << "current "<< targetY << "\n";  //y 
-
-		//std::cout << m_DesiredColumn * m_TileSize + (m_TileSize/2) <<"\n";  //x 
-
-
 		glm::vec3 DirectionVector{};
 
 		switch (m_Direction)
 		{
 		case Direction::UP:
-
 			DirectionVector = glm::vec3(0.0f,-1.f, 0);
 			break;
 		case Direction::DOWN:
@@ -119,10 +79,7 @@ void dae::TileComponent::Update()
 			break;
 		}
 		
-
 		glm::vec3 newPosition = this->GetOwner()->GetWorldPosition() + DirectionVector * SceneManager::GetInstance().GetDeltaTime() * m_MovementSpeed;
-
 		this->GetOwner()->SetPosition(newPosition.x, newPosition.y);
-
 	}
 }

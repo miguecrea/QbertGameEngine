@@ -4,6 +4,7 @@
 #include "TextComponent.h"
 #include <iostream>
 #include "EventManager.h"
+#include"GameObject.h"
 
 dae::LivesComponent::LivesComponent(std::shared_ptr<TextComponent> pTextComponent, int priority)
 	:Component(priority), m_pTextComponent(pTextComponent),m_lives{3}
@@ -11,6 +12,16 @@ dae::LivesComponent::LivesComponent(std::shared_ptr<TextComponent> pTextComponen
 }
 
 dae::LivesComponent::~LivesComponent()
+{
+}
+
+void dae::LivesComponent::BeginPlay()
+{
+
+ // this->GetOwner()
+}
+
+void dae::LivesComponent::Render()
 {
 }
 

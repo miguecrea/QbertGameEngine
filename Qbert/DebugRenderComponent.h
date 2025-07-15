@@ -34,7 +34,7 @@ namespace dae
 		int MapArray[17][15] =
 		{
 			{8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8},
-			{8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 8},
+			{8, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 8},
 			{8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 8},
 			{8, 0, 0, 0, 0, 0, 9, 0, 9, 0, 0, 0, 0, 9, 8},
 			{8, 9, 9, 9, 9, 0, 5, 5, 0, 0, 0, 9, 0, 9, 8},
@@ -57,6 +57,7 @@ namespace dae
 
 		MulticastDelegate <> m_On3TilesMatched;
 
+		std::vector<std::shared_ptr<dae::GameObject>> GetTiles();
 
 
 	private:
@@ -74,6 +75,8 @@ namespace dae
 		float m_TileSize = 48.f;
 
 		std::vector<std::shared_ptr<dae::GameObject>> m_TilesVector;
+
+
 		int m_especialTilesIndeces[3][3];
 
 		void parseMapFile(const std::string& filename);

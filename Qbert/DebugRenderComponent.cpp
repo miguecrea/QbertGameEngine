@@ -12,6 +12,7 @@
 #include"RenderComponent.h"
 #include"Audio.h"
 #include"staticHeader.h"
+#include"RectangleComponent.h"
 
 #define BLOCK 9
 #define COLLISION 8
@@ -33,16 +34,21 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 		{
 			if (MapArray[y][x] == BLOCK)
 			{
-				auto DiamondBlockGameObject = std::make_shared<dae::GameObject>();
+				auto IceBlockGameObject = std::make_shared<dae::GameObject>();
 				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
 				auto TileComponent = std::make_shared<dae::TileComponent>();
+				auto RectComponent = std::make_shared<dae::RectangleComponent>(48,48);
 				DiamondBlockRenderer->SetTexture("MIGUEL_IceCubeBlock.png");
 				DiamondBlockRenderer->SetDimension(3.f);
-				DiamondBlockGameObject->AddComponent(DiamondBlockRenderer);
-				DiamondBlockGameObject->AddComponent(TileComponent);
-				DiamondBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
-				SceneManager::GetInstance().GetCurrentScene()->Add(DiamondBlockGameObject);
-				m_TileObjects[y][x] = DiamondBlockGameObject;
+				IceBlockGameObject->AddComponent(DiamondBlockRenderer);
+				IceBlockGameObject->AddComponent(RectComponent);
+				IceBlockGameObject->AddComponent(TileComponent);
+				IceBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
+				SceneManager::GetInstance().GetCurrentScene()->Add(IceBlockGameObject);
+				m_TileObjects[y][x] = IceBlockGameObject;
+
+				m_TilesVector.push_back(IceBlockGameObject);
+
 
 
 			}
@@ -52,17 +58,25 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				auto DiamondBlockGameObject = std::make_shared<dae::GameObject>();
 				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
 				auto TileComponent = std::make_shared<dae::TileComponent>();
+				auto RectComponent = std::make_shared<dae::RectangleComponent>(48, 48);
+
 				DiamondBlockRenderer->SetTexture("DiamondBlock.png");
 				DiamondBlockRenderer->SetDimension(3.f);
 				DiamondBlockGameObject->AddComponent(DiamondBlockRenderer);
 				DiamondBlockGameObject->AddComponent(TileComponent);
+				DiamondBlockGameObject->AddComponent(RectComponent);
 				DiamondBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
 				SceneManager::GetInstance().GetCurrentScene()->Add(DiamondBlockGameObject);
 				m_TileObjects[y][x] = DiamondBlockGameObject;
 				m_SpeciaTiles.push_back(TileInfo{ y,x });
 
-
+				m_TilesVector.push_back(DiamondBlockGameObject);
 			}
+
+
+
+
+
 		}
 	}
 
@@ -106,6 +120,11 @@ void dae::MapComponent::Update()
 
 
 
+}
+
+std::vector<std::shared_ptr<dae::GameObject>> dae::MapComponent::GetTiles()
+{
+	return m_TilesVector;
 }
 
 void dae::MapComponent::parseMapFile(const std::string& filename)
@@ -208,6 +227,7 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 
 
 			auto TileInFrontTileComponent = m_TileObjects[MovingTileRow][MovingTileColumn]->GetComponent<dae::TileComponent>();
+			auto RectComponent = m_TileObjects[MovingTileRow][MovingTileColumn]->GetComponent<dae::RectangleComponent>();
 
 			int DesiredRow{};
 			int DesiredColumn{};
@@ -228,9 +248,6 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 			}
 			//std::cout << DesiredRow << "\n"<< DesiredColumn<<"\n";
 
-
-			//set first ine to this 
-			//freeing should be done first
 			if (HasBlockInFrontOneCube.m_hasSomething)
 			{
 
@@ -276,172 +293,15 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 
 			m_TileObjects[MovingTileRow][MovingTileColumn].reset();
 
+		
 			TileInFrontTileComponent->SetActive(PengoDirection);
+			RectComponent->m_Active = true;
 			dae::SoundSystem& audio{ dae::Audio::Get() };
 			audio.Play(s_PushedBlockSound, 1.f, 0);
 		}
 
 
 	}
-
-
-
-
-	//commet tnis before trying 
-
-
-	/////////////////////////////////////////////////////////
-
-
-	//int TilesToChekc{ 1 };
-
-	//auto HasBlockInFrontOneCube = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
-	//auto HasBlockInFrontSpecial = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, SPECIAL_CUBE);
-
-	//if (!HasBlockInFrontOneCube.m_hasSomething)
-	//{
-	//	std::cout << "No block In front\n";
-	//}
-	//else
-	//{
-	//	std::cout << "Has Block In front\n";
-	//	TilesToChekc = 2;
-
-
-
-
-
-	//	auto HasBlockInFrontTwoCubes = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc, BLOCK);
-	//	auto IsThereWallTwoSpacesAway = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,COLLISION);
-
-	//	// 
-	//	if (HasBlockInFrontTwoCubes.m_hasSomething || IsThereWallTwoSpacesAway.m_hasSomething)  // 2 blocks away there is something 
-	//	{
-
-	//		if (m_TileObjects[HasBlockInFrontTwoCubes.row][HasBlockInFrontTwoCubes.column] || IsThereWallTwoSpacesAway.m_hasSomething)
-	//		{
-	//			//break one in front 
-	//			if (m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column])
-	//			{
-	//				auto object = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
-
-	//				if (object)
-	//				{
-	//					//Destroy the object 
-	//					//delete the object  from array 
-	//					//update the map 
-	//					//destroy if cube is also a wall 
-	//					dae::SoundSystem& audio{ dae::Audio::Get() };
-	//					audio.Play(s_IceBlockDestroyed, 1.f, 0);
-	//					object->GetComponent<dae::RenderComponent>()->SwapVisibility();
-	//					m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
-	//					MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
-	//					std::cout << MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] << "\n";
-
-	//				}
-	//				else
-	//				{
-
-	//				}
-
-
-
-	//			}
-	//		}
-	//	}
-
-	//	else  
-	//	{    // block in front but not behind it 
-
-	//		
-
-	//		TileInfo NextOccupiedTile{};
-	//		TileInfo NextFoundCollision{};
-	//		do
-	//		{
-	//			TilesToChekc++;
-	//			NextOccupiedTile = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,BLOCK);
-	//			NextFoundCollision = HasABlockInFront(PengoDirection, currenRow, currentColumn, TilesToChekc,COLLISION);
-
-	//		} while (!NextOccupiedTile.m_hasSomething && !NextFoundCollision.m_hasSomething);
-
-
-	//		auto TileInFrontTileComponent = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column]->GetComponent<dae::TileComponent>();
-	//			
-	//		int DesiredRow{};
-	//		int DesiredColumn{};
-
-
-	//		// block 
-
-	//		if (NextOccupiedTile.m_hasSomething)  //maybe chnage this later 
-	//		{
-	//			if (TileInFrontTileComponent)
-	//			{
-	//		       std::cout << NextOccupiedTile.row << " " << NextOccupiedTile.column << "\n";
-
-	//				ReturnDesired(DesiredRow, DesiredColumn, NextOccupiedTile);
-
-	//		      std::cout << DesiredRow << " " << DesiredColumn << "\n";
-	//			
-	//				TileInFrontTileComponent->m_DesiredRow = DesiredRow;
-	//				TileInFrontTileComponent->m_DesiredColumn = DesiredColumn;
-
-
-	//				MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
-	//				MapArray[DesiredRow][DesiredColumn] = BLOCK;  //Other it has to be COLLISION
-
-
-	//				m_TileObjects[DesiredRow][DesiredColumn] = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
-
-	//				m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
-
-	//				TileInFrontTileComponent->SetActive(PengoDirection);
-
-	//				dae::SoundSystem& audio{ dae::Audio::Get() };
-	//				audio.Play(s_PushedBlockSound, 1.f, 0);
-
-	//			}
-
-	//		}
-	//		else
-	//		{
-
-	//			//For collision 
-	//			if (TileInFrontTileComponent)
-	//			{
-	//				dae::SoundSystem& audio{ dae::Audio::Get() };
-	//				audio.Play(s_PushedBlockSound, 1.f, 0);
-
-	//				std::cout << NextFoundCollision.row << " " << NextFoundCollision.column << "\n";
-	//				
-	//				ReturnDesired(DesiredRow, DesiredColumn, NextFoundCollision);
-	//				std::cout << DesiredRow << " " << DesiredColumn << "\n";
-
-
-	//				TileInFrontTileComponent->m_DesiredRow = DesiredRow;
-	//				TileInFrontTileComponent->m_DesiredColumn = DesiredColumn;
-
-
-	//				MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
-	//				MapArray[DesiredRow][DesiredColumn] = BLOCK;  //Other it has to be COLLISION
-
-	//				m_TileObjects[DesiredRow][DesiredColumn] = m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column];
-
-	//				m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
-
-
-	//				TileInFrontTileComponent->SetActive(PengoDirection);
-
-	//			}
-
-
-	//		}
-
-	//	}
-
-	//}
-
 	std::cout << "\n\n\n";
 
 }

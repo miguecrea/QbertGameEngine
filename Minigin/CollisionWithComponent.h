@@ -22,7 +22,6 @@ namespace dae
 		CollisionWithComponent& operator=(CollisionWithComponent&& other) = default;
 		void SetTutorial(bool isTutorial);
 
-		//bool IsActive() const { return m_IsActive;  }
 		bool Collides(const SDL_Rect& self, const SDL_Rect& objects);
 
 		virtual void BeginPlay() override;
@@ -31,25 +30,18 @@ namespace dae
 		void SetIsAi(bool isAi);
 		bool IsAi();
 
-		bool AddPossibleCollidedObject(std::shared_ptr<GameObject>& collideObject);
-		bool RemovePossibleCollidedObject(std::shared_ptr<GameObject>& collideObject);
-
-		void AddOnCollisionBeginEvent(const std::function<void(GameObject& self, GameObject& other)>& collisionFunction);
-		void AddOnCollisionStayEvent(const std::function<void(GameObject& self, GameObject& other)>& collisionFunction);
-		void AddOnCollisionEndEvent(const std::function<void(GameObject& self, GameObject& other)>& collisionFunction);
+	
 
 		MulticastDelegate <std::string, std::string> m_OnCollisionEvent;
+		std::unordered_set<size_t> m_CurrentlyCollidingTiles;
 		std::shared_ptr<GameObject> m_CollideObject;
-
 		bool m_IsTutorial = false;
+
+		bool m_Active = false;
+
 	private:
 
-		std::vector<std::function<void(GameObject& self, GameObject& other)>> m_OnCollisionBegin;
-		std::vector<std::function<void(GameObject& self, GameObject& other)>> m_OnCollisionStay;
-		std::vector<std::function<void(GameObject& self, GameObject& other)>> m_OnCollisionEnd;
 
-		std::vector<GameObject*> m_PossibleCollidedObjects;
-		std::unordered_set<GameObject*> m_CollidedObjects;   ///
 
 
 		std::vector<std::shared_ptr<GameObject>> m_CollideObjects;
