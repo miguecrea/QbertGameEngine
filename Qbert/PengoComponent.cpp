@@ -13,6 +13,11 @@ void dae::PengoComponent::Render()
 
 	float X{};
 	float Y{};
-	Renderer::GetInstance().DrawSquare(this->GetOwner()->GetWorldPosition().x + 38.f, this->GetOwner()->GetWorldPosition().y,50.f, SDL_Color{255,255,255,250});
+	float Size{ 40.f };
+	for (size_t i = 0; i < 10; i++)
+	{
+	Renderer::GetInstance().FillSquare(0 + Size * i,0, Size, SDL_Color{0,0,0,250});
+
+	}
 
 }

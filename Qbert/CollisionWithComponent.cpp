@@ -56,10 +56,13 @@ void dae::CollisionWithComponent::Update()
 		{
 			if (m_CurrentlyCollidingTiles.find(i) == m_CurrentlyCollidingTiles.end())
 			{
-				//m_CurrentlyCollidingTiles.insert(i); // Mark this tile as "in collision"
+			    m_CurrentlyCollidingTiles.insert(i);
+
+				std::cout << "Collided with tile index: " << '\n';
+
+
 
 				//m_OnCollisionEvent.Broadcast(GameObjectsTag->GetTag(), CollidingObjectTag->GetTag());
-				//std::cout << "Collided with tile index: " << i << '\n';
 
 
 			}

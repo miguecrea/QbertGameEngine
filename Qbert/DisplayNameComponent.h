@@ -15,7 +15,7 @@ namespace dae
 	public:
 
 		virtual void Update() override;
-		DisplayNameComponent(std::shared_ptr<TextComponent> pTextComponent = nullptr);
+		DisplayNameComponent(std::shared_ptr<TextComponent> pTextComponent = nullptr, std::shared_ptr< GameObject> Object = nullptr);
 
 
 		virtual ~DisplayNameComponent() = default;
@@ -24,6 +24,8 @@ namespace dae
 		DisplayNameComponent& operator=(const DisplayNameComponent& other) = default;
 		DisplayNameComponent& operator=(DisplayNameComponent&& other) = default;
 
+		virtual void BeginPlay() override;
+
 		void writeMaxScore(const std::string& filename, int score, const std::string& playerName);
 		std::pair<int, std::string> readMaxScore(const std::string& filename);
 		
@@ -31,8 +33,11 @@ namespace dae
 		bool m_IsName = false;
 		bool m_IsHighestScore = false;
 		bool m_IsLives = false;
+
+		void IncreaseScore();
 	private:
 		std::shared_ptr<TextComponent> m_pTextComponent;
+		std::shared_ptr< GameObject> m_Object;
 
 	};
 }

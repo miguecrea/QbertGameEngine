@@ -179,7 +179,10 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 			{
 
 				std::cout << "Cube in front Is Normal\n";
+				m_IncreaseScoreDelegate.Broadcast();
 				DestroyCube(HasBlockInFrontOneCube);
+
+				//Increascore SCORE
 
 
 			}
@@ -348,7 +351,7 @@ dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int 
 		}
 
 
-		std::cout << "up\n";
+		//std::cout << "up\n";
 		return TileInfo;
 
 		break;
@@ -366,7 +369,7 @@ dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int 
 		}
 
 
-		std::cout << "down\n";
+		//std::cout << "down\n";
 		return TileInfo;
 
 
@@ -386,7 +389,7 @@ dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int 
 
 
 
-		std::cout << "left\n";
+		//std::cout << "left\n";
 
 		return TileInfo;
 
@@ -405,7 +408,7 @@ dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int 
 			TileInfo.column = columnToCheck;
 			TileInfo.m_hasSomething = true;
 		}
-		std::cout << "right\n";
+		//std::cout << "right\n";
 
 		return TileInfo;
 

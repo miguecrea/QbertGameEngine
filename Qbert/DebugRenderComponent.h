@@ -23,6 +23,7 @@ namespace dae
 		MapComponent(std::shared_ptr<dae::GameObject> Player);
 
 
+		MulticastDelegate<> m_IncreaseScoreDelegate;
 		 
 
 

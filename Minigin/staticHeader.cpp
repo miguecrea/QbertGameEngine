@@ -18,6 +18,7 @@ int m_GhostState = 0;
  int s_Score = 0;
  int s_HighScore = 0;
  int s_Lives = 3;
+ float s_ScoreIncrease = 50.f;
  std::string s_PlayerName;
  std::string s_HighesScorePlayerName ="empty";
  int s_PauseGame =  0;

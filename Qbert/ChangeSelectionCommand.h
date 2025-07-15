@@ -4,17 +4,18 @@
 #include<string>
 #include<vector>
 #include"memory"
+#include"PengoDirection.h"
 namespace dae
 {
 
 
-    enum class Direction
+  /*  enum class Direction
     {
         RIGHT,
         LEFT,
         UP,
         DOWN
-    };
+    };*/
 
     class GameObject;
     class ChangeSelectionCommand final : public Command
@@ -33,4 +34,6 @@ namespace dae
         Direction m_KeyDirection;
         int Clamp(int number ,int min, int max);
     };
+
+
 }

@@ -15,6 +15,10 @@ namespace dae
 
         virtual void Execute() override;
         virtual void Undo() override;
+        virtual void NotPressed()
+        {
+
+        }
         void SetValue(const glm::vec2& value);
 
     protected:

@@ -16,6 +16,8 @@ extern int s_KeyBoardkeyMusic;
 extern int s_PauseGame;
 extern int s_PushedBlockSound;
 extern int s_HighScore;
+extern float s_ScoreIncrease;
+
 extern std::string s_PlayerName;
 extern std::string s_HighesScorePlayerName;
 extern int s_CurrentCharacter;

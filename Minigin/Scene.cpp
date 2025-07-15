@@ -135,6 +135,11 @@ void dae::Scene::AddEnemy(std::shared_ptr<GameObject> player)
 	m_enemy = player;
 }
 
+void dae::Scene::AddObjects(std::vector<std::shared_ptr<GameObject>> Obejcts)
+{
+	m_Obejects = Obejcts;
+}
+
 std::shared_ptr<dae::RenderComponent> dae::Scene::GetPlayerRenderComponent()
 {
 	return m_player->GetComponent<dae::RenderComponent>();

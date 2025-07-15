@@ -2,8 +2,11 @@
 #include"staticHeader.h"
 #include"iostream"
 #include <fstream>
-dae::DisplayNameComponent::DisplayNameComponent(std::shared_ptr<TextComponent> pTextComponent):
-	m_pTextComponent{pTextComponent}
+#include"DebugRenderComponent.h"
+#include"GameObject.h"
+
+dae::DisplayNameComponent::DisplayNameComponent(std::shared_ptr<TextComponent> pTextComponent,std::shared_ptr< GameObject> Object):
+	m_pTextComponent{pTextComponent},m_Object{Object}
 {
 }
 void dae::DisplayNameComponent::Update()
@@ -52,6 +55,22 @@ void dae::DisplayNameComponent::Update()
 	}
 }
 
+void dae::DisplayNameComponent::BeginPlay()
+{
+
+	if (m_Object)
+	{
+		
+		m_Object->GetComponent<dae::MapComponent>()->m_IncreaseScoreDelegate.Add(std::bind(&DisplayNameComponent::IncreaseScore,this));
+
+    }
+
+	//Update The score 
+}
+
+
+
+
 void dae::DisplayNameComponent::writeMaxScore(const std::string& filename, int score, const std::string& playerName)
 {
 	std::ofstream file(filename);
@@ -81,4 +100,9 @@ std::pair<int, std::string> dae::DisplayNameComponent::readMaxScore(const std::s
 	}
 
 	return std::make_pair(maxScore, playerName);
+}
+
+void dae::DisplayNameComponent::IncreaseScore()
+{
+	s_Score += s_ScoreIncrease;
 }

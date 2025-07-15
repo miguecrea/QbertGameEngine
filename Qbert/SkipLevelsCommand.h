@@ -6,12 +6,13 @@ namespace dae
 {
 
     class InputManager;
+    class Scene;
     class SkipLevelsCommand final : public Command
     {
     public:
         SkipLevelsCommand();
         void Execute() override;
-        void ClearInputBindings(dae::InputManager& input);
+        void ClearInputBindings(dae::InputManager& input,Scene * scene);
         void ChooseScene();
         virtual void Undo() override;
 

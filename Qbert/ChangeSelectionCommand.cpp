@@ -12,6 +12,11 @@ dae::ChangeSelectionCommand::ChangeSelectionCommand(std::vector<std::shared_ptr<
 
 void dae::ChangeSelectionCommand::Execute()
 {
+
+
+	//gues is controller 
+
+
 	GetCharacterBasedOnDirection();
 
 	auto compo = m_objects[s_CurrentCharacter]->GetComponent<dae::KeyBoardComponent>();

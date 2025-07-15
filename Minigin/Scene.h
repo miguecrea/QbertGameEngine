@@ -35,11 +35,13 @@ namespace dae
 		void AddPlayer2(std::shared_ptr<GameObject> player);
 		void AddMap(std::shared_ptr<GameObject> map);
 		void AddEnemy(std::shared_ptr<GameObject> player);
+		void AddObjects(std::vector<std::shared_ptr<GameObject>> Obejcts);
 
 
 		std::shared_ptr<GameObject> m_player = nullptr;
 		std::shared_ptr<GameObject> m_player2 = nullptr;
 		std::shared_ptr<GameObject> m_Map = nullptr;
+		std::vector<std::shared_ptr<GameObject>> m_Obejects;
 
 
 		std::shared_ptr<dae::RenderComponent> GetPlayerRenderComponent();

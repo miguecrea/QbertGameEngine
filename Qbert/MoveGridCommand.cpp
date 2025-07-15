@@ -18,7 +18,6 @@ dae::MoveGridCommand::MoveGridCommand(std::shared_ptr<dae::GameObject> pGameObje
 	if (m_Map)
 	{
 	m_MapComponent = m_Map->GetComponent<dae::MapComponent>();
-
 	}
 
 }

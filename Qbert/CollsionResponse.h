@@ -31,10 +31,7 @@ namespace dae
         void OnCollision(std::string selftag, std::string CollidedObjecTag);
 
         std::shared_ptr<dae::GameObject> m_CollidedObjectReference;
-        void HandleInsibleRectCollision(std::string CollidedObjecTag);
-        void HandleBottomRectCollision(std::string CollidedObjecTag);
-        void HandlePlatformCollision();
-        void HandleRotatingCharacterCollision();
+ 
 
         MulticastDelegate <std::shared_ptr<dae::GameObject>> m_OnTimerStarted;
 

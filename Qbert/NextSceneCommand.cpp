@@ -24,6 +24,8 @@ void dae::NextSceneCommand::Execute()
 	SceneManager::GetInstance().SetCurrentScene(nameOfScene);
 
 	auto scene = SceneManager::GetInstance().GetCurrentScene(); 
+
+	//THIS IS NOt how we clean the controllers 
 	input.ClearSpecificControllerAndKeyboard();
 
 	//if (nameOfScene != SCORE_SCENE && nameOfScene != INPUT_NAME_SCENE)

@@ -100,6 +100,11 @@ public:
 				binding.second->SetValue(value);
 				binding.second->Execute();
 			}
+			else
+			{
+				binding.second->NotPressed();
+
+			}
 		}
 	}
 
