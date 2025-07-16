@@ -34,13 +34,33 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 		{
 			if (MapArray[y][x] == BLOCK)
 			{
+
+
+				//only the block has a reference 
 				auto IceBlockGameObject = std::make_shared<dae::GameObject>();
 				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
 				auto TileComponent = std::make_shared<dae::TileComponent>();
 				auto RectComponent = std::make_shared<dae::RectangleComponent>(48,48);
 				auto TagComponent = std::make_shared<dae::TagComponent>(CUBE);
 
+				TileComponent->m_CurrentRow = y;
+				TileComponent->m_CurrentColumn = x;
+
+
+				if (x % 2 ==0 && NumberOfEnemiesNest < MAXNumberOfEnemiesNest)
+				{
+				NumberOfEnemiesNest++;
+				DiamondBlockRenderer->SetTexture("MIGUEL_DiamondBlock_ORANGE.png");
+				TileComponent->m_IsNest = true;
+				m_TilesWidhEnemies.push_back(IceBlockGameObject);
+				}
+
+
+				else
+				{
 				DiamondBlockRenderer->SetTexture("MIGUEL_IceCubeBlock.png");
+
+				}
 				DiamondBlockRenderer->SetDimension(3.f);
 				IceBlockGameObject->AddComponent(DiamondBlockRenderer);
 				IceBlockGameObject->AddComponent(RectComponent);
@@ -49,6 +69,7 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				IceBlockGameObject->SetPosition(x * m_TileSize, y * m_TileSize);
 				SceneManager::GetInstance().GetCurrentScene()->Add(IceBlockGameObject);
 				m_TileObjects[y][x] = IceBlockGameObject;
+				TileComponent->SetMap(this);
 
 				m_TilesVector.push_back(IceBlockGameObject);
 
@@ -130,6 +151,11 @@ void dae::MapComponent::Update()
 std::vector<std::shared_ptr<dae::GameObject>> dae::MapComponent::GetTiles()
 {
 	return m_TilesVector;
+}
+
+std::vector<std::shared_ptr<dae::GameObject>> dae::MapComponent::GetTilesWidthEnmies()
+{
+	return m_TilesWidhEnemies;
 }
 
 void dae::MapComponent::parseMapFile(const std::string& filename)
@@ -302,6 +328,7 @@ void dae::MapComponent::DestroyCube(dae::TileInfo& HasBlockInFrontOneCube)
 		dae::SoundSystem& audio{ dae::Audio::Get() };
 		audio.Play(s_IceBlockDestroyed, 1.f, 0);
 		object->GetComponent<dae::RenderComponent>()->SwapVisibility();
+		object->GetComponent<dae::TileComponent>()->m_Destroyed = true;
 		m_TileObjects[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column].reset();
 		MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] = FREE;
 		std::cout << MapArray[HasBlockInFrontOneCube.row][HasBlockInFrontOneCube.column] << "\n";

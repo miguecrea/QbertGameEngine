@@ -14,6 +14,7 @@
 #include"EventManager.h"
 #include <conio.h>
 #include"Scene.h"
+#include"staticHeader.h"
 
 SDL_Window * g_window{};
 
@@ -90,57 +91,60 @@ void dae::Minigin::Run(const std::function<void()>& load)
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
 
-	load();
 
-	auto& events = EventManager::GetInstance();
-	auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = InputManager::GetInstance();
+		load();
 
-	//Update loop
-	constexpr float desiredFPS{ 144.f };
-	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / desiredFPS) };
+		auto& events = EventManager::GetInstance();
+		auto& renderer = Renderer::GetInstance();
+		auto& sceneManager = SceneManager::GetInstance();
+		auto& input = InputManager::GetInstance();
 
-	auto lastTime{ std::chrono::high_resolution_clock::now() };
-	bool doContinue = true;
+		//Update loop
+		constexpr float desiredFPS{ 144.f };
+		constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / desiredFPS) };
 
-	while (doContinue)
-	{
-		//Update time
-		const auto currentTime{ std::chrono::high_resolution_clock::now() };
-		const float deltaTime{ std::chrono::duration<float>(currentTime - lastTime).count() };
+		auto lastTime{ std::chrono::high_resolution_clock::now() };
+		bool doContinue = true;
+
+		while (doContinue)
+		{
+			//Update time
+			const auto currentTime{ std::chrono::high_resolution_clock::now() };
+			const float deltaTime{ std::chrono::duration<float>(currentTime - lastTime).count() };
 
 
-		lastTime = currentTime;
+			lastTime = currentTime;
 
-		//Check input
-		doContinue = input.ProcessInput();
+			//Check input
+			doContinue = input.ProcessInput();
 
-		//Update scenes
-		sceneManager.Update(deltaTime);
+			//Update scenes
+			sceneManager.Update(deltaTime);
 
-		//Render
-		renderer.Render();
+			//Render
+			renderer.Render();
 
-		//Update Event Queues
-		events.HandleEvents();
+			//Update Event Queues
+			events.HandleEvents();
 
-		//Delete objects
-		sceneManager.CleanUp();
+			//Delete objects
+			sceneManager.CleanUp();
 
-		//Count sleep time
-		const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
+			//Count sleep time
+			const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
 
-		std::this_thread::sleep_for(sleepTime);
+			std::this_thread::sleep_for(sleepTime);
 
 #if DEBUG
-		system("cls");
+			system("cls");
 #endif
 
 
 
-	}
+		}
 
 	sceneManager.ForceRemoveAllObjects();
+
+	
 
 }

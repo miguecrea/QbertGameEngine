@@ -15,6 +15,7 @@ int m_GhostState = 0;
  int s_PushedBlockSound = 3;
  int S_PengoDeath = 4;
  int S_ScoresSceneSound = 5;
+ int s_EnemySpawned = 6;
 
  int s_Score = 0;
  int s_HighScore = 0;
@@ -25,3 +26,4 @@ int m_GhostState = 0;
  int s_PauseGame =  0;
  int s_CurrentCharacter = 0;
  bool s_CanUseInput = true;
+ bool s_ResetGame = false;

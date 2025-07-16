@@ -11,7 +11,7 @@
 #include"Tags.h"
 #include"MoveGridCommand.h"
 #include"BreakMoveTileCommand.h"
-
+#include"restartGameCommand.h"
 dae::NextSceneCommand::NextSceneCommand(const std::string& nameScene, GameMode gamemode) :
 	nameOfScene{ nameScene },
 	m_gameMode{ gamemode }
@@ -67,12 +67,18 @@ void dae::NextSceneCommand::Execute()
 	}
 	else if (nameOfScene == SCORE_SCENE)
 	{
-
-
 		// add binding to restart 
 
 		dae::SoundSystem& audio{ dae::Audio::Get() };
 		audio.Play(S_ScoresSceneSound, 0.5f,0);
+
+
+		input.m_PostClearCallback = [=]()
+			{
+				auto controller = InputManager::GetInstance().AddController();
+				controller->MapCommandToButton(dae::Controller::ControllerButtons::ButtonB, std::make_unique<dae::restartGameCommand>(), dae::ButtonState::Up);
+			};
+
 
 		//restart game 
 		//add  binding to go back o the beginning 

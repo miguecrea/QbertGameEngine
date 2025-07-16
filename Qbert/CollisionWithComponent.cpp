@@ -19,7 +19,7 @@
 #include"EnemyJumpComponent.h"
 
 
-dae::CollisionWithComponent::CollisionWithComponent(std::vector<std::shared_ptr<GameObject>>& CollideObject) :
+dae::CollisionWithComponent::CollisionWithComponent(std::vector<std::shared_ptr<GameObject>> & CollideObject) :
 	m_CollideObjects{ CollideObject }
 {
 }
@@ -36,10 +36,9 @@ void dae::CollisionWithComponent::BeginPlay()
 
 void dae::CollisionWithComponent::Update()
 {
+
+
 	if (!m_canCollide) return;   //remember this 
-
-
-
 
 	SDL_Rect selfRect = this->GetOwner()->GetComponent<dae::RectangleComponent>()->GetRect();
 
@@ -57,30 +56,7 @@ void dae::CollisionWithComponent::Update()
 			if (m_CurrentlyCollidingTiles.find(i) == m_CurrentlyCollidingTiles.end())
 			{
 			    m_CurrentlyCollidingTiles.insert(i);
-
-
 				m_OnCollisionEvent.Broadcast(m_CollideObjects[i]);
-
-
-			//	auto TagComponent = m_CollideObjects[i]->GetComponent<dae::TagComponent>();
-
-				//if (TagComponent)
-				//{
-
-				//	//enemy and player 
-
-				//}
-
-				//even if it colliders with player 
-				//if(tag->player)
-
-
-
-
-
-
-
-
 			}
 
 		}

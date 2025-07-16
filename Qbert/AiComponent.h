@@ -40,7 +40,7 @@ namespace dae
 		std::shared_ptr<MapComponent> m_mapComponent;
 		std::shared_ptr<RenderComponent> m_renderComponent;
 		dae::GameObject * m_Self = nullptr;
-		float m_Speed = 50.f;
+		float m_Speed;
 
 		float distanceBetweenPoints();
 
@@ -71,6 +71,8 @@ namespace dae
 
 		void StunEnemy();
 
+		float RandomFloatStep1(float min, float max);
+	
 
 
 	};

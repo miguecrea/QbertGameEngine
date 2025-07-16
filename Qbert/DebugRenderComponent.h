@@ -35,7 +35,7 @@ namespace dae
 		int MapArray[17][15] =
 		{
 			{8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8},
-			{8, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 8},
+			{8, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 8},
 			{8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 8},
 			{8, 0, 0, 0, 0, 0, 9, 0, 9, 0, 0, 0, 0, 9, 8},
 			{8, 9, 9, 9, 9, 0, 5, 5, 0, 0, 0, 9, 0, 9, 8},
@@ -59,6 +59,7 @@ namespace dae
 		MulticastDelegate <> m_On3TilesMatched;
 
 		std::vector<std::shared_ptr<dae::GameObject>> GetTiles();
+		std::vector<std::shared_ptr<dae::GameObject>> GetTilesWidthEnmies();
 
 
 	private:
@@ -68,6 +69,8 @@ namespace dae
 
 		std::shared_ptr<dae::GameObject> m_Pengo;
 
+		float NumberOfEnemiesNest = 0;
+		float MAXNumberOfEnemiesNest = 4;
 
 		// Movbe Grid Command 
 		//and resolution as well 
@@ -76,6 +79,7 @@ namespace dae
 		float m_TileSize = 48.f;
 
 		std::vector<std::shared_ptr<dae::GameObject>> m_TilesVector;
+		std::vector<std::shared_ptr<dae::GameObject>> m_TilesWidhEnemies;
 
 
 		int m_especialTilesIndeces[3][3];

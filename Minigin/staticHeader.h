@@ -18,10 +18,12 @@ extern int s_PushedBlockSound;
 extern int s_HighScore;
 extern int s_ScoreIncrease;
 extern int S_ScoresSceneSound;
+extern int s_EnemySpawned;
 
 extern std::string s_PlayerName;
 extern std::string s_HighesScorePlayerName;
 extern int s_CurrentCharacter;
 extern bool s_CanUseInput;
+extern bool s_ResetGame;
 
 

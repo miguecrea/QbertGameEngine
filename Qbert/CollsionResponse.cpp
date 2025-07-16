@@ -63,22 +63,40 @@ void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> Collide
 	//in a real scale game I can just cast to an interface and executed csutom function for each
 
 
+
+	//collison response from enemy class 
 	if (auto tagComponent = CollidedObject->GetComponent<TagComponent>())
 	{
 		if (tagComponent->GetTag() == CUBE)
 		{
 
-		   std::cout << " Enemy cOLLIDED  tile \n";
+		  std::cout << " Enemy cOLLIDED  Tile \n";
 
-			
+
+
+		  //this 
+
+
+
+
+
+		   dae::SoundSystem& audio{ dae::Audio::Get() };
+		   audio.Play(S_EnemyDead, 0.5f, 0);
+
 		}
 		else if (tagComponent->GetTag() == PENGO)
 		{
+
+
+			//set enemies and 
+			//get enemies 
 			auto liveComponent = CollidedObject->GetComponent<dae::LivesComponent>();
 			if (liveComponent)
 			{
 				liveComponent->DecreaseLive();
 			}
+
+
 		std::cout << " Enemy cOLLIDED  Pengo \n";
 		}
 
@@ -89,10 +107,4 @@ void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> Collide
 	{
 	}
 
-	//std::cout << " Enemy Died\n";
-	// for player -- Live if live is <= 0 , set scene input names with all the commans controller , i 
-	//enemies should die if collides with cube 
-
-
-	
 }

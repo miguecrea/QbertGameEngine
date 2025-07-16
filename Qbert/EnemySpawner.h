@@ -2,6 +2,7 @@
 
 #include"Component.h"
 #include<memory>
+#include"vector"
 
 namespace dae
 {
@@ -15,10 +16,28 @@ namespace dae
 
 	public:
 
-		EnemySpawner();
-		std::shared_ptr<GameObject> m_Map = nullptr;
+		int m_NumberActiveEnemies;
+
+		EnemySpawner(std::vector<std::shared_ptr<dae::GameObject>> Tiles, std::shared_ptr<dae::GameObject > Map, std::shared_ptr<dae::GameObject> Pengo);
+
+		virtual void BeginPlay();
+		virtual void Render();
+		virtual void Update();
+	private:
+
+		std::vector<std::shared_ptr<dae::GameObject>> m_Tiles;
+		std::shared_ptr<dae::GameObject > m_Map;
+		std::shared_ptr<dae::GameObject > m_Pengo;
+
+		void SpawnEnemyCallBack(float x, float y);
+		void SpawEnemy(float x, float y);
+
+
+
+
 	
 	};
+
 
 
 };

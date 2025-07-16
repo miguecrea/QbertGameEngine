@@ -198,6 +198,7 @@
     <ClCompile Include="PengoComponent.cpp" />
     <ClCompile Include="PengoDirection.cpp" />
     <ClCompile Include="RectangleComponent.cpp" />
+    <ClCompile Include="restartGameCommand.cpp" />
     <ClCompile Include="RotatingCharacterMoveComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="SetPositionCommand.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="PengoDirection.h" />
     <ClInclude Include="QbertDirection.h" />
     <ClInclude Include="RectangleComponent.h" />
+    <ClInclude Include="restartGameCommand.h" />
     <ClInclude Include="RotatingCharacterMoveComponent.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="SetPositionCommand.h" />

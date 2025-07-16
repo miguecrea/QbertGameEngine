@@ -13,6 +13,7 @@
 #include"staticHeader.h"
 #include"RenderComponent.h"
 
+#include <random>
 
 
 
@@ -37,21 +38,19 @@
 dae::AIComponent::AIComponent(std::shared_ptr<GameObject> Map, std::shared_ptr<GameObject> pTargetGameObejct):
 	m_Map{Map},m_Target{ pTargetGameObejct},m_pSceneManager{&SceneManager::GetInstance()}
 {
+
+	m_Speed = RandomFloatStep1(30.f, 50.f);
 }
 
 void dae::AIComponent::BeginPlay()
 {
 
 	m_Self = this->GetOwner();
-
-
 	
 	m_mapComponent = m_Map->GetComponent<dae::MapComponent>();
 	m_mapComponent->m_On3TilesMatched.Add(std::bind(&AIComponent::StunEnemy, this));
 
-
 	m_renderComponent = this->GetOwner()->GetComponent<dae::RenderComponent>();
-
 
 	if (!m_Self)
 	{
@@ -271,6 +270,29 @@ void dae::AIComponent::StunEnemy()
 	m_renderComponent->m_state = 1;
 }
 
+float dae::AIComponent::RandomFloatStep1(float min, float max)
+{
+
+	
+
+
+		if (min > max) std::swap(min, max);
+
+		int minInt = static_cast<int>(std::ceil(min));
+		int maxInt = static_cast<int>(std::floor(max));
+
+		if (minInt > maxInt) return minInt * 1.0f; // no valid integer step in range
+
+		static std::random_device rd;
+		static std::mt19937 gen(rd());
+		std::uniform_int_distribution<> dist(minInt, maxInt);
+
+		return static_cast<float>(dist(gen));
+	
+
+
+}
+
 
 std::vector<Node> dae::AIComponent::makePath(std::vector<std::vector<Node>> map, Node dest) {
 	try {
@@ -346,6 +368,7 @@ void dae::AIComponent::Render()
 void dae::AIComponent::Update()
 {
 
+
 	if (m_startTimer)
 	{
 		m_TotalTimeElasped += m_pSceneManager->GetDeltaTime();
@@ -366,8 +389,9 @@ void dae::AIComponent::Update()
 
 	Node currentPos;
 	//  //column 1
-	currentPos.x = int(m_Self->GetLocalPosition().x ) / X_STEP;
-	currentPos.y = int(m_Self->GetLocalPosition().y) / Y_STEP;
+
+	currentPos.x = int(m_Self->GetWorldPosition().x ) / X_STEP;
+	currentPos.y = int(m_Self->GetWorldPosition().y) / Y_STEP;
 
 	//row 
 
@@ -375,13 +399,27 @@ void dae::AIComponent::Update()
 	Node targetPos;
 
 	//column
-	targetPos.x = int(m_Target->GetLocalPosition().x) / X_STEP;
-	targetPos.y = int(m_Target->GetLocalPosition().y) / Y_STEP;
+	targetPos.x = int(m_Target->GetWorldPosition().x) / X_STEP;
+	targetPos.y = int(m_Target->GetWorldPosition().y) / Y_STEP;
 	//row
+
+	int columns = 15;
+	int rows = 17;
+	//15 columns 
+	//17 //rows 
+
+	// 1
+	if (targetPos.x < columns && targetPos.y < rows)
+	{
+	m_usablePath = aStar(currentPos, targetPos);
+
+	}
+
+
+
 
 
 	
-	m_usablePath = aStar(currentPos, targetPos);
 	
 
 	if (m_usablePath.size() > 1)
