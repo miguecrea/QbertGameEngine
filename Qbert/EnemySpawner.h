@@ -3,6 +3,7 @@
 #include"Component.h"
 #include<memory>
 #include"vector"
+#include"DelegateBase.h"
 
 namespace dae
 {
@@ -15,14 +16,18 @@ namespace dae
 	{
 
 	public:
-
-		int m_NumberActiveEnemies;
+		
+		int m_NumberActiveEnemies{};
 
 		EnemySpawner(std::vector<std::shared_ptr<dae::GameObject>> Tiles, std::shared_ptr<dae::GameObject > Map, std::shared_ptr<dae::GameObject> Pengo);
 
 		virtual void BeginPlay();
 		virtual void Render();
 		virtual void Update();
+		void DecreaseEnemyCount();
+
+		MulticastDelegate <> m_GameOver;
+
 	private:
 
 		std::vector<std::shared_ptr<dae::GameObject>> m_Tiles;
@@ -31,6 +36,7 @@ namespace dae
 
 		void SpawnEnemyCallBack(float x, float y);
 		void SpawEnemy(float x, float y);
+
 
 
 

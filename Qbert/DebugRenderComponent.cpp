@@ -47,7 +47,7 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				TileComponent->m_CurrentColumn = x;
 
 
-				if (x % 2 ==0 && NumberOfEnemiesNest < MAXNumberOfEnemiesNest)
+				if (x % 2 == 0 && NumberOfEnemiesNest < MAXNumberOfEnemiesNest)
 				{
 				NumberOfEnemiesNest++;
 				DiamondBlockRenderer->SetTexture("MIGUEL_DiamondBlock_ORANGE.png");

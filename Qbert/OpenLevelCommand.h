@@ -10,6 +10,9 @@ namespace dae
 
     class GameObject;
     class ChangeModeCommand;
+    class Keyboard;
+    class Scene;
+    class InputManager;
 
     class OpenLevelCommand : public Command
     {
@@ -19,6 +22,7 @@ namespace dae
         virtual ~OpenLevelCommand() = default;
 
         virtual void Execute() override;
+        void AddKeyBindOnePerson(dae::Keyboard* keyboard, dae::Scene* scene, dae::InputManager& input);
         virtual void Undo() override;
 
     protected:

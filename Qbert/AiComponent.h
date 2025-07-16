@@ -34,6 +34,7 @@ namespace dae
 		virtual void BeginPlay() override;
 		virtual void Render() override;
 		virtual void Update() override;
+		bool m_dead = false;
 	private:
 		std::shared_ptr<GameObject> m_Map = nullptr;
 		std::shared_ptr<GameObject> m_Target = nullptr;

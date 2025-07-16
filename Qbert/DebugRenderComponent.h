@@ -70,7 +70,7 @@ namespace dae
 		std::shared_ptr<dae::GameObject> m_Pengo;
 
 		float NumberOfEnemiesNest = 0;
-		float MAXNumberOfEnemiesNest = 4;
+		float MAXNumberOfEnemiesNest = 2;
 
 		// Movbe Grid Command 
 		//and resolution as well 

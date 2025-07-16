@@ -368,6 +368,10 @@ void dae::AIComponent::Render()
 void dae::AIComponent::Update()
 {
 
+	if (m_dead) return;
+
+
+
 
 	if (m_startTimer)
 	{
@@ -409,18 +413,9 @@ void dae::AIComponent::Update()
 	//17 //rows 
 
 	// 1
-	if (targetPos.x < columns && targetPos.y < rows)
-	{
+	
 	m_usablePath = aStar(currentPos, targetPos);
 
-	}
-
-
-
-
-
-	
-	
 
 	if (m_usablePath.size() > 1)
 	{

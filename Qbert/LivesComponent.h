@@ -8,6 +8,8 @@ namespace dae
 	class GameObject;
 	class TextComponent;
 	class PlayerComponent;
+	class InputManager;
+	class Scene;
 
 	class LivesComponent final : public Component
 	{
@@ -26,6 +28,7 @@ namespace dae
 		virtual void Update() override;
 
 		void DecreaseLive();
+		void AddInputNameKeyBinds(InputManager & input,Scene* scene);
 		bool m_PlayBackGroundMusic = false;
 		float m_Timer = 0.f;
 		bool m_StartTimer = false;

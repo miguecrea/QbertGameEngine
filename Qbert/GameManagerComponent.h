@@ -8,6 +8,9 @@ namespace dae
 	class SceneManager;
 	class MapComponent;
 	class GameObject;
+	class InputManager;
+	class Scene;
+	class Keyboard;
 
 	class GameManagerComponent :public Component
 	{
@@ -23,6 +26,13 @@ namespace dae
 
 		std::shared_ptr<GameObject> m_Map;
 		void  TilesMatchedResponse();
+
+		void LevelCompleted();
+
+		void AddInputNameKeyBinds(InputManager & input,Scene * scene,Keyboard* keyboard);
+
+		void AddKeyBinds(Keyboard* keyboard, dae::Scene* scene,InputManager& input);
+
 
 	};
 

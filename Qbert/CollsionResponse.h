@@ -10,6 +10,9 @@ namespace dae
     class TagComponent;
     class CollisionComponent;
     class CollisionWithComponent;
+    class EnemySpawner;
+    class AIComponent;
+    class RenderComponent;
     class CollsionResponse final : public Component
     {
     public:
@@ -35,11 +38,17 @@ namespace dae
 
         MulticastDelegate <std::shared_ptr<dae::GameObject>> m_OnTimerStarted;
 
+        EnemySpawner * m_EnemySpawner;
 
         bool Execute = true;
     private:
 
         std::shared_ptr<dae::CollisionWithComponent> m_CollisionWithComponent;
+        std::shared_ptr<dae::AIComponent> m_AiComponent;
+        std::shared_ptr<dae::RenderComponent> m_RenderComponent;
+
+
+
         std::shared_ptr<dae::TagComponent> m_TagComponent;
         std::shared_ptr<dae::TagComponent> m_CollidingObjectTagComponent;
         std::shared_ptr<dae::CollisionComponent> m_CollisionComponent;

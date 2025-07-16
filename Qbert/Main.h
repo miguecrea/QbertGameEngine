@@ -29,4 +29,4 @@ void DrawNumber(dae::Scene& scene, int level);
 
 void DisplayLives(dae::Scene& scene);
 
-
+void CreateBackGround(dae::Scene& scene);

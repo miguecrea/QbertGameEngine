@@ -10,6 +10,7 @@
 namespace dae
 {
 	class GameObject;
+
 	class CollisionWithComponent final : public Component
 	{
 	public:
@@ -38,6 +39,7 @@ namespace dae
 		bool m_IsTutorial = false;
 
 		bool m_Active = false;
+		bool m_canCollide = true;
 
 	private:
 
@@ -46,7 +48,6 @@ namespace dae
 
 		std::vector<std::shared_ptr<GameObject>> m_CollideObjects;
 
-		bool m_canCollide = true;
 		static bool m_canPlaysound;
 		float InitialPosX{ 98 };
 		float InitialPosY{ 87 };

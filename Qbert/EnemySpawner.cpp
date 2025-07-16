@@ -17,18 +17,6 @@ dae::EnemySpawner::EnemySpawner(std::vector<std::shared_ptr<dae::GameObject>> Ti
 	m_Tiles{Tiles},m_Map{Map},m_Pengo{Pengo}
 {
 
-
-
-	 SpawEnemy(500, 100);
-	 SpawEnemy(200, 200); 
-
-
-
-
-
-
-
-
 }
 
 void dae::EnemySpawner::BeginPlay()
@@ -56,11 +44,12 @@ void dae::EnemySpawner::Render()
 
 void dae::EnemySpawner::Update()
 {
+	//std::cout<< m_NumberActiveEnemies<<"\n";
+
 }
 
 void dae::EnemySpawner::SpawnEnemyCallBack(float x, float y)
 {
-	std::cout << "Spawning Enemy At " << x << " " << y << "\n";
 	SpawEnemy(x, y);
 }
 
@@ -73,6 +62,7 @@ void dae::EnemySpawner::SpawEnemy(float x, float y)
 	auto EnemyRectComponent = std::make_shared<dae::RectangleComponent>(30, 30);
 	auto CollisionComponentEnmies = std::make_shared<dae::CollisionWithComponent>(m_Tiles);
 	auto CollisionResponseEnemy = std::make_shared<dae::CollsionResponse>();
+	CollisionResponseEnemy->m_EnemySpawner = this;
 	EnemyRenderer->SetTexture("Enemy.png");
 	EnemyRenderer->AddToVector(5, 8, 5, 5, dae::AnimationComponent::Type::loop, 0, 1);//down
 	EnemyRenderer->AddToVector(5, 8, 8, 5, dae::AnimationComponent::Type::StartAtNoZero, 6, 0);//down
@@ -84,11 +74,28 @@ void dae::EnemySpawner::SpawEnemy(float x, float y)
 	Enemy->AddComponent(CollisionResponseEnemy);
 	Enemy->SetPosition(x,y);
 
+	m_NumberActiveEnemies++;
 
 	Enemy->BeginPlay();
 	SceneManager::GetInstance().GetCurrentScene()->Add(Enemy);
 
+	//std::cout << "Total Enmies Alive "<<m_NumberActiveEnemies<<"\n";
 
+
+}
+
+void dae::EnemySpawner::DecreaseEnemyCount()
+{
+
+	std::cout<<"response\n";
+	m_NumberActiveEnemies--;
+	//std::cout << m_NumberActiveEnemies << "\n";
+
+	if (m_NumberActiveEnemies <= 0)
+	{
+	//	std::cout << "Game Over\n";
+		m_GameOver.Broadcast();
+	}
 }
 
 

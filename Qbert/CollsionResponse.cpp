@@ -16,6 +16,8 @@
 #include"SceneManager.h"
 #include"Tags.h"
 #include"LivesComponent.h"
+#include"AiComponent.h"
+#include"EnemySpawner.h"
 
 dae::CollsionResponse::CollsionResponse()
 {
@@ -26,6 +28,8 @@ void dae::CollsionResponse::BeginPlay()
 	std::cout << "Collision Response Component Set up\n";
 
 	m_CollisionWithComponent = this->GetOwner()->GetComponent<CollisionWithComponent>();
+	m_AiComponent = this->GetOwner()->GetComponent<AIComponent>();
+	m_RenderComponent = this->GetOwner()->GetComponent<RenderComponent>();
 	
 	if (m_CollisionWithComponent)
 	{
@@ -69,17 +73,30 @@ void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> Collide
 	{
 		if (tagComponent->GetTag() == CUBE)
 		{
+			if (m_CollisionWithComponent)
+			{
+			m_CollisionWithComponent->m_canCollide = false;
 
-		  std::cout << " Enemy cOLLIDED  Tile \n";
+			}
+			if (m_AiComponent)
+			{
+				m_AiComponent->m_dead = true;
+			}
 
+			if (m_RenderComponent)
+			{
+				m_RenderComponent->SetVisibility(false);
+			}
+			
 
+			std::cout << "Hello nigga collided \n";
+	
+			if (m_EnemySpawner)
+			{
+				m_EnemySpawner->DecreaseEnemyCount();
+			}
 
-		  //this 
-
-
-
-
-
+		
 		   dae::SoundSystem& audio{ dae::Audio::Get() };
 		   audio.Play(S_EnemyDead, 0.5f, 0);
 
@@ -103,8 +120,6 @@ void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> Collide
 	}
 
 
-	if (CollidedObject)
-	{
-	}
+	
 
 }

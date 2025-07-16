@@ -13,7 +13,7 @@
 
 dae::TileComponent::TileComponent()
 {
-	m_SecondsUntilSpawning = RandomFloatStep1(m_MinSeconds, m_MaxSeconds);
+	m_SecondsUntilSpawning = RandomFloatStep1(0.f,1.f);
 }
 
 void dae::TileComponent::SetActive(Direction direction)
