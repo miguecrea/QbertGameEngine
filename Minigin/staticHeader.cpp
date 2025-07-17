@@ -27,3 +27,4 @@ int m_GhostState = 0;
  int s_CurrentCharacter = 0;
  bool s_CanUseInput = true;
  bool s_ResetGame = false;
+ bool s_PauseEnemy = false;

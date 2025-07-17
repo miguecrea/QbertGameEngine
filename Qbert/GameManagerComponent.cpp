@@ -63,50 +63,40 @@ void dae::GameManagerComponent::LevelCompleted()
 	     SceneManager::GetInstance().SetCurrentScene(LEVEL_2);
 		auto newScene = SceneManager::GetInstance().GetCurrentScene();
 
+		AddKeyBinds(keyboard, newScene, input);
 
-
-		keyboard->MapCommandToButton(SDL_SCANCODE_W, std::make_unique<dae::MoveGridCommand>(newScene->m_player, newScene->m_Map, Direction::UP, true), dae::ButtonState::Pressed);
-		keyboard->MapCommandToButton(SDL_SCANCODE_A, std::make_unique<dae::MoveGridCommand>(newScene->m_player, newScene->m_Map, Direction::LEFT, true), dae::ButtonState::Pressed);
-		keyboard->MapCommandToButton(SDL_SCANCODE_S, std::make_unique<dae::MoveGridCommand>(newScene->m_player, newScene->m_Map, Direction::DOWN, true), dae::ButtonState::Pressed);
-		keyboard->MapCommandToButton(SDL_SCANCODE_D, std::make_unique<dae::MoveGridCommand>(newScene->m_player, newScene->m_Map, Direction::RIGHT, true), dae::ButtonState::Pressed);
-		keyboard->MapCommandToButton(SDL_SCANCODE_K, std::make_unique<dae::BreakMoveTileCommand>(newScene->m_player), dae::ButtonState::Up);
-
-
-		input.m_PostClearCallback = [=]()
-			{
-				auto controller = InputManager::GetInstance().AddController();
-				controller->MapCommandToThumbstick(dae::Controller::ControllerThumbsticks::LeftThumbstick, std::make_unique<dae::MoveGridCommand>(newScene->m_player, newScene->m_Map));
-				controller->MapCommandToButton(dae::Controller::ControllerButtons::ButtonA, std::make_unique<dae::BreakMoveTileCommand>(newScene->m_player), dae::ButtonState::Up);
-			};
-
-		dae::SoundSystem& audio{ dae::Audio::Get() };
-		audio.Play(s_MenuMusicId, 0.2f, 100);
 	}
 	else if(scene->GetName() == LEVEL_2)
 	{
 		SceneManager::GetInstance().SetCurrentScene(LEVEL_3);
-
-
-
-
-		AddKeyBinds(keyboard, scene, input);
-
+		auto newScene = SceneManager::GetInstance().GetCurrentScene();
+		AddKeyBinds(keyboard, newScene, input);
 	}
 	else if (scene->GetName() == LEVEL_3)
 	{
 		SceneManager::GetInstance().SetCurrentScene(INPUT_NAME_SCENE);
+		auto newScene = SceneManager::GetInstance().GetCurrentScene();
+		AddInputNameKeyBinds(input, newScene, keyboard);
 
-		//should I add keyboard
-		AddInputNameKeyBinds(input, scene, keyboard);
-
-
-
+		dae::SoundSystem& audio{ dae::Audio::Get() };
+		audio.Play(S_PengoDeath, 0.5f, 0);
 	}
+	else if (scene->GetName() == CO_OP_SCENE || scene->GetName() == VERSUS_MODE)
+	{
+		SceneManager::GetInstance().SetCurrentScene(INPUT_NAME_SCENE);
+		auto newScene = SceneManager::GetInstance().GetCurrentScene();
+		AddInputNameKeyBinds(input, newScene, keyboard);
+
+		dae::SoundSystem& audio{ dae::Audio::Get() };
+		audio.Play(S_PengoDeath, 0.5f, 0);
+	}
+
+
 
 	
 }
 
-void dae::GameManagerComponent::AddInputNameKeyBinds(dae::InputManager& input, dae::Scene* scene, dae::Keyboard* keyboard)
+void dae::GameManagerComponent::AddInputNameKeyBinds(dae::InputManager & input, dae::Scene* scene, dae::Keyboard* keyboard)
 {
 
 	input.m_PostClearCallback = [=]()

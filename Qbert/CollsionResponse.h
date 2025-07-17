@@ -65,6 +65,8 @@ namespace dae
 
         float m_CollisionTimer = 0.f;
         
+        bool m_Timer = 0.f;
+
 
 
 

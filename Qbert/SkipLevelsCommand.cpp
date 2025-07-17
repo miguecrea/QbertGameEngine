@@ -61,7 +61,7 @@ void dae::SkipLevelsCommand::ClearInputBindings(dae::InputManager& input,Scene *
 		};
 
 	dae::SoundSystem& audio{ dae::Audio::Get() };
-	audio.Play(s_MenuMusicId, 0.5f, 1);
+	audio.Play(s_MenuMusicId, 0.5f,100);
 }
 
 void dae::SkipLevelsCommand::ChooseScene()

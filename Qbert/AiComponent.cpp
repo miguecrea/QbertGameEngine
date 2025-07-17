@@ -15,10 +15,6 @@
 
 #include <random>
 
-
-
-
-//
 #define X_MAX 720
 #define X_STEP 48
 #define Y_MAX 816
@@ -35,18 +31,18 @@
 
 
 
-dae::AIComponent::AIComponent(std::shared_ptr<GameObject> Map, std::shared_ptr<GameObject> pTargetGameObejct):
-	m_Map{Map},m_Target{ pTargetGameObejct},m_pSceneManager{&SceneManager::GetInstance()}
+dae::AIComponent::AIComponent(std::shared_ptr<GameObject> Map, std::shared_ptr<GameObject> pTargetGameObejct) :
+	m_Map{ Map }, m_Target{ pTargetGameObejct }, m_pSceneManager{ &SceneManager::GetInstance() }
 {
 
-	m_Speed = RandomFloatStep1(30.f, 50.f);
+	m_Speed = RandomFloatStep1(15.f, 60.f);
 }
 
 void dae::AIComponent::BeginPlay()
 {
 
 	m_Self = this->GetOwner();
-	
+
 	m_mapComponent = m_Map->GetComponent<dae::MapComponent>();
 	m_mapComponent->m_On3TilesMatched.Add(std::bind(&AIComponent::StunEnemy, this));
 
@@ -61,7 +57,7 @@ void dae::AIComponent::BeginPlay()
 
 
 
-inline bool operator < (const Node & lhs, const Node & rhs)
+inline bool operator < (const Node& lhs, const Node& rhs)
 {//We need to overload "<" to put our struct into a set
 	return lhs.fCost < rhs.fCost;
 }
@@ -87,37 +83,37 @@ bool dae::AIComponent::isValid(int x, int y)
 {
 
 	// y column and x is the row 
-	
+
 
 	//this y is row and y is column in grid positions
-	
+
 
 	//if check is
-	                           // 15 columns             //rows 17 
+							   // 15 columns             //rows 17 
 	if (x < 0 || y < 0 || x >= (X_MAX / X_STEP) || y >= (Y_MAX / Y_STEP))
 	{
 		return false;
 	}
 
 	//
-	if (m_mapComponent->MapArray[y][x] == 9 || m_mapComponent->MapArray[y][x] == 8  || m_mapComponent->MapArray[y][x] == 5)
+	if (m_mapComponent->MapArray[y][x] == 9 || m_mapComponent->MapArray[y][x] == 8 || m_mapComponent->MapArray[y][x] == 5)
 	{
 		return false;
 	}
 	return true;
 }
-std::vector<Node> dae::AIComponent::aStar(Node agent, Node dest) 
+std::vector<Node> dae::AIComponent::aStar(Node agent, Node dest)
 
 {
 	std::vector<Node> empty;
 
-	if (!isValid(dest.x, dest.y)) 
+	if (!isValid(dest.x, dest.y))
 	{
 		//std::cout << "Destination is an obstacle" << std::endl;
 		return empty;
 	}
 
-	if (isDestination(agent.x, agent.y,dest)) {
+	if (isDestination(agent.x, agent.y, dest)) {
 		//std::cout << "You are the destination" << std::endl;
 		return empty;
 	}
@@ -126,10 +122,10 @@ std::vector<Node> dae::AIComponent::aStar(Node agent, Node dest)
 
 
 	  //2d array of bools   //15 columns
-	bool ** closedList = new bool * [X_MAX / X_STEP];
+	bool** closedList = new bool* [X_MAX / X_STEP];
 
-	                    // rows 
-	for (int i = 0; i < X_MAX / X_STEP; ++i) 
+	// rows 
+	for (int i = 0; i < X_MAX / X_STEP; ++i)
 	{
 		//for each  of column ,fill them with 17 rows 
 		closedList[i] = new bool[Y_MAX / Y_STEP];
@@ -139,8 +135,8 @@ std::vector<Node> dae::AIComponent::aStar(Node agent, Node dest)
 
 
 
-//2d array as well    // 15 vectores ,each of the has size of 17
-	std::vector<std::vector<Node>> allMap(X_MAX / X_STEP,std::vector<Node>(Y_MAX / Y_STEP));
+	//2d array as well    // 15 vectores ,each of the has size of 17
+	std::vector<std::vector<Node>> allMap(X_MAX / X_STEP, std::vector<Node>(Y_MAX / Y_STEP));
 
 	// Initialize whole map   //columns 
 	for (int x = 0; x < X_MAX / X_STEP; x++)
@@ -236,7 +232,7 @@ std::vector<Node> dae::AIComponent::aStar(Node agent, Node dest)
 								hNew = FLT_MAX;
 							}
 
-						
+
 							allMap[x + newX][y + newY].fCost = float(fNew);
 							allMap[x + newX][y + newY].gCost = float(gNew);
 							allMap[x + newX][y + newY].hCost = float(hNew);
@@ -265,7 +261,8 @@ std::vector<Node> dae::AIComponent::aStar(Node agent, Node dest)
 
 void dae::AIComponent::StunEnemy()
 {
-	m_StopAi = true;
+	//m_StopAi = true;
+	s_PauseEnemy = true;
 	m_startTimer = true;
 	m_renderComponent->m_state = 1;
 }
@@ -273,22 +270,20 @@ void dae::AIComponent::StunEnemy()
 float dae::AIComponent::RandomFloatStep1(float min, float max)
 {
 
-	
 
+	if (min > max) std::swap(min, max);
 
-		if (min > max) std::swap(min, max);
+	int minInt = static_cast<int>(std::ceil(min));
+	int maxInt = static_cast<int>(std::floor(max));
 
-		int minInt = static_cast<int>(std::ceil(min));
-		int maxInt = static_cast<int>(std::floor(max));
+	if (minInt > maxInt) return minInt * 1.0f; // no valid integer step in range
 
-		if (minInt > maxInt) return minInt * 1.0f; // no valid integer step in range
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dist(minInt, maxInt);
 
-		static std::random_device rd;
-		static std::mt19937 gen(rd());
-		std::uniform_int_distribution<> dist(minInt, maxInt);
+	return static_cast<float>(dist(gen));
 
-		return static_cast<float>(dist(gen));
-	
 
 
 }
@@ -350,11 +345,11 @@ void dae::AIComponent::Render()
 			color = SDL_Color{ 255,0,0,250 };
 		}
 
-	
-	// Renderer::GetInstance().FillSquare(m_usablePath[i].x * m_TileSize, m_usablePath[i].y * m_TileSize, m_TileSize,color);
+
+		// Renderer::GetInstance().FillSquare(m_usablePath[i].x * m_TileSize, m_usablePath[i].y * m_TileSize, m_TileSize,color);
 	}
 
-	for (const auto & path : m_usablePath)
+	for (const auto& path : m_usablePath)
 	{
 
 
@@ -381,7 +376,8 @@ void dae::AIComponent::Update()
 		{
 			m_TotalTimeElasped = 0;
 			m_startTimer = false;
-			m_StopAi = false;
+			//m_StopAi = false;
+			s_PauseEnemy = false;
 			m_renderComponent->m_state = 0;
 
 		}
@@ -389,12 +385,13 @@ void dae::AIComponent::Update()
 	}
 
 
-	if (m_StopAi) return;
+	//if (m_StopAi) return;
+	if (s_PauseEnemy)return;
 
 	Node currentPos;
 	//  //column 1
 
-	currentPos.x = int(m_Self->GetWorldPosition().x ) / X_STEP;
+	currentPos.x = int(m_Self->GetWorldPosition().x) / X_STEP;
 	currentPos.y = int(m_Self->GetWorldPosition().y) / Y_STEP;
 
 	//row 
@@ -413,13 +410,14 @@ void dae::AIComponent::Update()
 	//17 //rows 
 
 	// 1
+
 	
-	m_usablePath = aStar(currentPos, targetPos);
+	  m_usablePath = aStar(currentPos, targetPos);
 
 
 	if (m_usablePath.size() > 1)
 	{
-		
+
 		glm::vec2 targetNode =
 		{
 			float(m_usablePath[1].x * X_STEP),
@@ -478,7 +476,7 @@ float dae::AIComponent::distanceBetweenPoints()
 	float selfX = m_Self->GetWorldPosition().x;
 	float selfY = m_Self->GetWorldPosition().y;
 
-	float dx = targetX  - selfX ;
+	float dx = targetX - selfX;
 	float dy = targetY - selfY;
 
 	// Calculate the sum of squares

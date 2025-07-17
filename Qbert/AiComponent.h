@@ -65,7 +65,7 @@ namespace dae
 
 		glm::vec2 m_targetNode{};
 
-		bool m_StopAi = false;
+		//bool m_StopAi = false;
 		bool m_startTimer = false;
 		float m_TotalTimeElasped = 0;
 		float m_TimerUntilMovingAgain = 4.f;
@@ -73,6 +73,11 @@ namespace dae
 		void StunEnemy();
 
 		float RandomFloatStep1(float min, float max);
+
+		float m_Interval = 3.5;
+		float m_TimerUpdateAi = m_Interval;
+
+		bool m_shouldUpdateAi = true;
 	
 
 

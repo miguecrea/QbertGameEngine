@@ -79,11 +79,15 @@ void Scene::RemoveAll()
 
 void Scene::Update()
 {
-	for(auto& pObject : m_pObjects)
+	for(auto & pObject : m_pObjects)
 	{
-		if (!pObject->IsDestroyed())
+
+		if (pObject)
 		{
-			pObject->Update();
+			if (!pObject->IsDestroyed())
+			{
+				pObject->Update();
+			}
 		}
 	}
 

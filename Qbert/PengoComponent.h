@@ -29,7 +29,7 @@ namespace dae
 		PengoComponent& operator=(const PengoComponent& other) = default;
 		PengoComponent& operator=(PengoComponent&& other) = default;
 
-		MulticastDelegate <Direction,int,int> m_OnPengoBreakOrMove;
+		MulticastDelegate <Direction,int,int,bool> m_OnPengoBreakOrMove;
 	private:
 
 	};

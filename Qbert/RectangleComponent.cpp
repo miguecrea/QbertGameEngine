@@ -63,6 +63,6 @@ void dae::RectangleComponent::SetHeight()
 
 void dae::RectangleComponent::Render()
 {
-    Renderer::GetInstance().FillSquare(float(m_Rect.x),float( m_Rect.y),float(m_Rect.w),float(m_Rect.h), SDL_Color{ 255,0,0,255 });
+   // Renderer::GetInstance().FillSquare(float(m_Rect.x),float( m_Rect.y),float(m_Rect.w),float(m_Rect.h), SDL_Color{ 255,0,0,255 });
 	//Renderer::GetInstance().FillSquare(float(m_CollsionWithEnemiesRect.x),float(m_CollsionWithEnemiesRect.y),float(m_CollsionWithEnemiesRect.w),float(m_CollsionWithEnemiesRect.h), SDL_Color{ 255,255,0,255 });
 }

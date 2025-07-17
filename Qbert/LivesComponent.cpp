@@ -69,7 +69,6 @@ void dae::LivesComponent::DecreaseLive()
 	dae::SoundSystem& audio{ dae::Audio::Get() };
 	audio.Play(S_PengoDeath, 0.5f, 0);
 	
-
 	if (s_Lives <= 0)
 	{
 		SceneManager::GetInstance().SetCurrentScene(INPUT_NAME_SCENE);

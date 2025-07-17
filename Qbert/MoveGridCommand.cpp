@@ -27,6 +27,7 @@ void dae::MoveGridCommand::Execute()
 {
 
 
+	//if Is enemy = 
 
 	if (m_usekeyboard)
 	{
@@ -35,26 +36,45 @@ void dae::MoveGridCommand::Execute()
 		case Direction::UP:
 
 			m_Direction = glm::vec3(0.f, -1.f,0);
+
+			if (m_PengoComponent)
+			{
 			m_RenderComponent->m_state = 2;
+
 			m_PengoComponent->m_CurrentDirection = Direction::UP;
+
+			}
 			break;
 		case Direction::DOWN:
 			m_Direction = glm::vec3(0.f, 1.f,0);
-			m_RenderComponent->m_state = 0;
+			if (m_PengoComponent)
+			{
 			m_PengoComponent->m_CurrentDirection = Direction::DOWN;
+			m_RenderComponent->m_state = 0;
+
+			}
 
 			break;
 		case Direction::LEFT:
 			m_Direction = glm::vec3(-1.f, 0.f,0);
+			if (m_PengoComponent)
+			{
 			m_RenderComponent->m_state = 1;
 			m_PengoComponent->m_CurrentDirection = Direction::LEFT;
+
+			}
 
 
 			break;
 		case Direction::RIGHT:
 			m_Direction = glm::vec3(1.f, 0.f,0);
+
+			if (m_PengoComponent)
+			{
 			m_RenderComponent->m_state = 3;
 			m_PengoComponent->m_CurrentDirection = Direction::RIGHT;
+
+			}
 
 
 			break;
@@ -121,7 +141,7 @@ void dae::MoveGridCommand::RenderingX()
 {
 	if (m_Direction.x == 1.f)
 	{
-		if (m_RenderComponent && m_PengoComponent)
+		if (m_PengoComponent)
 		{
 			m_RenderComponent->m_state = 3;
 			m_PengoComponent->m_CurrentDirection = Direction::RIGHT;
@@ -130,7 +150,7 @@ void dae::MoveGridCommand::RenderingX()
 	}
 	else
 	{
-		if (m_RenderComponent)
+		if (m_PengoComponent)
 		{
 			m_RenderComponent->m_state = 1;
 			m_PengoComponent->m_CurrentDirection = Direction::LEFT;
@@ -144,7 +164,7 @@ void dae::MoveGridCommand::HandleRendering()
 {
 	if (m_Direction.y == 1.f)
 	{
-		if (m_RenderComponent)
+		if (m_PengoComponent)
 		{
 			m_RenderComponent->m_state = 0;
 			m_PengoComponent->m_CurrentDirection = Direction::DOWN;
@@ -153,7 +173,7 @@ void dae::MoveGridCommand::HandleRendering()
 	}
 	else
 	{
-		if (m_RenderComponent)
+		if (m_PengoComponent)
 		{
 			m_RenderComponent->m_state = 2;
 			m_PengoComponent->m_CurrentDirection = Direction::UP;

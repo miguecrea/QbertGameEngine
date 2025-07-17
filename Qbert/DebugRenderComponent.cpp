@@ -15,6 +15,8 @@
 #include"RectangleComponent.h"
 #include"TagComponent.h"
 #include"Tags.h"
+#include <fstream>
+#include <sstream>
 
 #define BLOCK 9
 #define COLLISION 8
@@ -22,11 +24,11 @@
 #define UNHATCH_EGGS 7
 #define FREE 0
 
-dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
-	m_Pengo{ Player }
+dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player,const std::string & mapFileName, int NumberEnemies, std::shared_ptr<dae::GameObject> Player2) :
+	m_Pengo{ Player },m_MapFileName{ mapFileName },m_NumberEnemies{ NumberEnemies },m_Player2{Player2}
 {
 
-	//ParseMaps
+	parseMapFile(m_MapFileName);
 
 	for (int y = 0; y < m_NumberTilesY; ++y)
 	{
@@ -34,7 +36,6 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 		{
 			if (MapArray[y][x] == BLOCK)
 			{
-
 
 				//only the block has a reference 
 				auto IceBlockGameObject = std::make_shared<dae::GameObject>();
@@ -46,13 +47,13 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player) :
 				TileComponent->m_CurrentRow = y;
 				TileComponent->m_CurrentColumn = x;
 
-
-				if (x % 2 == 0 && NumberOfEnemiesNest < MAXNumberOfEnemiesNest)
+				if (x % 2 == 0 && NumberOfEnemiesNest < m_NumberEnemies)
 				{
 				NumberOfEnemiesNest++;
 				DiamondBlockRenderer->SetTexture("MIGUEL_DiamondBlock_ORANGE.png");
 				TileComponent->m_IsNest = true;
 				m_TilesWidhEnemies.push_back(IceBlockGameObject);
+
 				}
 
 
@@ -120,11 +121,27 @@ void dae::MapComponent::BeginPlay()
 	auto PengoComponent = m_Pengo->GetComponent<dae::PengoComponent>();
 	if (PengoComponent)
 	{
-
 		using namespace std::placeholders;
-		PengoComponent->m_OnPengoBreakOrMove.Add(std::bind(&MapComponent::PengoAttackResponse, this, _1, _2, _3));
-
+		PengoComponent->m_OnPengoBreakOrMove.Add(std::bind(&MapComponent::PengoAttackResponse, this, _1, _2, _3,_4));
 	}
+
+
+	if (m_Player2)
+	{
+		auto PengoComponent2 = m_Player2->GetComponent<dae::PengoComponent>();
+		if (PengoComponent2)
+		{
+			using namespace std::placeholders;
+			PengoComponent2->m_OnPengoBreakOrMove.Add(std::bind(&MapComponent::PengoAttackResponse, this, _1, _2, _3,_4));
+		}
+	}
+
+
+
+
+
+
+
 
 }
 
@@ -158,30 +175,41 @@ std::vector<std::shared_ptr<dae::GameObject>> dae::MapComponent::GetTilesWidthEn
 	return m_TilesWidhEnemies;
 }
 
-void dae::MapComponent::parseMapFile(const std::string& filename)
+void dae::MapComponent::SetPlayer2(std::shared_ptr<dae::GameObject> player2)
+{
+	m_Player2 = player2;
+}
+
+void dae::MapComponent::parseMapFile(const std::string & filename)
 {
 
+	std::ifstream file(filename);
+	if (!file.is_open())
+	{
+		std::cerr << "Failed to open map file: " << filename << std::endl;
+		return;
+	}
 
+	std::string line;
+	int row = 0;
 
-	//std::ifstream file(filename);
-	//std::string line;
-	//int row = 0;
+	while (std::getline(file, line) && row < MapHeight)
+	{
+		std::istringstream ss(line);
+		for (int col = 0; col < MapWidth; ++col)
+		{
+			ss >> MapArray[row][col];
+		}
+		++row;
+	}
 
-	//while (std::getline(file, line) && row < 36) { // Read each line of the file
-	//	std::istringstream iss(line);
-	//	std::string token;
-	//	int col = 0;
+	file.close();
 
-	//	while (std::getline(iss, token, ',')) { // Tokenize each line by comma
-	//		MapArray2[row][col++] = std::stoi(token); // Convert token to int and fill MapArray2
-	//	}
-
-	//	row++;
-	//}
+	
 
 }
 
-void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int currenRow, int currentColumn)
+void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int currenRow, int currentColumn,bool OnlyBreak)
 {
 
 	int TilesToChekc{ 1 };
@@ -215,6 +243,8 @@ void dae::MapComponent::PengoAttackResponse(Direction PengoDirection, int curren
 		}
 		else
 		{
+
+			if (OnlyBreak) return;
 
 			TileInfo NextOccupiedTile{};
 			TileInfo NextFoundCollision{};

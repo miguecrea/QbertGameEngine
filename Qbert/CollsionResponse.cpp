@@ -30,13 +30,12 @@ void dae::CollsionResponse::BeginPlay()
 	m_CollisionWithComponent = this->GetOwner()->GetComponent<CollisionWithComponent>();
 	m_AiComponent = this->GetOwner()->GetComponent<AIComponent>();
 	m_RenderComponent = this->GetOwner()->GetComponent<RenderComponent>();
-	
+
 	if (m_CollisionWithComponent)
 	{
-		
-		m_CollisionWithComponent->m_OnCollisionEvent.Add([this](std::shared_ptr<dae::GameObject> CollidedObject) 
+		m_CollisionWithComponent->m_OnCollisionEvent.Add([this](std::shared_ptr<dae::GameObject> CollidedObject)
 			{
-			OnCollision(CollidedObject);
+				OnCollision(CollidedObject);
 			}
 		);
 
@@ -60,6 +59,22 @@ void dae::CollsionResponse::Render()
 
 void dae::CollsionResponse::Update()
 {
+
+	if (m_StartCounter)
+	{
+		m_CollisionTimer += SceneManager::GetInstance().GetDeltaTime(); 
+
+			if (m_CollisionTimer >= 2.f)
+			{
+				m_CollisionTimer = 0.f;
+				m_StartCounter = false;
+				s_PauseEnemy = false;
+
+				//reset variable 
+
+			}
+
+	}
 }
 
 void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> CollidedObject)
@@ -75,7 +90,7 @@ void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> Collide
 		{
 			if (m_CollisionWithComponent)
 			{
-			m_CollisionWithComponent->m_canCollide = false;
+				m_CollisionWithComponent->m_canCollide = false;
 
 			}
 			if (m_AiComponent)
@@ -87,26 +102,27 @@ void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> Collide
 			{
 				m_RenderComponent->SetVisibility(false);
 			}
-			
 
-			std::cout << "Hello nigga collided \n";
-	
+
+
 			if (m_EnemySpawner)
 			{
 				m_EnemySpawner->DecreaseEnemyCount();
 			}
 
-		
-		   dae::SoundSystem& audio{ dae::Audio::Get() };
-		   audio.Play(S_EnemyDead, 0.5f, 0);
+
+			dae::SoundSystem& audio{ dae::Audio::Get() };
+			audio.Play(S_EnemyDead, 0.5f, 0);
 
 		}
 		else if (tagComponent->GetTag() == PENGO)
 		{
 
+			m_StartCounter = true;
+			s_PauseEnemy = true;
+			 
+			CollidedObject->SetPosition(48 * 2, 48 * 2);
 
-			//set enemies and 
-			//get enemies 
 			auto liveComponent = CollidedObject->GetComponent<dae::LivesComponent>();
 			if (liveComponent)
 			{
@@ -114,12 +130,12 @@ void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> Collide
 			}
 
 
-		std::cout << " Enemy cOLLIDED  Pengo \n";
+			std::cout << " Enemy cOLLIDED  Pengo \n";
 		}
 
 	}
 
 
-	
+
 
 }

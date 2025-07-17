@@ -4,8 +4,8 @@
 #include"PengoComponent.h"
 #include"TileStaticHelper.h"
 
-dae::BreakMoveTileCommand::BreakMoveTileCommand(std::shared_ptr<dae::GameObject> pGameObject):
-	m_Pengo{pGameObject}
+dae::BreakMoveTileCommand::BreakMoveTileCommand(std::shared_ptr<dae::GameObject> pGameObject, bool OnlyBreak):
+	m_Pengo{pGameObject},m_OnlyBreak{OnlyBreak}
 {
 	if (m_Pengo)
 	{
@@ -24,7 +24,8 @@ void dae::BreakMoveTileCommand::Execute()
 	int Column = TileStaticHelper::GetInstance().GetColumn(m_Pengo->GetWorldPosition().x);
 	if (m_PengoComponent)
 	{
-		m_PengoComponent->m_OnPengoBreakOrMove.Broadcast(m_PengoComponent->m_CurrentDirection,row,Column);
+		//
+		m_PengoComponent->m_OnPengoBreakOrMove.Broadcast(m_PengoComponent->m_CurrentDirection,row,Column,m_OnlyBreak);
 	}
 }
 

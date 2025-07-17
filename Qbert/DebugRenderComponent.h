@@ -20,60 +20,31 @@ namespace dae
 	public:
 
 		
-		MapComponent(std::shared_ptr<dae::GameObject> Player);
-
-
+		MapComponent(std::shared_ptr<dae::GameObject> Player,const std::string & mapFileName,int NumberEnemies, std::shared_ptr<dae::GameObject> Player2 = nullptr);
 		MulticastDelegate<> m_IncreaseScoreDelegate;
-		 
-
-
-		//columsn and rows 
-		/*static const int COLUMNS = 15;
-		static const int ROWS = 17;*/
-	
-		// rowa 17 columns 15 
-		int MapArray[17][15] =
-		{
-			{8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8},
-			{8, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9, 8},
-			{8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 8},
-			{8, 0, 0, 0, 0, 0, 9, 0, 9, 0, 0, 0, 0, 9, 8},
-			{8, 9, 9, 9, 9, 0, 5, 5, 0, 0, 0, 9, 0, 9, 8},
-			{8, 0, 0, 1, 1, 0, 0, 1, 0, 9, 0, 9, 0, 0, 8},
-			{8, 9, 9, 9, 9, 0, 0, 0, 9, 9, 0, 9, 0, 0, 8},
-			{8, 0, 9, 0, 0, 9, 9, 9, 9, 9, 0, 9, 9, 0, 8},
-			{8, 0, 0, 0, 0, 0, 9, 0, 5, 9, 0, 0, 0, 0, 8},
-			{8, 0, 9, 9, 0, 9, 0, 0, 0, 9, 0, 0, 0, 0, 8},
-			{8, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 8},
-			{8, 0, 9, 9, 9, 9, 9, 9, 0, 9, 9, 0, 0, 0, 8},
-			{8, 0, 9, 0, 0, 1, 9, 0, 0, 1, 0, 0, 0, 0, 8},
-			{8, 0, 9, 0, 0, 1, 9, 0, 0, 0, 0, 0, 0, 0, 8},
-			{8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 8},
-			{8, 9, 9, 0, 9, 0, 0, 0, 9, 0, 0, 0, 0, 9, 8},
-			{8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8},
-		};
-
-		std::shared_ptr<dae::GameObject> m_TileObjects[17][15];
-		std::vector<TileInfo> m_SpeciaTiles{};
-
 		MulticastDelegate <> m_On3TilesMatched;
 
+		const int MapHeight = 17;
+		const int MapWidth = 15;
+		int MapArray[17][15];
+		std::shared_ptr<dae::GameObject> m_TileObjects[17][15];
+		std::vector<TileInfo> m_SpeciaTiles{};
 		std::vector<std::shared_ptr<dae::GameObject>> GetTiles();
 		std::vector<std::shared_ptr<dae::GameObject>> GetTilesWidthEnmies();
-
+		void SetPlayer2(std::shared_ptr<dae::GameObject> player2);
 
 	private:
+
+		int m_NumberEnemies{};
+		std::string m_MapFileName;
 		virtual void BeginPlay() override;
 		void  Render() override;
 		void  Update() override;
-
 		std::shared_ptr<dae::GameObject> m_Pengo;
+		std::shared_ptr<dae::GameObject> m_Player2;
 
 		float NumberOfEnemiesNest = 0;
 		float MAXNumberOfEnemiesNest = 2;
-
-		// Movbe Grid Command 
-		//and resolution as well 
 		const int m_NumberTilesX = 15;
 		const int m_NumberTilesY = 17;
 		float m_TileSize = 48.f;
@@ -81,20 +52,16 @@ namespace dae
 		std::vector<std::shared_ptr<dae::GameObject>> m_TilesVector;
 		std::vector<std::shared_ptr<dae::GameObject>> m_TilesWidhEnemies;
 
-
 		int m_especialTilesIndeces[3][3];
 
 		void parseMapFile(const std::string& filename);
-		void PengoAttackResponse(Direction PengoDirection, int currenRow, int currentColumn);
+		void PengoAttackResponse(Direction PengoDirection, int currenRow, int currentColumn,bool OnlyBreak);
 		void DestroyCube(dae::TileInfo& HasBlockInFrontOneCube);
 		dae::TileInfo HasABlockInFront(Direction PengoDirection, int row, int column, int numberTilesToCheck,int TypeOBlock);
 		bool IsCubeCollision(Direction PengoDirection, int row, int column, int numberTilesToCheck);
 		bool HasBlockIn(int row, int column);
-
-
 		void ReturnDesired(int & row, int & column, const TileInfo& Tile);
 		bool  HasThreeAlignedTiles(const std::vector<TileInfo> & tiles);
-
 
 	};
 

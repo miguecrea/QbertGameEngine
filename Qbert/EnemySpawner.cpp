@@ -13,8 +13,8 @@
 #include"TagComponent.h"
 #include"Tags.h"
 
-dae::EnemySpawner::EnemySpawner(std::vector<std::shared_ptr<dae::GameObject>> Tiles, std::shared_ptr<dae::GameObject > Map, std::shared_ptr<dae::GameObject> Pengo):
-	m_Tiles{Tiles},m_Map{Map},m_Pengo{Pengo}
+dae::EnemySpawner::EnemySpawner(std::vector<std::shared_ptr<dae::GameObject>> Tiles, std::shared_ptr<dae::GameObject > Map, std::shared_ptr<dae::GameObject> Pengo, const std::string fileName):
+	m_Tiles{Tiles},m_Map{Map},m_Pengo{Pengo},m_fileName{fileName}
 {
 
 }
@@ -44,7 +44,6 @@ void dae::EnemySpawner::Render()
 
 void dae::EnemySpawner::Update()
 {
-	//std::cout<< m_NumberActiveEnemies<<"\n";
 
 }
 
@@ -55,7 +54,6 @@ void dae::EnemySpawner::SpawnEnemyCallBack(float x, float y)
 
 void dae::EnemySpawner::SpawEnemy(float x, float y)
 {
-
 	auto Enemy = std::make_shared<dae::GameObject>();
 	auto EnemyRenderer = std::make_shared<dae::RenderComponent>(-2, true);
 	auto EnemyAi = std::make_shared<dae::AIComponent>(m_Map,m_Pengo);
@@ -63,7 +61,7 @@ void dae::EnemySpawner::SpawEnemy(float x, float y)
 	auto CollisionComponentEnmies = std::make_shared<dae::CollisionWithComponent>(m_Tiles);
 	auto CollisionResponseEnemy = std::make_shared<dae::CollsionResponse>();
 	CollisionResponseEnemy->m_EnemySpawner = this;
-	EnemyRenderer->SetTexture("Enemy.png");
+	EnemyRenderer->SetTexture(m_fileName);
 	EnemyRenderer->AddToVector(5, 8, 5, 5, dae::AnimationComponent::Type::loop, 0, 1);//down
 	EnemyRenderer->AddToVector(5, 8, 8, 5, dae::AnimationComponent::Type::StartAtNoZero, 6, 0);//down
 	EnemyRenderer->SetDimension(2.5f);
@@ -79,21 +77,15 @@ void dae::EnemySpawner::SpawEnemy(float x, float y)
 	Enemy->BeginPlay();
 	SceneManager::GetInstance().GetCurrentScene()->Add(Enemy);
 
-	//std::cout << "Total Enmies Alive "<<m_NumberActiveEnemies<<"\n";
-
-
 }
 
 void dae::EnemySpawner::DecreaseEnemyCount()
 {
-
 	std::cout<<"response\n";
 	m_NumberActiveEnemies--;
-	//std::cout << m_NumberActiveEnemies << "\n";
 
 	if (m_NumberActiveEnemies <= 0)
 	{
-	//	std::cout << "Game Over\n";
 		m_GameOver.Broadcast();
 	}
 }

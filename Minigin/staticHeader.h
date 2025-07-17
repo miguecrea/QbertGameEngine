@@ -25,5 +25,6 @@ extern std::string s_HighesScorePlayerName;
 extern int s_CurrentCharacter;
 extern bool s_CanUseInput;
 extern bool s_ResetGame;
+extern bool s_PauseEnemy;
 
 
