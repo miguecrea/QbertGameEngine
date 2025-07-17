@@ -63,6 +63,7 @@ namespace dae
 		void ReturnDesired(int & row, int & column, const TileInfo& Tile);
 		bool  HasThreeAlignedTiles(const std::vector<TileInfo> & tiles);
 
+		bool percentage(int percent);
 	};
 
 }

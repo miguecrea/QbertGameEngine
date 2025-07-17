@@ -35,9 +35,6 @@ void dae::ChangeModeCommand::ChangeNextOne()
 		TextComponent->m_ShowRectangle = false;
 	}
 
-
-
-
 	m_Index = (m_Index + 1) % m_VectorSize;
 
 	auto TextComponent2 = m_TextGameObejects[m_Index]->GetComponent<dae::TextComponent>();

@@ -29,13 +29,11 @@
 //Prevents ownership bugs and double - deletion.
 
 
-
-
 dae::AIComponent::AIComponent(std::shared_ptr<GameObject> Map, std::shared_ptr<GameObject> pTargetGameObejct) :
 	m_Map{ Map }, m_Target{ pTargetGameObejct }, m_pSceneManager{ &SceneManager::GetInstance() }
 {
 
-	m_Speed = RandomFloatStep1(15.f, 60.f);
+	m_Speed = RandomFloatStep1(25.f, 60.f);
 }
 
 void dae::AIComponent::BeginPlay()
@@ -81,14 +79,6 @@ double calculateH(int x, int y, Node dest) {
 
 bool dae::AIComponent::isValid(int x, int y)
 {
-
-	// y column and x is the row 
-
-
-	//this y is row and y is column in grid positions
-
-
-	//if check is
 							   // 15 columns             //rows 17 
 	if (x < 0 || y < 0 || x >= (X_MAX / X_STEP) || y >= (Y_MAX / Y_STEP))
 	{
@@ -261,7 +251,6 @@ std::vector<Node> dae::AIComponent::aStar(Node agent, Node dest)
 
 void dae::AIComponent::StunEnemy()
 {
-	//m_StopAi = true;
 	s_PauseEnemy = true;
 	m_startTimer = true;
 	m_renderComponent->m_state = 1;
@@ -331,33 +320,6 @@ void dae::AIComponent::Render()
 {
 
 
-
-
-	for (size_t i = 0; i < m_usablePath.size(); i++)
-	{
-		SDL_Color color{};
-		if (i == 1)
-		{
-			color = SDL_Color{ 0,0,255,250 };
-		}
-		else
-		{
-			color = SDL_Color{ 255,0,0,250 };
-		}
-
-
-		// Renderer::GetInstance().FillSquare(m_usablePath[i].x * m_TileSize, m_usablePath[i].y * m_TileSize, m_TileSize,color);
-	}
-
-	for (const auto& path : m_usablePath)
-	{
-
-
-	}
-
-
-
-
 }
 
 void dae::AIComponent::Update()
@@ -376,7 +338,6 @@ void dae::AIComponent::Update()
 		{
 			m_TotalTimeElasped = 0;
 			m_startTimer = false;
-			//m_StopAi = false;
 			s_PauseEnemy = false;
 			m_renderComponent->m_state = 0;
 
@@ -385,7 +346,6 @@ void dae::AIComponent::Update()
 	}
 
 
-	//if (m_StopAi) return;
 	if (s_PauseEnemy)return;
 
 	Node currentPos;
@@ -406,13 +366,8 @@ void dae::AIComponent::Update()
 
 	int columns = 15;
 	int rows = 17;
-	//15 columns 
-	//17 //rows 
-
-	// 1
-
 	
-	  m_usablePath = aStar(currentPos, targetPos);
+	m_usablePath = aStar(currentPos, targetPos);
 
 
 	if (m_usablePath.size() > 1)
@@ -455,20 +410,6 @@ void dae::AIComponent::Update()
 
 }
 
-
-
-
-
-
-
-//
-//bool dae::AIComponent::HasArrived(Node& ghosts, Node& TargetNode)
-//{
-//
-//	return ghosts.x == TargetNode.x && ghosts.y == ghosts.y;
-//
-//}
-
 float dae::AIComponent::distanceBetweenPoints()
 {
 	float targetX = m_Target->GetWorldPosition().x;
@@ -507,97 +448,3 @@ float dae::AIComponent::distanceBetweenPoints()
 
 
 
-
-
-//m_OldPosition = m_Self->GetLocalPosition();
-//glm::vec3 newPosition = m_OldPosition + glm::vec3{10,0,0} * m_pSceneManager->GetDeltaTime();
-//m_Self->SetPosition(newPosition.x, newPosition.y);
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-//const float targetX = 20.0f;
-//const float targetY = 200.0f;
-
-//m_OldPosition = m_Self->GetLocalPosition();
-
-//// Calculate direction vector towards the target position (200, 200)
-//glm::vec3 targetPosition(targetX, targetY, 0.0f); // Assuming z-coordinate is 0
-//glm::vec3 direction = glm::normalize(targetPosition - m_OldPosition);
-
-//// Define movement speed
-//float moveSpeed = 10.f; // Adjust as needed
-
-//// Calculate movement for this frame
-//glm::vec3 movement = direction * moveSpeed * m_pSceneManager->GetDeltaTime();
-
-//// Calculate new position by adding movement to the old position
-//glm::vec3 newPosition = m_OldPosition + movement;
-
-//// Check if the character is close enough to the target position
-//float distanceToTarget = glm::distance(newPosition, targetPosition);
-//if (distanceToTarget <= moveSpeed * m_pSceneManager->GetDeltaTime()) {
-//    // If close enough, directly set the position to the target position
-//    m_Self->SetPosition(targetX, targetY);
-//}
-//else {
-//    // Otherwise, set the position to the new calculated position
-//    m_Self->SetPosition(newPosition.x, newPosition.y);
-//}
-
-//
-
-
-/////////////////////
-//Go to target 
-
-// m_OldPosition = m_Self->GetLocalPosition();
-
-// // Assuming playerPosition represents the position of the player object
-// glm::vec3 playerPosition = m_Target->GetLocalPosition(); // Assuming m_Player is a pointer to the player object
-
-// // Calculate direction vector towards the player's position
-// glm::vec3 direction = glm::normalize(playerPosition - m_OldPosition);
-
-// // Define movement speed
-// float moveSpeed = 10.0f; // Adjust as needed
-
-// // Calculate movement for this frame
-// glm::vec3 movement = direction * moveSpeed * m_pSceneManager->GetDeltaTime();
-
-// // Calculate new position by adding movement to the old position
-// glm::vec3 newPositions = m_OldPosition + movement;
-
-// // Set the position to the new calculated position
-//m_Self->SetPosition(newPositions.x, newPositions.y);
-
-
- ///////////////
-
-
-
-
-	//char mapVisualized[X_MAX / X_STEP][Y_MAX / Y_STEP];
-
-	// for (int y{ 0 }; y < Y_MAX / Y_STEP; y++) {
-	// 	for (int x{ 0 }; x < X_MAX / X_STEP; x++) {
-	// 		mapVisualized[x][y] = '.';
-
-	// 		for (const auto& node : path) {
-	// 			if (node.x == x && node.y == y) {
-	// 				mapVisualized[x][y] = 'x';
-	// 				break;
-	// 			}
-	// 		}
-	// 		if (currentPos.x == x && currentPos.y == y) {
-	// 			mapVisualized[x][y] = 'C';
-	// 		}
-	// 		if (targetPos.x == x && targetPos.y == y) {
-	// 			mapVisualized[x][y] = 'T';
-	// 		}
-	// 		std::cout << mapVisualized[x][y];
-	// 	}
-	// 	std::cout << "\n";
-	// }

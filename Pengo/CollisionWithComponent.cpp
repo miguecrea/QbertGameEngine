@@ -31,14 +31,12 @@ int::dae::CollisionWithComponent::m_SnakePosIndex = 0;
 void dae::CollisionWithComponent::BeginPlay()
 {
 	std::cout << "Collsion With Compoennt Initialized in \n\n";
-
 }
 
 void dae::CollisionWithComponent::Update()
 {
 
-
-	if (!m_canCollide) return;   //remember this 
+	if (!m_canCollide) return;
 
 	SDL_Rect selfRect = this->GetOwner()->GetComponent<dae::RectangleComponent>()->GetRect();
 
@@ -58,7 +56,6 @@ void dae::CollisionWithComponent::Update()
 			    m_CurrentlyCollidingTiles.insert(i);
 				m_OnCollisionEvent.Broadcast(m_CollideObjects[i]);
 			}
-
 		}
 		else
 		{

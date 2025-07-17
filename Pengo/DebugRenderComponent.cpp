@@ -40,6 +40,11 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player,const st
 				//only the block has a reference 
 				auto IceBlockGameObject = std::make_shared<dae::GameObject>();
 				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2,false);
+
+				//DiamondBlockRenderer->AddToVector(1,2,2,2,dae::AnimationComponent)
+				//DiamondBlockRenderer->AddToVector(1,2,2,2,dae::AnimationComponent)
+
+
 				auto TileComponent = std::make_shared<dae::TileComponent>();
 				auto RectComponent = std::make_shared<dae::RectangleComponent>(48,48);
 				auto TagComponent = std::make_shared<dae::TagComponent>(CUBE);
@@ -47,7 +52,7 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player,const st
 				TileComponent->m_CurrentRow = y;
 				TileComponent->m_CurrentColumn = x;
 
-				if (x % 2 == 0 && NumberOfEnemiesNest < m_NumberEnemies)
+				if ( (x % 2 == 0 || y % 2 == 1) && NumberOfEnemiesNest < m_NumberEnemies)
 				{
 				NumberOfEnemiesNest++;
 				DiamondBlockRenderer->SetTexture("MIGUEL_DiamondBlock_ORANGE.png");
@@ -55,8 +60,6 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player,const st
 				m_TilesWidhEnemies.push_back(IceBlockGameObject);
 
 				}
-
-
 				else
 				{
 				DiamondBlockRenderer->SetTexture("MIGUEL_IceCubeBlock.png");
@@ -600,6 +603,11 @@ bool dae::MapComponent::HasThreeAlignedTiles(const std::vector<TileInfo>& tiles)
 			return true;
 	}
 	return false;
+}
+
+bool dae::MapComponent::percentage(int percent)
+{
+	 return std::rand() % 100 < percent;
 }
 
 

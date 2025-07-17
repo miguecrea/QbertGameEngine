@@ -24,7 +24,6 @@ void dae::BreakMoveTileCommand::Execute()
 	int Column = TileStaticHelper::GetInstance().GetColumn(m_Pengo->GetWorldPosition().x);
 	if (m_PengoComponent)
 	{
-		//
 		m_PengoComponent->m_OnPengoBreakOrMove.Broadcast(m_PengoComponent->m_CurrentDirection,row,Column,m_OnlyBreak);
 	}
 }
