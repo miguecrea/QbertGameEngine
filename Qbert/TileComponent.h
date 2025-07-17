@@ -55,6 +55,10 @@ namespace dae
 		float m_MaxSeconds = 20.f;
 		
 
+		float m_TimerForchanging = 0.f;
+
+		void ToogleSprite();
+
 
 
 	};

@@ -39,7 +39,7 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player,const st
 
 				//only the block has a reference 
 				auto IceBlockGameObject = std::make_shared<dae::GameObject>();
-				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2, false);
+				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2,false);
 				auto TileComponent = std::make_shared<dae::TileComponent>();
 				auto RectComponent = std::make_shared<dae::RectangleComponent>(48,48);
 				auto TagComponent = std::make_shared<dae::TagComponent>(CUBE);
