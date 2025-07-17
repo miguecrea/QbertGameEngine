@@ -54,15 +54,87 @@ void dae::NextSceneCommand::Execute()
 	}
 	else if (nameOfScene == CO_OP_SCENE)
 	{
-		//add kyabord an controller formplayer 2
-		//needs to be set on scene
+		
+
+		keyboard->MapCommandToButton(SDL_SCANCODE_W, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map, Direction::UP, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_A, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map, Direction::LEFT, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_S, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map, Direction::DOWN, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_D, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map, Direction::RIGHT, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_K, std::make_unique<dae::BreakMoveTileCommand>(scene->m_player), dae::ButtonState::Up);
+
+
+		keyboard->MapCommandToButton(SDL_SCANCODE_T, std::make_unique<dae::MoveGridCommand>(scene->m_player2, scene->m_Map, Direction::UP, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_F, std::make_unique<dae::MoveGridCommand>(scene->m_player2, scene->m_Map, Direction::LEFT, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_G, std::make_unique<dae::MoveGridCommand>(scene->m_player2, scene->m_Map, Direction::DOWN, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_H, std::make_unique<dae::MoveGridCommand>(scene->m_player2, scene->m_Map, Direction::RIGHT, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_U, std::make_unique<dae::BreakMoveTileCommand>(scene->m_player2), dae::ButtonState::Up);
+
+
+		input.m_PostClearCallback = [=]()
+			{
+				auto controller = InputManager::GetInstance().AddController();
+
+				controller->MapCommandToThumbstick(dae::Controller::ControllerThumbsticks::LeftThumbstick, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map));
+				controller->MapCommandToButton(dae::Controller::ControllerButtons::ButtonA, std::make_unique<dae::BreakMoveTileCommand>(scene->m_player), dae::ButtonState::Up);
+
+
+				auto controller2 = InputManager::GetInstance().AddController();
+				controller2->MapCommandToThumbstick(dae::Controller::ControllerThumbsticks::LeftThumbstick, std::make_unique<dae::MoveGridCommand>(scene->m_player2, scene->m_Map));
+				controller2->MapCommandToButton(dae::Controller::ControllerButtons::ButtonA, std::make_unique<dae::BreakMoveTileCommand>(scene->m_player2), dae::ButtonState::Up);
+			};
+
+
+
+		dae::SoundSystem& audio{ dae::Audio::Get() };
+		audio.Play(s_MenuMusicId, 0.2f, 100);
 
 
 	}
 	else if (nameOfScene == VERSUS_MODE)
 	{
-		// and keybaord and controller for enemy 
-		//needs to be scene.addEndmy 
+
+
+
+		keyboard->MapCommandToButton(SDL_SCANCODE_W, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map, Direction::UP, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_A, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map, Direction::LEFT, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_S, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map, Direction::DOWN, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_D, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map, Direction::RIGHT, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_K, std::make_unique<dae::BreakMoveTileCommand>(scene->m_player), dae::ButtonState::Up);
+
+
+		keyboard->MapCommandToButton(SDL_SCANCODE_T, std::make_unique<dae::MoveGridCommand>(scene->m_enemy, scene->m_Map, Direction::UP, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_F, std::make_unique<dae::MoveGridCommand>(scene->m_enemy, scene->m_Map, Direction::LEFT, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_G, std::make_unique<dae::MoveGridCommand>(scene->m_enemy, scene->m_Map, Direction::DOWN, true), dae::ButtonState::Pressed);
+		keyboard->MapCommandToButton(SDL_SCANCODE_H, std::make_unique<dae::MoveGridCommand>(scene->m_enemy, scene->m_Map, Direction::RIGHT, true), dae::ButtonState::Pressed);
+
+		keyboard->MapCommandToButton(SDL_SCANCODE_U, std::make_unique<dae::BreakMoveTileCommand>(scene->m_enemy, true), dae::ButtonState::Up);
+
+
+		/////////////////////////////////////////////////////////
+
+
+		input.m_PostClearCallback = [=]()
+			{
+				auto controller = InputManager::GetInstance().AddController();
+
+				controller->MapCommandToThumbstick(dae::Controller::ControllerThumbsticks::LeftThumbstick, std::make_unique<dae::MoveGridCommand>(scene->m_player, scene->m_Map));
+				controller->MapCommandToButton(dae::Controller::ControllerButtons::ButtonA, std::make_unique<dae::BreakMoveTileCommand>(scene->m_player), dae::ButtonState::Up);
+
+
+				auto controller2 = InputManager::GetInstance().AddController();
+				controller2->MapCommandToThumbstick(dae::Controller::ControllerThumbsticks::LeftThumbstick, std::make_unique<dae::MoveGridCommand>(scene->m_enemy, scene->m_Map));
+				controller2->MapCommandToButton(dae::Controller::ControllerButtons::ButtonA, std::make_unique<dae::BreakMoveTileCommand>(scene->m_enemy, true), dae::ButtonState::Up);
+			};
+
+		dae::SoundSystem& audio{ dae::Audio::Get() };
+		audio.Play(s_MenuMusicId, 0.2f, 100);
+
+
+
+
+
+
+
 
 	}
 	else if (nameOfScene == SCORE_SCENE)
