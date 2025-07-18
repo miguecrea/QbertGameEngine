@@ -10,6 +10,7 @@
 #include <random>
 #include <cmath>
 #include"staticHeader.h"
+#include<memory>
 
 dae::TileComponent::TileComponent()
 {
@@ -54,11 +55,11 @@ void dae::TileComponent::Update()
 		m_TimerForchanging += SceneManager::GetInstance().GetDeltaTime();
 
 
-		//if (m_TimerForchanging >= 1.f)
-		//{
-		//	m_TimerForchanging = 0;
-		//	ToogleSprite();
-		//}
+		if (m_TimerForchanging >= 0.5f)
+		{
+			m_TimerForchanging = 0;
+			ToogleSprite();
+		}
 
 		//// make it 
 
@@ -74,13 +75,14 @@ void dae::TileComponent::Update()
 
 			if (!m_StartMoving)
 			{
-				m_Map->m_TileObjects[m_CurrentRow, m_CurrentColumn]->reset();
+
+				m_Map->m_TileObjects[m_CurrentRow][m_CurrentColumn].reset();
 				m_Map->MapArray[m_CurrentRow][m_CurrentColumn] = 0;
 
 			}
 			else
 			{
-				m_Map->m_TileObjects[m_DesiredRow, m_DesiredColumn]->reset();
+				m_Map->m_TileObjects[m_DesiredRow][m_DesiredColumn].reset();
 				m_Map->MapArray[m_DesiredRow][m_DesiredRow] = 0;
 
 			}
@@ -168,7 +170,7 @@ float dae::TileComponent::RandomFloatStep1(float min, float max)
 
 void dae::TileComponent::ToogleSprite()
 {
-	if (m_renderComponent->m_state = 0)
+	if (m_renderComponent->m_state == 0)
 	{
 
 		m_renderComponent->m_state = 1;

@@ -61,7 +61,8 @@ void dae::DisplayNameComponent::BeginPlay()
 	if (m_Object)
 	{
 		
-		m_Object->GetComponent<dae::MapComponent>()->m_IncreaseScoreDelegate.Add(std::bind(&DisplayNameComponent::IncreaseScore,this));
+		auto mapComponent = m_Object->GetComponent<dae::MapComponent>();
+		if(mapComponent) mapComponent->m_IncreaseScoreDelegate.Add(std::bind(&DisplayNameComponent::IncreaseScore, this));
 
     }
 

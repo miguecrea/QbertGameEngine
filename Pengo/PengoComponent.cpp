@@ -11,8 +11,7 @@ void dae::PengoComponent::BeginPlay()
 void dae::PengoComponent::Render()
 {
 
-	float X{};
-	float Y{};
+
 	float Size{ 40.f };
 	for (size_t i = 0; i < 10; i++)
 	{

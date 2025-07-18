@@ -59,7 +59,6 @@ namespace dae
 		void DestroyCube(dae::TileInfo& HasBlockInFrontOneCube);
 		dae::TileInfo HasABlockInFront(Direction PengoDirection, int row, int column, int numberTilesToCheck,int TypeOBlock);
 		bool IsCubeCollision(Direction PengoDirection, int row, int column, int numberTilesToCheck);
-		bool HasBlockIn(int row, int column);
 		void ReturnDesired(int & row, int & column, const TileInfo& Tile);
 		bool  HasThreeAlignedTiles(const std::vector<TileInfo> & tiles);
 

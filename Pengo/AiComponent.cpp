@@ -364,9 +364,9 @@ void dae::AIComponent::Update()
 	targetPos.y = int(m_Target->GetWorldPosition().y) / Y_STEP;
 	//row
 
-	int columns = 15;
-	int rows = 17;
-	
+	//int columns = 15;
+	//int rows = 17;
+	//
 	m_usablePath = aStar(currentPos, targetPos);
 
 
@@ -380,9 +380,9 @@ void dae::AIComponent::Update()
 		};
 
 
-		glm::vec2 currentPos = m_Self->GetLocalPosition();
+		glm::vec2 currentPosLocation = m_Self->GetLocalPosition();
 
-		glm::vec2 toTarget = targetNode - currentPos;
+		glm::vec2 toTarget = targetNode - currentPosLocation;
 		float distance = glm::length(toTarget);
 
 
@@ -400,8 +400,8 @@ void dae::AIComponent::Update()
 			glm::vec2 moveVec = moveDir * speed;
 
 			m_Self->SetPosition(
-				currentPos.x + moveVec.x,
-				currentPos.y + moveVec.y
+				currentPosLocation.x + moveVec.x,
+				currentPosLocation.y + moveVec.y
 			);
 		}
 

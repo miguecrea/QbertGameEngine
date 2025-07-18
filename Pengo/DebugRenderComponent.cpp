@@ -39,10 +39,12 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player,const st
 
 				//only the block has a reference 
 				auto IceBlockGameObject = std::make_shared<dae::GameObject>();
-				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2,false);
+				auto DiamondBlockRenderer = std::make_shared<dae::RenderComponent>(-2,true);
 
-				//DiamondBlockRenderer->AddToVector(1,2,2,2,dae::AnimationComponent)
-				//DiamondBlockRenderer->AddToVector(1,2,2,2,dae::AnimationComponent)
+				DiamondBlockRenderer->SetTexture("MIGUEL_Diamonds.png");
+				DiamondBlockRenderer->AddToVector(1, 2,1, 1, dae::AnimationComponent::Type::StartAtNoZero, 0, 0);
+				DiamondBlockRenderer->AddToVector(1, 2,1, 1, dae::AnimationComponent::Type::StartAtNoZero, 1, 0);
+				//DiamondBlockRenderer->AddToVector(1, 2, 1, 0, dae::AnimationComponent::Type::loop, 0, 1);
 
 
 				auto TileComponent = std::make_shared<dae::TileComponent>();
@@ -55,14 +57,14 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player,const st
 				if ( (x % 2 == 0 || y % 2 == 1) && NumberOfEnemiesNest < m_NumberEnemies)
 				{
 				NumberOfEnemiesNest++;
-				DiamondBlockRenderer->SetTexture("MIGUEL_DiamondBlock_ORANGE.png");
 				TileComponent->m_IsNest = true;
 				m_TilesWidhEnemies.push_back(IceBlockGameObject);
+				DiamondBlockRenderer->m_state = 0;
 
 				}
 				else
 				{
-				DiamondBlockRenderer->SetTexture("MIGUEL_IceCubeBlock.png");
+				DiamondBlockRenderer->m_state = 1;
 
 				}
 				DiamondBlockRenderer->SetDimension(3.f);
@@ -454,6 +456,8 @@ dae::TileInfo dae::MapComponent::HasABlockInFront(Direction PengoDirection, int 
 
 		break;
 	default:
+
+		return TileInfo;
 		break;
 	}
 
@@ -507,13 +511,10 @@ bool dae::MapComponent::IsCubeCollision(Direction PengoDirection, int row, int c
 
 		break;
 	default:
+
+		return false;
 		break;
 	}
-}
-
-bool dae::MapComponent::HasBlockIn(int row, int column)
-{
-	return false;
 }
 
 void dae::MapComponent::ReturnDesired(int& row, int& column, const TileInfo& Tile)
@@ -585,6 +586,7 @@ bool dae::MapComponent::HasThreeAlignedTiles(const std::vector<TileInfo>& tiles)
 
 	for (auto& pair : rows) {
 		int rowIndex = pair.first;
+		rowIndex += 0;
 		auto& columnList = pair.second;
 
 		if (hasThreeConsecutive(columnList))
@@ -595,8 +597,10 @@ bool dae::MapComponent::HasThreeAlignedTiles(const std::vector<TileInfo>& tiles)
 
 	// Check each column for 3+ consecutive rows
 	
-	for (auto& pair : columns) {
+	for (auto& pair : columns)
+	{
 		int columnIndex = pair.first;
+		columnIndex += 0;
 		auto& rowList = pair.second;
 
 		if (hasThreeConsecutive(rowList))
