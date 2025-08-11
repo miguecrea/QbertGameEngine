@@ -26,12 +26,18 @@ namespace dae
 
 
         virtual void BeginPlay() override;
-        void GetComponents();
+        void GetComponentsAndDelegate();
         void  Render() override;
         void  Update() override;
+
+        void HandleEnemyPauseBehavior();
         
 
         void OnCollision(std::shared_ptr<dae::GameObject> CollidedObject);
+
+        void OnEnemyKilled();
+
+        void OnPlayerDead(std::shared_ptr<dae::GameObject>& CollidedObject);
 
         std::shared_ptr<dae::GameObject> m_CollidedObjectReference;
  
@@ -66,6 +72,7 @@ namespace dae
         float m_CollisionTimer = 0.f;
         
         bool m_Timer = 0.f;
+        float m_TimeUntilUnpausing = 2.f;
 
 
 

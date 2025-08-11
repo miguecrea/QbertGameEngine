@@ -25,8 +25,12 @@ dae::CollsionResponse::CollsionResponse()
 
 void dae::CollsionResponse::BeginPlay()
 {
-	std::cout << "Collision Response Component Set up\n";
 
+	GetComponentsAndDelegate();
+}
+
+void dae::CollsionResponse::GetComponentsAndDelegate()
+{
 	m_CollisionWithComponent = this->GetOwner()->GetComponent<CollisionWithComponent>();
 	m_AiComponent = this->GetOwner()->GetComponent<AIComponent>();
 	m_RenderComponent = this->GetOwner()->GetComponent<RenderComponent>();
@@ -42,14 +46,6 @@ void dae::CollsionResponse::BeginPlay()
 	}
 }
 
-void dae::CollsionResponse::GetComponents()
-{
-	m_TagComponent = this->GetOwner()->GetComponent<dae::TagComponent>();
-	m_CollidingObjectTagComponent = m_CollidedObjectReference->GetComponent<dae::TagComponent>();
-	m_CollisionComponent = m_CollidedObjectReference->GetComponent<dae::CollisionComponent>();
-	m_TimeAndInputComponent = m_CollidedObjectReference->GetComponent<dae::TimerAndInputComponent>();
-	m_FreFallComponent = m_CollidedObjectReference->GetComponent<dae::FreeFallComponent>();
-}
 
 
 
@@ -60,82 +56,81 @@ void dae::CollsionResponse::Render()
 void dae::CollsionResponse::Update()
 {
 
+	HandleEnemyPauseBehavior();
+}
+
+void dae::CollsionResponse::HandleEnemyPauseBehavior()
+{
 	if (m_StartCounter)
 	{
-		m_CollisionTimer += SceneManager::GetInstance().GetDeltaTime(); 
+		m_CollisionTimer += SceneManager::GetInstance().GetDeltaTime();
 
-			if (m_CollisionTimer >= 2.f)
-			{
-				m_CollisionTimer = 0.f;
-				m_StartCounter = false;
-				s_PauseEnemy = false;
-
-				//reset variable 
-
-			}
-
+		if (m_CollisionTimer >= m_TimeUntilUnpausing)
+		{
+			m_CollisionTimer = 0.f;
+			m_StartCounter = false;
+			s_PauseEnemy = false;
+		}
 	}
 }
 
 void dae::CollsionResponse::OnCollision(std::shared_ptr<dae::GameObject> CollidedObject)
 {
-	//in a real scale game I can just cast to an interface and executed csutom function for each
 
-
-
-	//collison response from enemy class 
 	if (auto tagComponent = CollidedObject->GetComponent<TagComponent>())
 	{
 		if (tagComponent->GetTag() == CUBE)
 		{
-			if (m_CollisionWithComponent)
-			{
-				m_CollisionWithComponent->m_canCollide = false;
-
-			}
-			if (m_AiComponent)
-			{
-				m_AiComponent->m_dead = true;
-			}
-
-			if (m_RenderComponent)
-			{
-				m_RenderComponent->SetVisibility(false);
-			}
-
-
-
-			if (m_EnemySpawner)
-			{
-				m_EnemySpawner->DecreaseEnemyCount();
-			}
-
-
-			dae::SoundSystem& audio{ dae::Audio::Get() };
-			audio.Play(S_EnemyDead, 0.5f, 0);
+			OnEnemyKilled();
 
 		}
 		else if (tagComponent->GetTag() == PENGO)
 		{
-
-			m_StartCounter = true;
-			s_PauseEnemy = true;
-			 
-			CollidedObject->SetPosition(48 * 2, 48 * 2);
-
-			auto liveComponent = CollidedObject->GetComponent<dae::LivesComponent>();
-			if (liveComponent)
-			{
-				liveComponent->DecreaseLive();
-			}
-
-
-			std::cout << " Enemy cOLLIDED  Pengo \n";
+			OnPlayerDead(CollidedObject);
 		}
 
 	}
 
+}
+
+void dae::CollsionResponse::OnEnemyKilled()
+{
+	if (m_CollisionWithComponent)
+	{
+		m_CollisionWithComponent->m_canCollide = false;
+
+	}
+	if (m_AiComponent)
+	{
+		m_AiComponent->m_dead = true;
+	}
+
+	if (m_RenderComponent)
+	{
+		m_RenderComponent->SetVisibility(false);
+	}
+
+	if (m_EnemySpawner)
+	{
+		m_EnemySpawner->DecreaseEnemyCount();
+	}
 
 
+	dae::SoundSystem& audio{ dae::Audio::Get() };
+	audio.Play(S_EnemyDead, 0.5f, 0);
+}
+
+void dae::CollsionResponse::OnPlayerDead(std::shared_ptr<dae::GameObject>& CollidedObject)
+{
+	m_StartCounter = true;
+	s_PauseEnemy = true;
+
+	CollidedObject->SetPosition(48 * 2, 48 * 2);
+
+	auto liveComponent = CollidedObject->GetComponent<dae::LivesComponent>();
+	if (liveComponent)
+	{
+		liveComponent->DecreaseLive();
+	}
 
 }

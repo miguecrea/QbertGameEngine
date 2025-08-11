@@ -14,7 +14,6 @@ void dae::ChangeSelectionCommand::Execute()
 {
 
 
-	//gues is controller 
 
 
 	GetCharacterBasedOnDirection();

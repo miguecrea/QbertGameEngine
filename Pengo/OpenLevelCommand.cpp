@@ -129,27 +129,6 @@ void dae::OpenLevelCommand::Execute()
 			dae::SoundSystem& audio{ dae::Audio::Get() };
 			audio.Play(s_MenuMusicId, 0.2f, 100);
 
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			//auto controller2  = input.AddController();
-
-			// and keybaord and controller for enemy 
-			//needs to be scene.addEndmy 
 
 		}
 	
