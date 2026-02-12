@@ -40,7 +40,7 @@ void dae::SkipLevelsCommand::Execute()
 
 void dae::SkipLevelsCommand::ClearInputBindings(dae::InputManager& input,Scene * scene)
 {
-	auto newScene = SceneManager::GetInstance().GetCurrentScene();
+	//auto newScene = SceneManager::GetInstance().GetCurrentScene();
 
 	input.ClearSpecificControllerAndKeyboard();
 	input.m_ShouldClearController = true;

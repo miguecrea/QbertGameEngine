@@ -12,8 +12,6 @@ namespace dae
 
 		virtual void Update() override;
 		LivesConponent(bool isScore,std::shared_ptr<TextComponent> pTextComponent = nullptr, int priority = 0);
-
-
 		virtual ~LivesConponent() = default;
 		LivesConponent(const LivesConponent& other) = default;
 		LivesConponent(LivesConponent&& other) = default;

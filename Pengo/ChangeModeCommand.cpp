@@ -9,8 +9,7 @@ dae::ChangeModeCommand::ChangeModeCommand(std::vector<std::shared_ptr<dae::GameO
 	m_TextGameObejects{ TextGameObjects }
 {
 	m_VectorSize = static_cast<int>(m_TextGameObejects.size());
-
-	auto TextComponent = m_TextGameObejects[0]->GetComponent<dae::TextComponent>()->m_ShowRectangle = true;
+     m_TextGameObejects[0]->GetComponent<dae::TextComponent>()->m_ShowRectangle = true;
 }
 
 void dae::ChangeModeCommand::Execute()

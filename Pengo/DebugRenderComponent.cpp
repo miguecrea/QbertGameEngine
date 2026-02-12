@@ -17,6 +17,7 @@
 #include"Tags.h"
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #define BLOCK 9
 #define COLLISION 8
@@ -104,11 +105,6 @@ dae::MapComponent::MapComponent(std::shared_ptr<dae::GameObject> Player,const st
 
 				m_TilesVector.push_back(DiamondBlockGameObject);
 			}
-
-
-
-
-
 		}
 	}
 
