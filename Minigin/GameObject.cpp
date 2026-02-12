@@ -166,7 +166,7 @@ dae::GameObject::~GameObject() = default;
 		if (!this->CanBeParentOf(pNewChild.get())) return;
 
 		//Remove from the old parent
-		GameObject* pCurrentParent{ pNewChild->m_pParent };
+		GameObject * pCurrentParent{ pNewChild->m_pParent };
 
 		if (pCurrentParent)
 		{
@@ -200,13 +200,10 @@ dae::GameObject::~GameObject() = default;
 
 	void dae::GameObject::RemoveChild(std::shared_ptr<GameObject> pGameObject)
 	{
-		//Remove the given child from the children list
 		m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), pGameObject));
 
-		//Remove itself as a parent of the child.
 		pGameObject->m_pParent = nullptr;
 
-		//Add to the scene
 		SceneManager::GetInstance().GetCurrentScene()->Add(pGameObject);
 
 		//Update position, rotation and scale
@@ -216,13 +213,11 @@ dae::GameObject::~GameObject() = default;
 
 	bool dae::GameObject::CanBeParentOf(GameObject* pChild) const
 	{
-		//Object will be destroyed
 		if (this->IsDestroyed())
 		{
 			return false;
 		}
 
-		//Grandparent is not nullptr
 		if (m_pParent)
 		{
 			//Child is the grandparent
@@ -281,8 +276,6 @@ dae::GameObject::~GameObject() = default;
 	{
 		m_Transform.UpdateWorldPosition(glm::vec3(x, y, 0));
 	}
-
-
 
 	glm::vec3 dae::GameObject::GetWorldPosition()
 	{

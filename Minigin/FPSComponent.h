@@ -6,22 +6,45 @@ namespace dae
 {
 	class GameObject;
 
-	class LivesConponent final :public Component
+
+
+	class FPSComponent final :public Component
+	{
+	public:
+		virtual void Update() override;
+
+		FPSComponent(std::shared_ptr<TextComponent> pTextComponent = nullptr, float refreshTime = 0.5f, int priority = 0);
+		virtual ~FPSComponent() = default;
+		FPSComponent(const FPSComponent& other) = default;
+		FPSComponent(FPSComponent&& other) = default;
+		FPSComponent& operator=(const FPSComponent& other) = default;
+		FPSComponent& operator=(FPSComponent&& other) = default;
+
+	private:
+		std::shared_ptr<TextComponent> m_pTextComponent;
+		float m_RefreshTime;
+		float m_ElapsedTime{ 0.f };
+		int m_NrFrames{};
+		int m_FrameRate{};
+	};
+
+
+	class RenderLivesComponent final : public Component
 	{
 	public:
 
 		virtual void Update() override;
-		LivesConponent(bool isScore,std::shared_ptr<TextComponent> pTextComponent = nullptr, int priority = 0);
-		virtual ~LivesConponent() = default;
-		LivesConponent(const LivesConponent& other) = default;
-		LivesConponent(LivesConponent&& other) = default;
-		LivesConponent& operator=(const LivesConponent& other) = default;
-		LivesConponent& operator=(LivesConponent&& other) = default;
+		RenderLivesComponent(bool isScore,std::shared_ptr<TextComponent> pTextComponent = nullptr, int priority = 0);
+		virtual ~RenderLivesComponent() = default;
+		RenderLivesComponent(const RenderLivesComponent& other) = default;
+		RenderLivesComponent(RenderLivesComponent&& other) = default;
+		RenderLivesComponent& operator=(const RenderLivesComponent& other) = default;
+		RenderLivesComponent& operator=(RenderLivesComponent&& other) = default;
 
 	private:
 		std::shared_ptr<TextComponent> m_pTextComponent;
 		bool m_IsScore = false;
-
-
 	};
+
+
 }

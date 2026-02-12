@@ -1,6 +1,4 @@
 #pragma once
-
-
 enum class TypeOfAi
 {
 	Allleft,
@@ -9,5 +7,4 @@ enum class TypeOfAi
 	RightLeft,
 	Snake,
 	SnakeLeft
-
 };

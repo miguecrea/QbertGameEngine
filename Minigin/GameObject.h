@@ -15,18 +15,12 @@ namespace dae
 		void Render() const;
 		void BeginPlay();
 
-
-
-
 		GameObject(int priority = 0);
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = default;
 		GameObject(GameObject&& other) = default;
 		GameObject& operator=(const GameObject& other) = default;
 		GameObject& operator=(GameObject&& other) = default;
-
-
-
 		//Adding child/parent
 		void SetParent(GameObject* pGameObject, bool keepWorldPosition = true);
 		void AddChild(std::shared_ptr<GameObject> pGameObject, bool keepWorldPosition = true);
@@ -82,14 +76,10 @@ namespace dae
 
 		std::string GetTag() const ;
 
-
-
-	
 		void UpdatePos(float x,float y);
-
 	private:
 		//Child/parent
-		std::vector<std::shared_ptr<GameObject>> m_pChildren{};       //vector of game objects that are his children 
+		std::vector<std::shared_ptr<GameObject>> m_pChildren{};//vector of game objects that are his children 
 		GameObject* m_pParent{};
 		void SortChildren();
 
@@ -101,8 +91,6 @@ namespace dae
 		void SetTransformDirty();
 
 		Transform m_Transform{};    //local position and world 
-
-
 		bool m_IsTransformDirty{ true };
 		//Priority
 		const int m_Priority{ 0 };
